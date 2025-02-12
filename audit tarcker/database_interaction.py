@@ -1,11 +1,10 @@
-from flask import Flask ,jsonify
+from flask import Flask, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 import sqlite3
-audit=Flask(__name__)
-audit.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///auditTracker.db'  # SQLite for simplicity
-audit.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking for performance
+db=Flask(__name__)
+db.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///auditTracker.db'  # SQLite for simplicity
+db.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking for performance
 
-# list the tables in the data base
 def tables_info():
     conn = sqlite3.connect('auditTracker.db')
     pointer = conn.cursor()
@@ -142,6 +141,7 @@ def main():
     elif n==5:
         table_name=input('enter the table name')
         column(table_name)
+
     else:
         print('enter a valid number')
 main()

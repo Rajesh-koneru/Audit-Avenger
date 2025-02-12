@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel File Upload</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <h2>Upload an Excel File</h2>
+    <input type="file" id="fileInput" accept=".xlsx, .xls">
+    <button id="uploadButton">Upload</button>
+
+    <br><br>
+    <table border="1" id="excelTable"></table>
+
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', function(event) {
+            event.preventDefault();  // Prevent default form submission behavior
+
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select an Excel file first!");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = new Uint8Array(event.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                // ✅ Sending JSON data to Flask backend
+                fetch('/upload-excel', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },  // 👈 Ensure correct JSON content type
+                    body: JSON.stringify({ "data": jsonData })  // 👈 Convert object to JSON
+                })
+                .then(response => response.json())  // Handle response properly
+                .then(data => {
+                    console.log(data);
+                    alert(data.message);
+                })
+                .catch(error => console.error('Error:', error));
+            };
+
+            reader.readAsArrayBuffer(file);
+        });
+    </script>
+</body>
+</html>
