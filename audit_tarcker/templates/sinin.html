@@ -1,0 +1,94 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   AuditAvengers Login
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+ </head>
+ <body class="bg-black text-white flex items-center justify-center min-h-screen">
+  <div class="w-full max-w-md p-8 space-y-8">
+   <div class="flex flex-col items-center">
+    <img alt="Shield icon" class="mb-4" height="50" src="https://storage.googleapis.com/a1aa/image/qxIof3Rrfni6eJ0ORBt3HXK9flVhAf1klTtuSwlGf5mr09PCF.jpg" width="50"/>
+    <h1 class="text-3xl font-bold">
+     Welcome to AuditAvengers
+    </h1>
+    <p class="text-gray-400">
+     Your trusted partner in security and compliance
+    </p>
+   </div>
+   <form class="space-y-6" method='POST' action="/login">
+    <div class="space-y-4">
+     <div>
+      <label class="sr-only" for="email">
+       Email address
+      </label>
+      <input autocomplete="email" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="email" name="username" placeholder="Email address" required="" type="text"/>
+     </div>
+     <div>
+      <label class="sr-only" for="password">
+       Password
+      </label>
+      <input autocomplete="current-password" class="w-full px-3 py-2 border border-gray-700 rounded-md bg-gray-800 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-500" id="password" name="password" placeholder="Password" required="" type="password"/>
+     </div>
+    </div>
+    <div class="flex items-center justify-between">
+     <div class="flex items-center">
+      <input class="h-4 w-4 text-yellow-500 focus:ring-yellow-500 border-gray-300 rounded" id="remember-me" name="remember-me" type="checkbox"/>
+      <label class="ml-2 block text-sm text-gray-400" for="remember-me">
+       Remember me
+      </label>
+     </div>
+     <div class="text-sm">
+      <a class="font-medium text-yellow-500 hover:text-yellow-400" href="#">
+       Forgot password?
+      </a>
+     </div>
+    </div>
+    <div>
+     <button class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-black bg-yellow-500 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" type="submit" id="signin">
+      Sign in
+      <i class="fas fa-arrow-right ml-2">
+      </i>
+     </button>
+    </div>
+    <div class="relative flex items-center justify-center">
+     <span class="absolute bg-black px-2 text-gray-400">
+      Or continue with
+     </span>
+     <div class="w-full border-t border-gray-700">
+     </div>
+    </div>
+    <div class="flex space-x-4">
+     <button class="w-full flex justify-center py-2 px-4 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" type="button">
+      <i class="fab fa-github">
+      </i>
+     </button>
+     <button class="w-full flex justify-center py-2 px-4 border border-gray-700 rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" type="button">
+      <i class="fab fa-linkedin">
+      </i>
+     </button>
+    </div>
+   </form>
+   <div class="text-center text-sm text-gray-400">
+    <p>
+     Not a member?
+     <a class="font-medium text-yellow-500 hover:text-yellow-400" href="/signin_page">
+      Sign up now
+     </a>
+    </p>
+   </div>
+   <div class="text-center text-xs text-gray-500 mt-4">
+    <p>
+     Protected by industry-leading security protocols
+    </p>
+    <p>
+     Privacy Policy • Terms of Service
+    </p>
+   </div>
+  </div>
+ </body>
+</html>

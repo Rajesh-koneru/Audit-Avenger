@@ -1,6 +1,0 @@
-from flask import Flask ,render_template, redirect ,request ,abort,url_for
-from flask_sqlalchemy import SQLAlchemy
-import sqlite3
-audit=Flask(__name__)
-audit.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///auditTracker.db'  # SQLite for simplicity
-audit.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  # Disable modification tracking for performance
