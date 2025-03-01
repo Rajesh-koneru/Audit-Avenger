@@ -25,7 +25,7 @@ collection = db["Audit_Tracker"]
 print(row)"""
 """audit_ids = list(collection.find({}, {"Audit_id": 1, "_id": 0}))
 print(audit_ids)"""
-
+"""
 Active_record=list(collection.find({"Audit_id":"AA0001"},{"audit_status":0,"_id":0}))
 print(Active_record)
 
@@ -37,6 +37,28 @@ collection.update_one({"Audit_id":"AA0001"}, {"$set": {"audit_status": "Complete
 print("updated")
 Active_record=list(collection.find({"Audit_id":"AA0001"},{"audit_status":1,"_id":0}))
 print(Active_record)
+"""
+
+row=list(collection.find({"auditor_name":"RAJESH"},{"_id":0}))
+print(row)
+login_details = tuple(collection.find({"auditor_name": "hello"}, {"Audit_id": 1, "auditor_name": 1, "_id": 0}))
+print(login_details)
+print(login_details[0]["auditor_name"])
+
+
+collection.insert_one(
+    {
+        "Audit_id":"AA0008",
+        "auditor_name": "hello",
+        "client_name":"AJAY&GROUPS",
+        "planned_date": "25-4-3330"
+,        "city": " City",
+        "auditor_contact": " 98745537625",
+        "audit_status": " pending",
+        "payment_amount": "1000",
+        "payment_status": " paid "
+    })
+print('data inserted')
 
 """# sql lite database
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file

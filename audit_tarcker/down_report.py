@@ -6,7 +6,7 @@ import os
 from pymysql import connect
 from flask_login import login_required
 from audit_tarcker.test import only_one
-from audit_tarcker.config import AuditTrack
+from audit_tarcker.config import collection
 
 
 
@@ -20,8 +20,8 @@ download = Blueprint('file_download', __name__)
 
 def file_download():
     def fetch_data():
-        with sqlite3.connect(AuditTrack) as conn:
-            df = pd.read_sql_query("SELECT * FROM Audit_report", conn)
+        data=list(collection.find({},{"_id":0}))
+        df = pd.read_sql_query(data)
         return df
     dframe=fetch_data()
    # save file to in memory file

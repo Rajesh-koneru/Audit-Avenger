@@ -13,22 +13,18 @@ from audit_tarcker.config import collection
 
 @report.route('/admin/report')
 def admin_report():
-   """ query=select * from Audit_report
-    with sqlite3.connect(AuditTrack) as conn:
-        cursor = conn.cursor()
-        cursor.execute(query)"""
 
-
-    row=list(collection.find({}, {"_id": 0}))
+    row=collection.find({}, {"_id": 0})
     print(row)
-    """print(row)
+    print(row)
+    data=[]
     for i in range(len(row)):
         print(len(row))
         data1={'Audit_id':row[i][0],'auditor_name':row[i][1],'client_name':row[i][5],'planned_data':row[i][2],'state':row[i][3],'city':row[i][4],'audit_status':row[i][7],'payment_amount':row[i][8],'payment_status':row[i][9],'contact':row[i][6]}
         data.append(data1)
-    print(data)"""
+    print(data)
 
-    return jsonify(row)
+    return jsonify(data)
 # total number of audits
 @report.route('/admin/total_audits')
 def total_auditor():

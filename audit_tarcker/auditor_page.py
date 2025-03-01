@@ -3,7 +3,7 @@ import sqlite3
 from flask_login import login_required,LoginManager,UserMixin,login_user
 status=Blueprint('status' ,__name__)
 import os
-from audit_tarcker.config import AuditTrack
+from audit_tarcker.config import collection
 
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
 #AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
@@ -25,15 +25,12 @@ def status_update():
         print( 'this is received data',data)
         username=data['name'].upper()
         print( 'this is username',username)
-        query = f"SELECT * FROM Audit_report WHERE auditor_name =? "
-        with sqlite3.connect(AuditTrack) as conn:
-            cursor = conn.cursor()
-            cursor.execute(query ,(username,))
-            row = cursor.fetchone()
-            print(row)
-            data1=[{'Audit_id':row[0],'auditor_name':row[1],'client_name':row[5],'planned_data':row[2],'state':row[3],'city':row[4],'audit_status':row[7],'payment_amount':row[8],'payment_status':row[9],'contact':row[6]}]
-        if data1:
-            return jsonify(data1)
+
+        row=list(collection.find({"auditor_name":username},{"_id":0}))
+        print(row)
+        #data1=[{'Audit_id':row[0],'auditor_name':row[1],'client_name':row[5],'planned_data':row[2],'state':row[3],'city':row[4],'audit_status':row[7],'payment_amount':row[8],'payment_status':row[9],'contact':row[6]}]
+        if row:
+            return jsonify(row)
         else:
             return jsonify({"error": "No data found for this auditor"}), 404
 
@@ -52,14 +49,9 @@ def update():
         print(audit_status)
 
         print('data received :', data)
-        update="""update Audit_report set audit_status= ? where Audit_id=? """
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer=conn.cursor()
-            pointer.execute(update,(audit_status,audit_id))
-            pointer.execute(f'select * from Audit_report  where Audit_id=?',(audit_id,))
-            user=pointer.fetchone()
-            print(f' updated at :{user}')
-            return jsonify({"message":'Status updated successfully....! Refresh the page...'})
+        collection.update_one({"Audit_id":audit_id},{"$set":{"audit_status":audit_status}})
+        print(f' updated ')
+        return jsonify({"message":'Status updated successfully....! Refresh the page...'})
     except Exception as e:
         print(e)
         return str(e)
@@ -67,7 +59,8 @@ def update():
 
 
 
-#auditor tracking :appending registered user to auditor database for tracking
+#"""auditor tracking :appending registered user to auditor database for tracking
+"""
 @status.route('/auditor/log',methods=["POST"])
 def auditor_log():
     data=request.get_json()
@@ -79,9 +72,6 @@ def auditor_log():
     Id=data['Id']
     review=data['review']
 
-    query1="""select * from Auditor_data where Auditor_id=?"""
-    query2="""update Auditor_data set number_of_audits=?, where Auditor_id=?"""
-    query3="""insert into Auditor_data(Auditor_id,Auditor_name,number_of_audits,reviews) values(?,?,?,?)"""
     with sqlite3.connect(AuditTrack) as conn:
         pointer = conn.cursor()
         pointer.execute(query1, (Id,))
@@ -103,7 +93,7 @@ def auditor_log():
                 print(e)
                 return f'error : str({e})'
 
-
+"""
 
 
 

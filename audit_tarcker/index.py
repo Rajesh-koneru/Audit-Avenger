@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import sqlite3
 from datetime import datetime, timedelta
-from audit_tarcker.config import AuditTrack
+from audit_tarcker.config import collection
 
 # Securely store admin credentials (Better to use environment variables)
 ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', 'Admin@raghu')
@@ -27,8 +27,6 @@ class Users(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    conn=sqlite3.connect(AuditTrack)
-    pointer=conn.cursor()
     print(user_id)
     if not user_id:
         return None
@@ -36,12 +34,11 @@ def load_user(user_id):
     if user_id==ADMIN_USERNAME:
         return Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD,role='admin')
     try:
-        pointer.execute('SELECT Audit_id, auditor_name FROM Audit_report WHERE auditor_name=?', (user_id,))
-        auditor = pointer.fetchone()
-        print(auditor)
-        if user_id==auditor[1]:
-            print('i am here ....')
-            return Users(user_id=auditor[1], password=auditor[0],role='auditor')  # Adjust attributes as needed
+        login_details=tuple(collection.find({"auditor_name":user_id},{"Audit_id":1,"auditor_name":1,"_id":0}))
+        print(login_details)
+        if user_id==login_details[0]["auditor_name"]:
+            print('i am here .... auditor ' )
+            return Users(user_id=auditor[0]["auditor_name"], password=auditor[0]["Audit_id"],role='auditor')  # Adjust attributes as needed
     except Exception as e:
         print(f"Database Error: {e}")
 
@@ -66,13 +63,11 @@ def login():
 
 
         # fetching auditor details from database
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer = conn.cursor()
-            pointer.execute(f'select Audit_id,auditor_name from Audit_report where Audit_id=?',(password,))
-            auditor_data = pointer.fetchone()
-            print(auditor_data)
+
+        auditor_data=tuple(collection.find({"Audit_id":password},{"Audit_id":1,"auditor_name":1,"_id":0}))
+        print(auditor_data)
         if auditor_data:
-            user1=Users(user_id=auditor_data[1],password=generate_password_hash(auditor_data[0], method="pbkdf2:sha256"),role='auditor')
+            user1=Users(user_id=auditor_data[1]["auditor_name"],password=generate_password_hash(auditor_data[0]["Audit_id"], method="pbkdf2:sha256"),role='auditor')
             session['username'] = username
             session.permanent = True
             session['islogin'] = True
