@@ -19,7 +19,7 @@ def create_App():
     from audit_tarcker.down_report import download
 
     app = Flask(__name__)
-    app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:Raghu@Tracker@cluster0.mongodb.net/AuditAvengers?retryWrites=true&w=majority"
+    app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
     # ✅ Connect to MongoDB
     mongo_client = MongoClient(app.config["MONGO_URI"])

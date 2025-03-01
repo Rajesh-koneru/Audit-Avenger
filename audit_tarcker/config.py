@@ -1,67 +1,43 @@
-import psycopg2
-import os
+from pymongo.server_api import ServerApi
 from pymongo import MongoClient
-import urllib.parse
-username="raghavendhargpth"
-password='Raghavendra@admin'
+import os
 
-#encoded credentials
-encoded_username = urllib.parse.quote_plus(username)
-encoded_password = urllib.parse.quote_plus(password)
+# Use the correct MongoDB Atlas connection string
+DATABASE_URL = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-# Manually set the values from Render Dashboard
-DATABASE_URL=os.getenv("mongodb+srv://raghavendhargpth:Raghavendra%40admin@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# Connect to MongoDB
+try:
+    client = MongoClient(DATABASE_URL, server_api=ServerApi('1'))
+    db = client["AuditAvengers"]
+    collection = db["Audit_Tracker"]
+    print("✅ Connected to MongoDB")
 
-# Connect to MongoDBgi
-mongo_client = MongoClient(DATABASE_URL)
-db = mongo_client["AuditAvengers"]
-collection = db["Audit_Tracker"]
+except Exception as e:
+    print("❌ Connection error:", e)
 
+# Fetch all records
+row = list(collection.find({"auditor_name": "RAJESH"}, {"_id": 0}))
+print("RAJESH's audits:", row)
 
+# Handle empty results safely
+login_details = list(collection.find({"auditor_name": "hello"}, {"Audit_id": 1, "auditor_name": 1, "_id": 0}))
+if login_details:
+    print("Auditor:", login_details[0]["auditor_name"])
+else:
+    print("No login details found.")
 
-
-
-"""row= list(collection.find({}, {"_id": 0}))
-print(row)"""
-"""audit_ids = list(collection.find({}, {"Audit_id": 1, "_id": 0}))
-print(audit_ids)"""
-"""
-Active_record=list(collection.find({"Audit_id":"AA0001"},{"audit_status":0,"_id":0}))
-print(Active_record)
-
-recent_audit_report = list(
-    collection.find({}, {"audit_status": 1, "client_name": 1, "planned_date": 1, "auditor_name": 1, "_id": 0}).limit(5))
-print(recent_audit_report)
-
-collection.update_one({"Audit_id":"AA0001"}, {"$set": {"audit_status": "Completed"}})
-print("updated")
-Active_record=list(collection.find({"Audit_id":"AA0001"},{"audit_status":1,"_id":0}))
-print(Active_record)
-"""
-
-row=list(collection.find({"auditor_name":"RAJESH"},{"_id":0}))
-print(row)
-login_details = tuple(collection.find({"auditor_name": "hello"}, {"Audit_id": 1, "auditor_name": 1, "_id": 0}))
-print(login_details)
-print(login_details[0]["auditor_name"])
-
-
+# Insert data
 collection.insert_one(
     {
-        "Audit_id":"AA0008",
+        "Audit_id": "AA0008",
         "auditor_name": "hello",
-        "client_name":"AJAY&GROUPS",
-        "planned_date": "25-4-3330"
-,        "city": " City",
-        "auditor_contact": " 98745537625",
-        "audit_status": " pending",
+        "client_name": "AJAY&GROUPS",
+        "planned_date": "25-4-3330",
+        "city": "City",
+        "auditor_contact": "98745537625",
+        "audit_status": "pending",
         "payment_amount": "1000",
-        "payment_status": " paid "
-    })
-print('data inserted')
-
-"""# sql lite database
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
-
-"""
+        "payment_status": "paid"
+    }
+)
+print("✅ Data inserted")
