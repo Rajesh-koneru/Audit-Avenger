@@ -6,41 +6,40 @@ import sqlite3
 import os
 import sqlite3
 import os
-from audit_tarcker.config import AuditTrack
+from audit_tarcker.config import collection
 
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
 #AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
 
 @report.route('/admin/report')
 def admin_report():
-    query=""" select * from Audit_report"""
+   """ query=select * from Audit_report
     with sqlite3.connect(AuditTrack) as conn:
         cursor = conn.cursor()
-        cursor.execute(query)
-        row=cursor.fetchall()
+        cursor.execute(query)"""
 
-        data=[]
-        print(row)
-        for i in range(len(row)):
-            print(len(row))
-            data1={'Audit_id':row[i][0],'auditor_name':row[i][1],'client_name':row[i][5],'planned_data':row[i][2],'state':row[i][3],'city':row[i][4],'audit_status':row[i][7],'payment_amount':row[i][8],'payment_status':row[i][9],'contact':row[i][6]}
-            data.append(data1)
-        print(data)
-        return jsonify(data)
+
+    row=list(collection.find({}, {"_id": 0}))
+    print(row)
+    """print(row)
+    for i in range(len(row)):
+        print(len(row))
+        data1={'Audit_id':row[i][0],'auditor_name':row[i][1],'client_name':row[i][5],'planned_data':row[i][2],'state':row[i][3],'city':row[i][4],'audit_status':row[i][7],'payment_amount':row[i][8],'payment_status':row[i][9],'contact':row[i][6]}
+        data.append(data1)
+    print(data)"""
+
+    return jsonify(row)
 # total number of audits
 @report.route('/admin/total_audits')
 def total_auditor():
     try:
-        query="""select audit_id from Audit_report"""
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer=conn.cursor()
-            pointer.execute(query)
-            data=pointer.fetchall()
-            total=0
-            for i in data:
-                total+=1
-            print(total)
-            return jsonify(total)
+
+        audit_ids = list(collection.find({}, {"Audit_id": 1, "_id": 0}))
+        total=0
+        for i in audit_ids:
+            total+=1
+        print(total)
+        return jsonify(total)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -50,15 +49,12 @@ def total_auditor():
 def active_audits():
     try:
         query1="""select audit_status from Audit_report where Audit_status='In Progress'"""
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer=conn.cursor()
-            pointer.execute(query1)
-            data1=pointer.fetchall()
-            total2=0
-            for i in data1:
-                total2+=1
-            print(total2)
-            return jsonify(total2)
+        Active_record=list(collection.find({"audit_status":"In Progress"},{"audit_status":1,"_id":0}))
+        total2=0
+        for i in Active_record:
+            total2+=1
+        print(total2)
+        return jsonify(total2)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -66,16 +62,12 @@ def active_audits():
 @report.route('/admin/complete')
 def complete():
     try:
-        query2="""select audit_status from Audit_report where Audit_status='Completed'"""
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer=conn.cursor()
-            pointer.execute(query2)
-            data1=pointer.fetchall()
-            total3=0
-            for i in data1:
-                total3+=1
-            print(total3)
-            return jsonify(total3)
+        Complete_status=list(collection.find({"audit_status":"Completed"},{"audit_status":1,"_id":0}))
+        total3=0
+        for i in  Complete_status :
+            total3+=1
+        print(total3)
+        return jsonify(total3)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -84,17 +76,14 @@ def complete():
 @report.route('/admin/pending')
 def pending():
     try:
-        query3= """select audit_status from Audit_report where Audit_status='Pending'"""
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer = conn.cursor()
-            pointer.execute(query3)
-            data1 = pointer.fetchall()
-            total4 = 0
-            for i in data1:
-                total4 += 1
-            print(total4)
 
-            return jsonify(total4)
+        pending_report=list(collection.find({"audit_status":"Pending"},{"audit_status":1,"_id":0}))
+        total4 = 0
+        for i in pending_report:
+            total4 += 1
+        print(total4)
+
+        return jsonify(total4)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -102,14 +91,10 @@ def pending():
 @report.route('/admin/Recent_audit')
 def recent_audits():
     try:
-        query4 ="""select client_name,planned_Date, auditor_name,Audit_status from Audit_report limit 5 """
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer = conn.cursor()
-            pointer.execute(query4)
-            data1 = pointer.fetchall()
-            print(data1)
+        recent_audit_report=list(collection.find({},{"audit_status":1,"client_name":1,"planned_Date":1,"auditor_name":1, "_id":0}).limit(5))
+        print(recent_audit_report)
 
-            return jsonify(data1)
+        return jsonify(recent_audit_report)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -127,13 +112,10 @@ def filter_data():
         print(value)
 
 # data base query for filter data
-        query4 =f"""select * from Audit_report where audit_status='{value}' """
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer = conn.cursor()
-            pointer.execute(query4)
-            data2 = pointer.fetchall()
-            print(data2)
-            return jsonify(data2)
+        filter_data=list(collection.find({"audit_status":value},{"_id":1}))
+
+        print(filter_data)
+        return jsonify(filter_data)
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
@@ -149,12 +131,9 @@ def admin_status_update():
         print(value)
         # data base manipulation
 
-        update_query=f""" update Audit_report set audit_status=? where Audit_id=?"""
-        with sqlite3.connect(AuditTrack) as conn:
-            pointer = conn.cursor()
-            pointer.execute(update_query ,(status,value))
-            print('updated')
-            return jsonify({"message":"database updated successfully..."})
+        collection.update_one({"Audit_id":value},{"$set":{"audit_status":status}})
+        print('updated')
+        return jsonify({"message":"database updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
 

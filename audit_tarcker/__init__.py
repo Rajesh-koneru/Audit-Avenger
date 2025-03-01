@@ -16,13 +16,14 @@ def create_App():
     from audit_tarcker.auditor_page import status
     from audit_tarcker.AdminReport import report
     from audit_tarcker.index import auth
-    from audit_tarcker.config import AuditTrack
+    from audit_tarcker.config import collection
     from audit_tarcker.upolad import file
     from audit_tarcker.down_report import download
 
+
     app = Flask(__name__)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/auditTracker.db'
+    app.config['SQLALCHEMY_DATABASE_URI']=collection
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)
