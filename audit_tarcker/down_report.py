@@ -21,7 +21,7 @@ download = Blueprint('file_download', __name__)
 def file_download():
     def fetch_data():
         data=list(collection.find({},{"_id":0}))
-        df = pd.read_sql_query(data)
+        df = pd.DataFrame(data)
         return df
     dframe=fetch_data()
    # save file to in memory file
@@ -31,4 +31,5 @@ def file_download():
 
     output.seek(0)  # Move to the start of the file
 # send file AS reponse
+    print("file downloaded")
     return send_file(output, download_name="report_file.xlsx", as_attachment=True,mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")

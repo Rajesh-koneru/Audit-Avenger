@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function (){
           data.forEach((val)=>{
               let row=document.createElement('tr');
               row.innerHTML=`
-                    <td class="py-2">${val[0]}</td>
-                    <td class="py-2">${val[2]}</td>
-                    <td class="py-2">${val[3]}</td>
-                    <td class="py-2">${val[1]}</td>
+                    <td class="py-2">${val.auditor_name}</td>
+                    <td class="py-2">${val.client_name}</td>
+                    <td class="py-2">${val.audit_status}</td>
+                    <td class="py-2">${val.planned_date}</td>
                     `;
               table_body.append(row);
           })

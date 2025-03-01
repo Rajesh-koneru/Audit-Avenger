@@ -17,11 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 row.innerHTML = `
                     <td class="py-2 px-4">${item.Audit_id}</td>
                     <td class="py-2 px-4">${item.auditor_name}</td>
-                    <td class="py-2 px-4">${item.planned_data}</td>
+                    <td class="py-2 px-4">${item.planned_date}</td>
                     <td class="py-2 px-4">${item.state}</td>
                     <td class="py-2 px-4">${item.city}</td>
                     <td class="py-2 px-4">${item.client_name}</td>
-                    <td class="py-2 px-4">${item.contact}</td>
+                    <td class="py-2 px-4">${item.auditor_contact}</td>
                     <td class="py-2 px-4" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
                     <td class="py-2 px-4">${item.payment_amount}</td>
                     <td class="py-2 px-4">${item.payment_status}</td>
@@ -123,16 +123,16 @@ async function filteredData(){
                 console.log(`${item.planned_data}`)
                 let row = document.createElement("tr");
                 row.innerHTML = `
-                    <td class="py-2 px-4">${item[0]}</td>
-                    <td class="py-2 px-4">${item[1]}</td>
-                    <td class="py-2 px-4">${item[2]}</td>
-                    <td class="py-2 px-4">${item[3]}</td>
-                    <td class="py-2 px-4">${item[4]}</td>
-                    <td class="py-2 px-4">${item[5]}</td>
-                    <td class="py-2 px-4">${item[6]}</td>
-                    <td class="py-2 px-4" id='status' style="background-color='green'">${item[7]}</td>
-                    <td class="py-2 px-4">${item[8]}</td>
-                    <td class="py-2 px-4">${item[9]}</td>
+                    <td class="py-2 px-4">${item.Audit_id}</td>
+                    <td class="py-2 px-4">${item.auditor_name}</td>
+                    <td class="py-2 px-4">${item.planned_date}</td>
+                    <td class="py-2 px-4">${item.state}</td>
+                    <td class="py-2 px-4">${item.city}</td>
+                    <td class="py-2 px-4">${item.client_name}</td>
+                    <td class="py-2 px-4">${item.auditor_contact}</td>
+                    <td class="py-2 px-4" id='status' style="background-color='green'">${item.audit_status}</td>
+                    <td class="py-2 px-4">${item.payment_amount}</td>
+                    <td class="py-2 px-4">${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -165,8 +165,11 @@ document.getElementById('uploadButton').addEventListener('click', function(event
                 const workbook = XLSX.read(data, { type: 'array' });
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
-                const jsonData = XLSX.utils.sheet_to_json(sheet);
-                console.log(jsonData)
+                const jsonData = XLSX.utils.sheet_to_json(sheet,{
+                raw: false,  // Keeps the data as strings, but dates need conversion
+                dateNF: "dd-mm-yyyy" // Ensures proper date format
+                });
+                console.log("this is data",jsonData)
                  if (jsonData.length === 0) {
                         console.warn("File was read, but it returned an empty array.");
                 }

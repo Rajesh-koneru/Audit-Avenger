@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import sqlite3
 import os
+from datetime import datetime
 from audit_tarcker.config import collection
 
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
@@ -24,17 +25,18 @@ def upload_excel():
         if data==" ":
             print("Received JSON is empty")  # Debugging
         print(json_data)
+        collection.create_index("Audit_id", unique=True)
 
-        collection.insertMany([
+        collection.insert_many([
             {
                 "Audit_id": row["Audit ID"],
                 "auditor_name": row["Auditor Name"],
                 "client_name": row["Client Name"],
-                "planned_date":row["planned_date"],
+                "planned_date":datetime.strptime(row[" Planned Date"], "%m/%d/%y").strftime("%Y-%m-%d"),
                 "state": row["State"],
-                "city": row["City"],
-                "auditor_contact": row["Contact Number"],
-                "audit_status": row["Audit Status"],
+                "city": row[" City"],
+                "auditor_contact": row[" Contact Number"],
+                "audit_status": row[" Audit Status"],
                 "payment_amount": row["Payment Amount"],
                 "payment_status": row[" Payment Status "]
             }

@@ -17,6 +17,8 @@ def create_App():
     from audit_tarcker.config import collection
     from audit_tarcker.upolad import file
     from audit_tarcker.down_report import download
+    from audit_tarcker.test import only_one
+    from audit_tarcker.database import mango_base
 
     app = Flask(__name__)
     app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -41,6 +43,7 @@ def create_App():
     app.register_blueprint(file)
     app.register_blueprint(status, name="status_blueprint")  # ✅ Unique name
     app.register_blueprint(download)
+    app.register_blueprint(mango_base)
 
 
     @app.route('/')
@@ -65,6 +68,7 @@ def create_App():
     # Dashboard (Protected)
     @app.route('/dashboard')  # Role-based check first
     @login_required  # Then login check
+    @only_one('admin')
     def dashboard():
         return render_template('dashboard.html')
 
