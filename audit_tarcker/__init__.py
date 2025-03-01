@@ -20,13 +20,8 @@ def create_App():
     from audit_tarcker.upolad import file
     from audit_tarcker.down_report import download
 
-
     app = Flask(__name__)
 
-    app.config['SQLALCHEMY_DATABASE_URI']=collection
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    db.init_app(app)
     # Flask-Login setup
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)

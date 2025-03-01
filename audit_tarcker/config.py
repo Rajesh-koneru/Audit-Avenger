@@ -10,7 +10,7 @@ encoded_username = urllib.parse.quote_plus(username)
 encoded_password = urllib.parse.quote_plus(password)
 
 # Manually set the values from Render Dashboard
-DATABASE_URL=f"mongodb+srv://{encoded_username }:{encoded_password}@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URL=os.getenv(f"mongodb+srv://{encoded_username }:{encoded_password}@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
 
 # Connect to MongoDB
