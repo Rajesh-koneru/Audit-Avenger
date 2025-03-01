@@ -2,32 +2,23 @@ from flask import Flask, render_template, jsonify, redirect
 from secrets import token_hex
 from flask_sqlalchemy import SQLAlchemy
 import os
-
 from flask_login import login_required
 from flask_session import Session
-
 
 # database connection
 db = SQLAlchemy()
 app=Flask(__name__)
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
-DB_PATH = os.path.join(BASE_DIR, 'auditTracker.db')
-
-if not os.path.exists(DB_PATH):
-    raise FileNotFoundError(f"Database file missing at {DB_PATH}")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_PATH}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
+#BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
+#AuditTrack = os.path.join(BASE_DIR, 'auditTracker.db')
 
 def create_App():
     from audit_tarcker.index import login_manager
     from audit_tarcker.auditor_page import status
     from audit_tarcker.AdminReport import report
     from audit_tarcker.index import auth
-
+    from audit_tarcker.config import AuditTrack
     from audit_tarcker.upolad import file
+    from audit_tarcker.down_report import download
 
     app = Flask(__name__)
 
@@ -48,6 +39,8 @@ def create_App():
     app.register_blueprint(report)
     app.register_blueprint(file)
     app.register_blueprint(status, name="status_blueprint")  # ✅ Unique name
+    app.register_blueprint(download)
+
 
     @app.route('/')
     def home():
@@ -81,9 +74,4 @@ def create_App():
     @app.route('/report')
     def repo():
         return render_template('report1.html')
-
-    @app.route('/upload')
-    def upload():
-        return render_template('fileUpload.html')
-
     return app

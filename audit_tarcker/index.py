@@ -1,14 +1,17 @@
 from flask import Flask ,redirect,render_template,Blueprint,request,jsonify,session,flash
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import sqlite3
-
+from datetime import datetime, timedelta
+from audit_tarcker.config import AuditTrack
 
 # Securely store admin credentials (Better to use environment variables)
 ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', 'Admin@raghu')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'Raghu@1234')
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
+#BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
+#AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
+permanent_session_lifetime = timedelta(seconds=10)
 # Auth blueprint
 auth = Blueprint('auth', __name__)
 
@@ -53,20 +56,25 @@ def login():
 
         # Only allow the admin to log in
         if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            user = Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD ,role='admin')
+            session.permanent = True
+            user = Users(user_id=ADMIN_USERNAME,password=generate_password_hash(ADMIN_PASSWORD, method="pbkdf2:sha256") ,role='admin')
             session['username'] = username
             session['islogin'] = True
             session['role']='admin'
             login_user(user)
             return redirect('/admin1')
+
+
+        # fetching auditor details from database
         with sqlite3.connect(AuditTrack) as conn:
             pointer = conn.cursor()
-            pointer.execute(f'select Audit_id,auditor_name from Audit_report where Audit_id="{password}"')
+            pointer.execute(f'select Audit_id,auditor_name from Audit_report where Audit_id=?',(password,))
             auditor_data = pointer.fetchone()
             print(auditor_data)
         if auditor_data:
-            user1=Users(user_id=auditor_data[1],password=auditor_data[0],role='auditor')
+            user1=Users(user_id=auditor_data[1],password=generate_password_hash(auditor_data[0], method="pbkdf2:sha256"),role='auditor')
             session['username'] = username
+            session.permanent = True
             session['islogin'] = True
             session['role']='auditor'
             session['id']=password

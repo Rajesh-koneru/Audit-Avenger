@@ -13,7 +13,7 @@ def only_one(*role):
                     print('access denied')
                     return redirect('/signup_page')
             elif len(role)==1:
-                if session['username']!='raju':
+                if session['username']!='Admin@raghu':
                     print(f'your are not admin ,you are {session["username"]}')
                     return redirect('/signup_page')
             return func(*arg)

@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
                         row.innerHTML = `
                             <td class="py-2 px-4">${item.Audit_id}</td>
                             <td class="py-2 px-4">${item.auditor_name}</td>
-                            <td class="py-2 px-4">${item.planned_date}</td>
+                            <td class="py-2 px-4">${item.planned_data}</td>
                             <td class="py-2 px-4">${item.state}</td>
                             <td class="py-2 px-4">${item.city}</td>
                              <td class="py-2 px-4">${item.client_name}</td>

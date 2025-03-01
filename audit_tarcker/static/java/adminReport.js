@@ -12,12 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             data.forEach((item) => {
                 let row = document.createElement("tr");
-
+                console.log(item.planned_data)
                 // If in Update Mode, make 'audit_status' editable
                 row.innerHTML = `
                     <td class="py-2 px-4">${item.Audit_id}</td>
                     <td class="py-2 px-4">${item.auditor_name}</td>
-                    <td class="py-2 px-4">${item.planned_date}</td>
+                    <td class="py-2 px-4">${item.planned_data}</td>
                     <td class="py-2 px-4">${item.state}</td>
                     <td class="py-2 px-4">${item.city}</td>
                     <td class="py-2 px-4">${item.client_name}</td>

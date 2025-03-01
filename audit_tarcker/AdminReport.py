@@ -6,9 +6,10 @@ import sqlite3
 import os
 import sqlite3
 import os
+from audit_tarcker.config import AuditTrack
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
+#BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
+#AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
 
 @report.route('/admin/report')
 def admin_report():
