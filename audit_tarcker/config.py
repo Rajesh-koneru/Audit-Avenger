@@ -10,10 +10,9 @@ encoded_username = urllib.parse.quote_plus(username)
 encoded_password = urllib.parse.quote_plus(password)
 
 # Manually set the values from Render Dashboard
-DATABASE_URL=os.getenv(f"mongodb+srv://raghavendhargpth:Raghavendra%40admin@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URL=os.getenv("mongodb+srv://raghavendhargpth:Raghavendra%40admin@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 
-
-# Connect to MongoDB
+# Connect to MongoDBgi
 mongo_client = MongoClient(DATABASE_URL)
 db = mongo_client["AuditAvengers"]
 collection = db["Audit_Tracker"]
