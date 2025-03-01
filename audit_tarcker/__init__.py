@@ -1,13 +1,11 @@
 from flask import Flask, render_template, jsonify, redirect
 from secrets import token_hex
-from flask_sqlalchemy import SQLAlchemy
+from pymongo import MongoClient
 import os
 from flask_login import login_required
 from flask_session import Session
 
 # database connection
-db = SQLAlchemy()
-app=Flask(__name__)
 #BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
 #AuditTrack = os.path.join(BASE_DIR, 'auditTracker.db')
 
@@ -21,6 +19,13 @@ def create_App():
     from audit_tarcker.down_report import download
 
     app = Flask(__name__)
+    app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:Raghu@Tracker@cluster0.mongodb.net/AuditAvengers?retryWrites=true&w=majority"
+
+    # ✅ Connect to MongoDB
+    mongo_client = MongoClient(app.config["MONGO_URI"])
+
+    app.mongo_client = mongo_client
+    app.audit_collection =collection
 
     # Flask-Login setup
     login_manager.login_view = "auth.login"
