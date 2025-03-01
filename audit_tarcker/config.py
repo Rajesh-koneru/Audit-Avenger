@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import os
 
 # Use the correct MongoDB Atlas connection string
-DATABASE_URL = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_URL = os.getenv("DATABASE_URL1")
 
 # Connect to MongoDB
 try:
