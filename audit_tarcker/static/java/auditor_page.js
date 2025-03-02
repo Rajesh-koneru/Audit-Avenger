@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
 
 
-        let response=await fetch("http://127.0.0.1:5000/auditor/auditor_details")
+        let response=await fetch("https://finalavengers.onrender.com/auditor/auditor_details")
         let data=await response.json()
 
         console.log(data)
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
         name.innerText=auditorName;
         async function fetchData(){
             try{
-                response=await fetch("http://127.0.0.1:5000/auditor/data" ,{
+                response=await fetch("https://finalavengers.onrender.com/auditor/data" ,{
                        method:'POST',
                        headers: {
                         "Content-Type": "application/json"
@@ -77,14 +77,14 @@ async function updateStatus(){
    btn.addEventListener('click' ,async ()=>{
     const value=document.getElementById('update').value;
     console.log(value);
-    let response1=await fetch("http://127.0.0.1:5000/auditor/auditor_details")
+    let response1=await fetch("https://finalavengers.onrender.com/auditor/auditor_details")
         let data=await response1.json()
 
         console.log(data)
         auditorName=data['username']
         auditorId=data['id']
         console.log(auditorName ,auditorId);
-       const response=await fetch("http://127.0.0.1:5000/auditor/status_update " ,{
+       const response=await fetch("https://finalavengers.onrender.com/auditor/status_update " ,{
                        method:'POST',
                        headers: {
                         "Content-Type": "application/json"

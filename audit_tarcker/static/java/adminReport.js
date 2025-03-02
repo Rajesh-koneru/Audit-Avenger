@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch and load data based on mode
     async function loadTableData() {
         try {
-            let response = await fetch("http://127.0.0.1:5000/admin/report");
+            let response = await fetch("https://finalavengers.onrender.com/admin/report");
             let data = await response.json();
             tableBody.innerHTML = ""; // Clear table before loading new data
 
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to send update request
     async function updateStatus(auditId, newStatus) {
         try {
-            const response = await fetch("http://127.0.0.1:5000/admin/update_status", {
+            const response = await fetch("https://finalavengers.onrender.com/admin/update_status", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -101,7 +101,7 @@ async function filteredData(){
     console.log(filter)
     const tableBody = document.querySelector(".table_body");
     try{
-        const response= await fetch("http://127.0.0.1:5000/admin/filter",{
+        const response= await fetch("https://finalavengers.onrender.com/admin/filter",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -175,7 +175,7 @@ document.getElementById('uploadButton').addEventListener('click', function(event
                 }
 
                 // ✅ Sending JSON data to Flask backend
-                fetch('/upload-excel', {
+                fetch('https://finalavengers.onrender.com/upload-excel', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },  // 👈 Ensure correct JSON content type
                     body: JSON.stringify({ "data": jsonData })  // 👈 Convert object to JSON

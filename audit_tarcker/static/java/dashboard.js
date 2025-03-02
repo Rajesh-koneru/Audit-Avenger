@@ -5,16 +5,16 @@ document.addEventListener("DOMContentLoaded", function (){
     const pending =document.getElementById('pending');
     const table_body=document.getElementById('table_body');
     async function  fetchData(){
-        let response=await fetch("http://127.0.0.1:5000/admin/total_audits");   //fetching  data from backend
+        let response=await fetch("https://finalavengers.onrender.com/admin/total_audits");   //fetching  data from backend
         let data =await response.json();
         console.log(data)
         ele.innerText=data;
     }
-    fetchData();    //caaling function
+    fetchData();    //calling function
 
 
     async function activeData(){
-          let response=await fetch("http://127.0.0.1:5000/admin/active_audits");    //api call
+          let response=await fetch("https://finalavengers.onrender.com/admin/active_audits");    //api call
           let data= await response.json();
           console.log(data)
           active_audits.innerText=data;
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (){
     // completed details
 
     async function completeData(){
-          let response=await fetch("http://127.0.0.1:5000/admin/complete");    //api call
+          let response=await fetch("https://finalavengers.onrender.com/admin/complete");    //api call
           let data= await response.json();
           console.log(data)
           complete.innerText=data;
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function (){
 
     // pending audits
      async function pending_audits(){
-          let response=await fetch("http://127.0.0.1:5000/admin/pending");    //api call
+          let response=await fetch("https://finalavengers.onrender.com/admin/pending");    //api call
           let data= await response.json();
           console.log(data)
           pending.innerText=data;
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function (){
 
     // running audit details (recent audit_details)
     async function recent_audits(){
-          let response=await fetch("http://127.0.0.1:5000/admin/Recent_audit");    //api call
+          let response=await fetch("https://finalavengers.onrender.com/admin/Recent_audit");    //api call
           let data= await response.json();
           console.log(data)
           table_body.innerHTML = "";
