@@ -175,7 +175,7 @@ document.getElementById('uploadButton').addEventListener('click', function(event
                 }
 
                 // ✅ Sending JSON data to Flask backend
-                fetch('https://finalavengers.onrender.com/upload-excel', {
+                fetch('/upload-excel', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },  // 👈 Ensure correct JSON content type
                     body: JSON.stringify({ "data": jsonData })  // 👈 Convert object to JSON

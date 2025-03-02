@@ -5,19 +5,84 @@
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        #navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #333;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #FFEB3B;
+            font-size: 18px;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 480px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: #444;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+
+    </style>
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-black text-white p-4 flex justify-between items-center">
+<body class="bg-gray-100" >
+    <nav class="bg-black text-white p-4 flex justify-between items-center" id="navbar">
         <div class="flex items-center">
             <i class="fas fa-shield-alt text-yellow-500 text-2xl mr-2"></i>
             <span class="font-bold text-xl">Audit Avengers (Admin)</span>
         </div>
-        <div class="space-x-4">
-            <a href="/" class="hover:text-yellow-500">Home</a>
-            <a href="/report" class="text-yellow-500">report</a>
-            <a href="/logout" class="hover:text-yellow-500">Logout</a>
+        <div class="space-x-4" >
+            <ul class="nav-links">
+                <li> <a href="/" class="hover:text-yellow-500">Home</a></li>
+                <li><a href="/report" class="text-yellow-500">report</a></li>
+                <li><a href="/logout" class="hover:text-yellow-500">Logout</a></li>
+            </ul>
         </div>
+        <div class="hamburger" onclick="toggleMenu()">☰</div>
     </nav>
+
     <div class="p-8">
         <h1 class="text-3xl font-bold">Admin Dashboard</h1>
         <p class="text-gray-600">Overview of all audit activities and team performance</p>
@@ -131,5 +196,10 @@
         </div>
     </div>
 <script src="/static/java/dashboard.js"></script>
+<script>
+        function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("show");
+        }
+  </script>
 </body>
 </html>
