@@ -12,6 +12,8 @@ try:
     db = client["AuditAvengers"]
     collection = db["Audit_Tracker"]
     collection.create_index("Audit_id", unique=True)
+    test_data = collection.find_one()
+    print("MongoDB Test Query Result:", test_data)
 
     print("✅ Connected to MongoDB")
 

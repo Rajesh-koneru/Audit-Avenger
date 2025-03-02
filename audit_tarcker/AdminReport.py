@@ -1,12 +1,12 @@
 from flask import Flask ,Blueprint,redirect,jsonify,request
 from flask_login import login_required
-
+from audit_tarcker.config import collection
 report=Blueprint('report',__name__)
 import sqlite3
 import os
 import sqlite3
 import os
-from audit_tarcker.config import collection
+
 
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
 #AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
