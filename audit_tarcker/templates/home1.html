@@ -13,32 +13,122 @@
    body {
             font-family: 'Roboto', sans-serif;
         }
+   .logo{
+       display:flex;
+       width:400px;
+       padding:10px
+
+   }
+   .logo h1{
+       width:400px;
+       font-size:30px;
+       font-weight:bold;
+       margin-left:40px;
+       color:yellow;
+   }
+   .logo img{
+      padding:10px;
+   }
+   #name{
+       position:relative;
+       left:10px;
+   }
+   @media screen and (max-width: 480px){
+       #nav{
+         left:100px;
+       }
+   }
+     #nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            color: white;
+        }
+
+     .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+     .nav-links li {
+            margin: 0 15px;
+        }
+
+     .nav-links a {
+            text-decoration: none;
+            color: #FFEB3B;
+            font-size: 18px;
+        }
+
+        /* Hamburger Icon */
+     .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+     }
+
+        /* Responsive styles */
+        @media screen and (max-width: 480px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: #444;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+            .logo{
+            width:300px;
+            }
+            .logo h1{
+            font-size:25px;
+            width:200px;
+            margin-left:5px;
+            }
+        }
       </style>
     <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='2.png')}}">
  </head>
  <body class="bg-black text-white">
-  <header class="bg-black p-4 flex justify-between items-center border-b-2 border-yellow-500">
-   <div class="text-xl font-bold">
-    Audit Avengers
+  <header class="bg-black p-4  flex justify-between items-center  border-b-2 border-yellow-500">
+   <div class="logo">
+   <img src="2.png">
+    <h1  class="text-1xl font-bold">Audit Avengers</h1>
    </div>
-   <nav class="space-x-4">
-    <a class="hover:text-yellow-500" href="#about">
+   <nav class="space-x-4" id="nav">
+    <ul class="nav-links">
+    <li><a class="hover:text-yellow-500" href="#about">
      About
-    </a>
-    <a class="hover:text-yellow-500" href="#services">
+    </a></li>
+    <li><a class="hover:text-yellow-500" href="#services">
      Services
-    </a>
-    <a class="hover:text-yellow-500" href="#founder">
+    </a></li>
+    <li><a class="hover:text-yellow-500" href="#founder">
      Founder
-    </a>
-    <a class="hover:text-yellow-500" href="#contact">
+    </a></li>
+    <li><a class="hover:text-yellow-500" href="#contact">
      Contact
-    </a>
+    </a></li>
+     <li> <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page" style="align-text:center;" >Get Started</a></li>
+    </ul>
    </nav>
-   <button class="bg-yellow-500 text-black px-4 py-2 rounded">
-      <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page"></a>
-    Get Started
-   </button>
+   <div class="hamburger" onclick="toggleMenu()">☰</div>
   </header>
   <section class="bg-black p-8 text-center">
    <h1 class="text-4xl font-bold text-yellow-500">
@@ -341,5 +431,10 @@
     </a>
    </div>
   </footer>
+ <script>
+    function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("show");
+        }
+ </script>
  </body>
 </html>

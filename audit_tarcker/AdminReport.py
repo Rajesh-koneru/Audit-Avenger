@@ -1,7 +1,9 @@
 from flask import Flask ,Blueprint,redirect,jsonify,request
 from flask_login import login_required
 from audit_tarcker.config import collection
+from datetime import datetime
 report=Blueprint('report',__name__)
+
 import sqlite3
 import os
 import sqlite3
@@ -126,5 +128,33 @@ def admin_status_update():
         return jsonify({"message":"database updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
+
+@report.route('admin/manual_update' ,methods=['post'])
+def manual_update():
+    json_data=request.get_json()
+    if json_data=='':
+        print('no data received')
+    data=json_data['data']
+    print(data)
+    try:
+        collection.insert_one(
+            {
+                "Audit_id": data["Audit ID"],
+                "auditor_name": data["Auditor Name"],
+                "client_name": data["Client Name"],
+                "planned_date": datetime.strptime(data[" Planned Date"], "%m/%d/%y").strftime("%Y-%m-%d"),
+                "state": data["State"],
+                "city": data[" City"],
+                "auditor_contact": data[" Contact Number"],
+                "audit_status": data[" Audit Status"],
+                "payment_amount": data["Payment Amount"],
+                "payment_status": data[" Payment Status "]
+            })
+        print('data inserted ')
+        return jsonify('data inserted successfully...')
+    except Exception as e:
+        print(e)
+        return jsonify(e) ,400
+
 
 

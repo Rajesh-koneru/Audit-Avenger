@@ -190,3 +190,36 @@ document.getElementById('uploadButton').addEventListener('click', function(event
 
             reader.readAsArrayBuffer(file);
         });
+
+
+// manual upload
+document.getElementById('manualBtn').addEventListener('click',()=>{
+        const element=document.querySelectorAll('.input');
+
+        console.log('all inputs are selected');
+        data={}
+        forEach((ele)=>{
+            let name=ele.name;
+            let value=ele.value;
+            data[name]=value;
+        })
+        console.log(data)
+        async function sendData(){
+            let response=await fetch("https://finalavengers.onrender.com/admin/manual_update" ,{
+                   method:'POST',
+                   headers: { 'Content-Type': 'application/json' },  // 👈 Ensure correct JSON content type
+                   body: JSON.stringify({ "data": data })
+
+
+            });
+           if(!response.ok){
+                console.warn('data not sent')
+                return 'data not sent'
+           }
+           meg=await response.json()
+           console.log(meg);
+           alert(meg);
+        }
+        sendData();
+
+});

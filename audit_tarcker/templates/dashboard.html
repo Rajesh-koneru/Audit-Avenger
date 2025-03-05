@@ -62,6 +62,34 @@
             .hamburger {
                 display: block;
             }
+            #recent{
+                overflow:scroll;
+            }
+
+        }
+        #total{
+        transition:background-color 0.5s ease-in-out;
+        }
+        #total:hover{
+            background-color:lightgray;
+        }
+        #active{
+        transition:background-color 0.5s ease-in-out;
+        }
+        #active:hover{
+            background-color:lightgray;
+        }
+        #complete{
+        transition:background-color 0.5s ease-in-out;
+        }
+        #complete:hover{
+            background-color:lightgray;
+        }
+        #pend{
+        transition:background-color 0.5s ease-in-out;
+        }
+        #pend:hover{
+            background-color:lightgray;
         }
 
 
@@ -87,16 +115,16 @@
         <h1 class="text-3xl font-bold">Admin Dashboard</h1>
         <p class="text-gray-600">Overview of all audit activities and team performance</p>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="bg-white p-6 rounded-lg shadow" id="total">
                 <div class="flex items-center">
                     <i class="fas fa-users text-purple-500 text-3xl"></i>
-                    <div class="ml-4">
+                    <div class="ml-4" >
                         <p class="text-gray-600">Total Auditors</p>
                         <p class="text-2xl font-bold" id="totalAudits">24</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="bg-white p-6 rounded-lg shadow" id="active">
                 <div class="flex items-center">
                     <i class="fas fa-clock text-blue-500 text-3xl"></i>
                     <div class="ml-4">
@@ -105,7 +133,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="bg-white p-6 rounded-lg shadow" id="complete">
                 <div class="flex items-center">
                     <i class="fas fa-check-circle text-green-500 text-3xl"></i>
                     <div class="ml-4">
@@ -114,7 +142,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div class="bg-white p-6 rounded-lg shadow" id="pend">
                 <div class="flex items-center">
                     <i class="fas fa-exclamation-circle text-yellow-500 text-3xl"></i>
                     <div class="ml-4">
@@ -124,8 +152,8 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
-            <div class="bg-white p-6 rounded-lg shadow">
+        <div class="grid grid-cols-1 lg:grid-cols-0 gap-4 mt-10" >
+            <div class="bg-white p-6 rounded-lg shadow" id="recent">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Recent Audits</h2>
                     <a href="#" class="text-yellow-500">View all</a>
@@ -161,38 +189,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold">Auditor Performance</h2>
-                    <a href="#" class="text-yellow-500">Manage team</a>
-                </div>
-                <table class="w-full text-left">
-                    <thead>
-                        <tr>
-                            <th class="py-2">Auditor</th>
-                            <th class="py-2">Active Audits</th>
-                            <th class="py-2">Completed</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-2">John Doe</td>
-                            <td class="py-2">3</td>
-                            <td class="py-2">15</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2">Jane Smith</td>
-                            <td class="py-2">2</td>
-                            <td class="py-2">12</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2">Mike Johnson</td>
-                            <td class="py-2">4</td>
-                            <td class="py-2">8</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
         </div>
     </div>
 <script src="/static/java/dashboard.js"></script>
@@ -200,6 +197,8 @@
         function toggleMenu() {
             document.querySelector(".nav-links").classList.toggle("show");
         }
+
+
   </script>
 </body>
 </html>
