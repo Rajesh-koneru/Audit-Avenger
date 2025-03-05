@@ -13,110 +13,333 @@
    body {
             font-family: 'Roboto', sans-serif;
         }
-
-  </style>
+      </style>
     <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='2.png')}}">
-
  </head>
- <body class="bg-gray-100">
-  <!-- Navbar -->
-  <nav class="bg-black text-white p-4 flex justify-between items-center">
-   <div class="flex items-center">
-    <i class="fas fa-shield-alt text-yellow-500 mr-2">
-    </i>
-    <span class="font-bold">
-     Audit Avengers
-    </span>
+ <body class="bg-black text-white">
+  <header class="bg-black p-4 flex justify-between items-center border-b-2 border-yellow-500">
+   <div class="text-xl font-bold">
+    Audit Avengers
    </div>
-   <div class="space-x-4">
-    <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page">
-     Sign In
+   <nav class="space-x-4">
+    <a class="hover:text-yellow-500" href="#about">
+     About
+    </a>
+    <a class="hover:text-yellow-500" href="#services">
+     Services
+    </a>
+    <a class="hover:text-yellow-500" href="#founder">
+     Founder
+    </a>
+    <a class="hover:text-yellow-500" href="#contact">
+     Contact
+    </a>
+   </nav>
+   <button class="bg-yellow-500 text-black px-4 py-2 rounded">
+      <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page"></a>
+    Get Started
+   </button>
+  </header>
+  <section class="bg-black p-8 text-center">
+   <h1 class="text-4xl font-bold text-yellow-500">
+    Unmasking Financial Excellence
+   </h1>
+   <p class="mt-4">
+    We empower businesses to achieve their financial goals with confidence through expert auditing and financial analysis.
+   </p>
+   <div class="mt-6 space-x-4">
+    <img alt="Audit Avengers logo with a shield and checkmark" class="mt-8 mx-auto" height="300" src="https://drive.google.com/file/d/1i6kbCu51oSbrnUrTLwonQBKYeaI1CJ9o/view?usp=drive_link" width="600"/>
+    <div class="mt-4 space-x-4">
+     <button class="bg-yellow-500 text-black px-4 py-2 rounded">
+      Our Services
+     </button>
+     <button class="border border-yellow-500 text-yellow-500 px-4 py-2 rounded">
+      Contact Us
+     </button>
+    </div>
+   </div>
+  </section>
+  <section id="about" class="bg-black p-8 text-center">
+   <h2 class="text-3xl font-bold text-yellow-500">
+    About Audit Avengers
+   </h2>
+   <p class="mt-4 max-w-2xl mx-auto">
+    Audit Avengers is a premier auditing firm dedicated to providing top-notch financial and audit services. Our team of expert auditors and financial analysts are committed to ensuring transparency, accuracy, and compliance in your financial operations. With a mission to unmask financial excellence, we empower businesses to achieve their financial goals with confidence.
+   </p>
+   <div class="mt-8 flex justify-center space-x-8">
+    <div class="text-center">
+     <div class="text-2xl font-bold text-yellow-500">
+      15+
+     </div>
+     <div>
+      Years Experience
+     </div>
+    </div>
+    <div class="text-center">
+     <div class="text-2xl font-bold text-yellow-500">
+      500+
+     </div>
+     <div>
+      Clients Served
+     </div>
+    </div>
+    <div class="text-center">
+     <div class="text-2xl font-bold text-yellow-500">
+      50+
+     </div>
+     <div>
+      Expert Auditors
+     </div>
+    </div>
+    <div class="text-center">
+     <div class="text-2xl font-bold text-yellow-500">
+      98%
+     </div>
+     <div>
+      Client Satisfaction
+     </div>
+    </div>
+   </div>
+  </section>
+  <section id="services" class="bg-black p-8">
+   <h2 class="text-3xl font-bold text-yellow-500 text-center">
+    Our Services
+   </h2>
+   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="bg-gray-700 p-4 rounded">
+     <i class="fas fa-file-alt text-yellow-500 text-2xl">
+     </i>
+     <h3 class="mt-2 font-bold">
+      Financial Audits
+     </h3>
+     <p>
+      Comprehensive review of your financial statements to ensure accuracy and compliance.
+     </p>
+    </div>
+    <div class="bg-gray-700 p-4 rounded">
+     <i class="fas fa-search text-yellow-500 text-2xl">
+     </i>
+     <h3 class="mt-2 font-bold">
+      Internal Audits
+     </h3>
+     <p>
+      Assessing internal controls and processes to identify areas for improvement.
+     </p>
+    </div>
+    <div class="bg-gray-700 p-4 rounded">
+     <i class="fas fa-balance-scale text-yellow-500 text-2xl">
+     </i>
+     <h3 class="mt-2 font-bold">
+      Tax Audits
+     </h3>
+     <p>
+      Expert analysis of your tax filings to ensure compliance and optimize tax savings.
+     </p>
+    </div>
+    <div class="bg-gray-700 p-4 rounded">
+     <i class="fas fa-shield-alt text-yellow-500 text-2xl">
+     </i>
+     <h3 class="mt-2 font-bold">
+      Risk Management
+     </h3>
+     <p>
+      Identifying and mitigating financial risks to protect your business.
+     </p>
+    </div>
+    <div class="bg-gray-700 p-4 rounded">
+     <i class="fas fa-briefcase text-yellow-500 text-2xl">
+     </i>
+     <h3 class="mt-2 font-bold">
+      Consulting Services
+     </h3>
+     <p>
+      Tailored financial advice to help your business grow and thrive.
+     </p>
+    </div>
+    <div class="bg-yellow-500 p-4 rounded text-black">
+     <h3 class="font-bold">
+      Need a Custom Solution?
+     </h3>
+     <p>
+      Contact us today to discuss your specific auditing and financial needs.
+     </p>
+     <button class="mt-4 bg-black text-yellow-500 px-4 py-2 rounded">
+     <a href="#contact"></a> 
+           Get in Touch
+     </button>
+    </div>
+   </div>
+  </section>
+  <section id="founder" class="bg-black p-8 flex flex-col md:flex-row items-center">
+   <img alt="Founder of Audit Avengers, Nikhil Mailapuram" class="rounded-full w-48 h-48 md:w-64 md:h-64" height="400" src="https://media.licdn.com/dms/image/v2/D5603AQFuPikYzPa7kw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1704689235559?e=1746662400&v=beta&t=32dLdTqVJ3_y4CHNIFPCCyaUZ0ldYoskO9ir0TYL6hg" width="300"/>
+   <div class="mt-8 md:mt-0 md:ml-8 text-center md:text-left">
+    <h2 class="text-3xl font-bold text-yellow-500">
+     Meet the Founder
+    </h2>
+    <p class="mt-4">
+     Nikhil Mailapuram, the visionary behind Audit Avengers, has over 2 years of experience in the auditing industry. His dedication to integrity and excellence has driven Audit Avengers to become a trusted name in the field. John's leadership and expertise ensure that every client receives personalized and professional service.
+    </p>
+    <div class="mt-4 space-x-4">
+     <a class="text-yellow-500" href="#">
+      <i class="fab fa-twitter">
+      </i>
+     </a>
+     <a class="text-yellow-500" href="#">
+      <i class="fab fa-linkedin">
+      </i>
+     </a>
+     <a class="text-yellow-500" href="#">
+      <i class="fab fa-facebook">
+      </i>
+     </a>
+    </div>
+   </div>
+  </section>
+  <section id="contact" class="bg-black p-8">
+   <h2 class="text-3xl font-bold text-yellow-500 text-center">
+    Contact Us
+   </h2>
+   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="bg-gray-700 p-4 rounded">
+     <h3 class="font-bold">
+      Get in Touch
+     </h3>
+     <form class="mt-4 space-y-4">
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Full Name" type="text"/>
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Email Address" type="email"/>
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Subject" type="text"/>
+      <textarea class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Your message here..."></textarea>
+      <button class="bg-yellow-500 text-black px-4 py-2 rounded">
+       Send Message
+      </button>
+     </form>
+    </div>
+    <div class="bg-gray-700 p-4 rounded">
+     <h3 class="font-bold">
+      Contact Information
+     </h3>
+     <p class="mt-4">
+      <i class="fas fa-map-marker-alt text-yellow-500">
+      </i>
+      Miyapur, Hyderabad, Telangana, India
+     </p>
+     <p class="mt-2">
+      <i class="fas fa-phone text-yellow-500">
+      </i>
+      +91 9121313106
+     </p>
+     <p class="mt-2">
+      <i class="fas fa-envelope text-yellow-500">
+      </i>
+      contactauditavengers@gmail.com
+     </p>
+     <p class="mt-2">
+      <i class="fas fa-clock text-yellow-500">
+      </i>
+      Monday - Friday: 9AM - 6PM EST
+     </p>
+     <div class="mt-4 bg-yellow-500 p-4 rounded text-black">
+      <h3 class="font-bold">
+       Ready to get started?
+      </h3>
+      <p>
+       Contact us today for a free consultation and discover how Audit Avengers can help your business achieve financial excellence.
+      </p>
+      <button class="mt-4 bg-black text-yellow-500 px-4 py-2 rounded">
+       Schedule a Call
+      </button>
+     </div>
+    </div>
+   </div>
+  </section>
+  <footer class="bg-black p-4 text-center text-sm border-t-2 border-yellow-500">
+   <div class="flex flex-col md:flex-row justify-between items-center">
+    <div class="mb-4 md:mb-0">
+     <p>
+      © 2022 Audit Avengers. All rights reserved.
+     </p>
+     <p>
+      Unmasking financial excellence through expert auditing and financial analysis since 2010.
+     </p>
+    </div>
+    <div class="mb-4 md:mb-0">
+     <h3 class="font-bold">
+      Quick Links
+     </h3>
+     <ul class="space-y-2">
+      <li>
+       <a class="hover:text-yellow-500" href="#home">
+        Home
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#about">
+        About
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#services">
+        Services
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#contact">
+        Contact
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div class="mb-4 md:mb-0">
+     <h3 class="font-bold">
+      Services
+     </h3>
+     <ul class="space-y-2">
+      <li>
+       <a class="hover:text-yellow-500" href="#">
+        Financial Audits
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#">
+        Internal Audits
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#">
+        Tax Audits
+       </a>
+      </li>
+      <li>
+       <a class="hover:text-yellow-500" href="#">
+        Risk Management
+       </a>
+      </li>
+     </ul>
+    </div>
+    <div>
+     <h3 class="font-bold">
+      Subscribe
+     </h3>
+     <p>
+      Subscribe to our newsletter for the latest updates.
+     </p>
+     <form class="mt-2 flex">
+      <input class="p-2 rounded-l bg-gray-800 border border-gray-600" placeholder="Your email" type="email"/>
+      <button class="bg-yellow-500 text-black px-4 py-2 rounded-r">
+       Subscribe
+      </button>
+     </form>
+    </div>
+   </div>
+   <div class="mt-4">
+    <a class="hover:text-yellow-500" href="#">
+     Privacy Policy
+    </a>
+    |
+    <a class="hover:text-yellow-500" href="#">
+     Terms of Service
     </a>
    </div>
-  </nav>
-  <!-- Hero Section -->
-  <section class="relative bg-black text-white" style="background-image: url('2.png')" >
-   <img alt="Background image of a person using a calculator" class="w-full h-96 object-cover opacity-50" src="{{ url_for('static', filename='2.png') }}" height="600"  width="1920"/>
-   <div class="absolute inset-0 flex flex-col justify-center items-center text-center">
-    <h1 class="text-4xl md:text-5xl font-bold">
-     Transform Your Audit Process
-    </h1>
-    <p class="mt-4 text-lg md:text-xl">
-     Streamline your auditing workflow with Audit Avengers. Our powerful platform helps you manage, track, and complete audits with maximum efficiency and compliance.
-    </p>
-    <div class="mt-6 space-x-4">
-     <a class="bg-yellow-500 text-black px-6 py-3 rounded" href="#">
-      Get Started
-     </a>
-     <a class="bg-gray-700 text-white px-6 py-3 rounded" href="#">
-      Learn More
-     </a>
-    </div>
-   </div>
-  </section>
-  <!-- Features Section -->
-  <section class="py-16 bg-white text-center">
-   <h2 class="text-yellow-500 font-bold">
-    FEATURES
-   </h2>
-   <h3 class="text-3xl md:text-4xl font-bold mt-2">
-    Everything you need for efficient auditing
-   </h3>
-   <p class="mt-4 text-lg md:text-xl">
-    Our comprehensive suite of tools helps you manage every aspect of your audit process.
-   </p>
-   <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-    <div class="flex flex-col items-center">
-     <i class="fas fa-shield-alt text-yellow-500 text-4xl mb-4">
-     </i>
-     <h4 class="font-bold">
-      Secure Auditing
-     </h4>
-     <p class="mt-2">
-      Enterprise-grade security for all your audit processes and data.
-     </p>
-    </div>
-    <div class="flex flex-col items-center">
-     <i class="fas fa-tasks text-yellow-500 text-4xl mb-4">
-     </i>
-     <h4 class="font-bold">
-      Streamlined Workflow
-     </h4>
-     <p class="mt-2">
-      Efficient audit management from initiation to completion.
-     </p>
-    </div>
-    <div class="flex flex-col items-center">
-     <i class="fas fa-users text-yellow-500 text-4xl mb-4">
-     </i>
-     <h4 class="font-bold">
-      Team Collaboration
-     </h4>
-     <p class="mt-2">
-      Real-time collaboration tools for your entire audit team.
-     </p>
-    </div>
-    <div class="flex flex-col items-center">
-     <i class="fas fa-chart-line text-yellow-500 text-4xl mb-4">
-     </i>
-     <h4 class="font-bold">
-      Detailed Reporting
-     </h4>
-     <p class="mt-2">
-      Comprehensive reports and analytics at your fingertips.
-     </p>
-    </div>
-   </div>
-  </section>
-  <!-- Call to Action Section -->
-  <section class="bg-yellow-500 text-black text-center py-16">
-   <h2 class="text-3xl md:text-4xl font-bold">
-    Ready to get started?
-</h2>
-<div class="mt-6"></div> <!-- Added this line to create a gap -->
-<a class="mt-6 bg-black text-white px-6 py-3 rounded" href="dashboard.html">
-    Get started
-</a>
-  </section>
+  </footer>
  </body>
 </html>
