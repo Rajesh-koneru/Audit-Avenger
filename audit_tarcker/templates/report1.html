@@ -1,243 +1,135 @@
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Audit Avengers Report Page
-  </title>
-   <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
- <style>
-    #filter_div{
-         display:flex;
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Audit Avengers Report Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .nav-links.show, .action-links.show {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-black font-roboto text-white">
+<header class="bg-black text-yellow-500 p-4 flex flex-col">
+    <div class="flex justify-between items-center">
+        <div class="flex items-center">
+            <img alt="AA" class="h-10 w-10 mr-2" height="50" src="https://ik.imagekit.io/yaeed3jhi/Picsart_25-02-08_21-13-53-074.png?updatedAt=1741186239202" width="50"/>
+            <h1 class="text-2xl font-bold">Audit Avengers</h1>
+        </div>
+        <div class="md:hidden block">
+            <div class="hamburger text-2xl cursor-pointer" onclick="toggleMenu()">☰</div>
+        </div>
+        <nav class="hidden md:flex space-x-4" id="navbar">
+            <ul class="nav-links flex space-x-4">
+                <li><a class="text-yellow-500 hover:text-yellow-300" href="#">Home</a></li>
+                <li><a class="text-yellow-500 hover:text-yellow-300" href="#">Profile</a></li>
+                <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/download">Download</a></li>
+                <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data">Delete</a></li>
+            </ul>
+        </nav>
+    </div>
+    <nav class="nav-links hidden flex-col space-y-2 mt-2 md:hidden">
+        <a class="text-yellow-500 hover:text-yellow-300" href="#">Home</a>
+        <a class="text-yellow-500 hover:text-yellow-300" href="#">Profile</a>
+        <a class="text-yellow-500 hover:text-yellow-300" href="/admin/download">Download</a>
+        <a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data">Delete</a>
+    </nav>
+    <div class="border-t-2 border-yellow-500 mt-2"></div>
+</header>
+<main class="p-6">
+    <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center space-x-2" id="search_div">
+            <input class="p-2 border border-gray-300 rounded-md text-black" id="Input1" placeholder="Search audits by name or location" type="text"/>
+            <i class="fas fa-search text-gray-500"></i>
+        </div>
+        <div class="md:hidden block">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition" onclick="toggleActions()">Actions ☰</button>
+        </div>
+        <div class="hidden md:flex items-center space-x-2" id="filter_div">
+            <select class="p-2 border border-gray-300 rounded-md text-black" id="filter">
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+            </select>
+            <button class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn">
+                <i class="fas fa-plus"></i> New Audit
+            </button>
+            <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+        </div>
+    </div>
+    <div class="action-links hidden flex-col space-y-2 mt-2 md:hidden">
+        <select class="p-2 border border-gray-300 rounded-md text-black" id="filter">
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+        </select>
+        <button class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn">
+            <i class="fas fa-plus"></i> New Audit
+        </button>
+        <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+    </div>
+    <div class="overflow-x-auto" id="scroll_div">
+        <table class="min-w-full bg-gradient-to-r from-gray-800 to-black shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-gray-700 text-white">
+                <tr id="head">
+                    <th class="py-2 px-4 text-left">Audit Name</th>
+                    <th class="py-2 px-4 text-left">Auditor Name</th>
+                    <th class="py-2 px-4 text-left">Planned date</th>
+                    <th class="py-2 px-4 text-left">State</th>
+                    <th class="py-2 px-4 text-left">City</th>
+                    <th class="py-2 px-4 text-left">Client Name</th>
+                    <th class="py-2 px-4 text-left">Contact</th>
+                    <th class="py-2 px-4 text-left">Audit Status</th>
+                    <th class="py-2 px-4 text-left">Payment Amount</th>
+                    <th class="py-2 px-4 text-left">Payment Status</th>
+                </tr>
+            </thead>
+            <tbody class="table_body text-white">
+                <!-- Add rows here -->
+            </tbody>
+        </table>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+        <div>
+            <span>Showing 1 to 15 of 100 results</span>
+        </div>
+        <div class="flex space-x-2">
+            <button class="p-2 bg-gray-700 rounded-md" id="toggleMode">Next</button>
+            <span class="p-2">1</span>
+            <button class="p-2 bg-gray-700 rounded-md">Previous</button>
+        </div>
+    </div>
+    <div class="container mt-5 bg-gradient-to-r from-gray-800 to-black p-6 rounded-lg" id="form">
+        <h1 class="font-bold text-lg text-center mb-4" id="label_file">Upload Excel File</h1>
+        <form id="form1">
+            <div class="mb-4">
+                <label class="form-label block mb-2" for="fileInput">Excel File</label>
+                <input accept=".xlsx, .xls" class="form-control w-full p-2 border border-gray-300 rounded-md text-black" id="fileInput" type="file"/>
+            </div>
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" id="uploadButton" type="submit">Submit</button>
+        </form>
+    </div>
+</main>
+<footer class="bg-black text-yellow-500 p-2 text-center border-t-2 border-yellow-500 w-full md:w-3/4 mx-auto">
+    <p>&copy; 2023 Audit Avengers. All rights reserved.</p>
+</footer>
+<script src="/static/java/adminReport.js"></script>
+<script>
+    function toggleMenu() {
+        document.querySelector(".nav-links").classList.toggle("show");
     }
-    #form{
-       width:500px;
-       float:left;
+
+    function toggleActions() {
+        document.querySelector(".action-links").classList.toggle("show");
     }
-      #navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            color: white;
-        }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-links li {
-            margin: 0 15px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #FFEB3B;
-            font-size: 18px;
-        }
-
-        /* Hamburger Icon */
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Responsive styles */
-        @media screen and (max-width: 480px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                background: #444;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                text-align: center;
-                padding: 15px 0;
-            }
-
-            .nav-links.show {
-                display: flex;
-            }
-
-            .nav-links li {
-                margin: 10px 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-        }
-
-  @media screen and (max-width: 480px){
-     #scroll_div{
-         overflow-x:scroll;
-     }
-     #search_div{
-        width:125px;
-     }
-     #Input1{
-         width:100px;
-     }
-     #filter_div{
-         width:100px;
-         display:block;
-     }
-     #filter{
-         width:100px;
-     }
-     #fileInput{
-         width:250px;
-     }
-     #label_file{
-        width:200px;
-     }
-     #form1{
-         width:340px;
-     }
-     #form{
-     width:340px;
-     }
-  }
- </style>
- </head>
- <body class="bg-gray-100 font-roboto">
-  <header class="bg-black text-yellow-500 p-4 flex justify-between items-center">
-   <div class="flex items-center">
-    <img alt="Audit Avengers logo with a shield icon" class="h-10 w-10 mr-2" height="50" src="https://storage.googleapis.com/a1aa/image/TjfkciebHbrqSkokCIeD2Vkb1O5fZs4UswCZSIQYLMLjvQkQB.jpg" width="50"/>
-    <h1 class="text-2xl font-bold">
-     Audit Avengers
-    </h1>
-   </div>
-   <nav class="flex space-x-4" id="navbar">
-    <ul class="nav-links">
-       <li> <a class="text-yellow-500 hover:text-yellow-300" href="#" >
-         Home
-       </a></li>
-        <li><a class="text-yellow-500 hover:text-yellow-300" href="#" >
-         Profile
-        </a></li>
-        <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin /download">
-         Download
-        </a></li>
-        <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data">delete</a></li>
-    </ul>
-   </nav>
-   <div class="hamburger" onclick="toggleMenu()">☰</div>
-  </header>
-
-  <main class="p-6">
-
-   <div class="flex justify-between items-center mb-4" >
-    <div class="flex items-center space-x-2" id="search_div">
-     <input class="p-2 border border-gray-300 rounded-md" placeholder="Search audits by name or location" type="text" id="Input1"/>
-     <i class="fas fa-search text-gray-500">
-     </i>
-    </div>
-    <div  id="filter_div">
-     <select class="p-2 border border-gray-300 rounded-md" style="margin:5px;" id="filter">
-
-      <option value="Completed">
-       Completed
-      </option>
-      <option value="Pending">
-       Pending
-      </option>
-      <option value="In Progress">
-       In Progress
-      </option>
-     </select>
-
-     <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition" id="filterBtn" style="height:40px; margin-top:6px;" >
-    <i class="fas fa-filter"></i> Filter
-     </button>
-    </div>
-   </div>
-   <div id="scroll_div">
-         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-          <thead class="bg-gray-200" >
-           <tr id="head">
-            <th class="py-2 px-4 text-left">
-             Audit Name
-            </th>
-            <th class="py-2 px-4 text-left">
-             Auditor Name
-            </th>
-            <th class="py-2 px-4 text-left">
-             Planned date
-            </th>
-            <th class="py-2 px-4 text-left">
-            state
-            </th>
-            <th class="py-2 px-4 text-left">
-             city
-            </th>
-            <th class="py-2 px-4 text-left">
-             Client Name
-            </th>
-            <th class="py-2 px-4 text-left">
-             Contact
-            </th>
-            <th class="py-2 px-4 text-left">
-             audit_status
-            </th>
-            <th class="py-2 px-4 text-left">
-             payment_amount
-            </th>
-            <th class="py-2 px-4 text-left">
-             payment_status
-            </th>
-           </tr>
-          </thead>
-          <tbody class="table_body">
-
-          </tbody>
-         </table>
-   </div>
-   <div class="flex justify-between items-center mt-4">
-    <div>
-     <span>
-      Showing 1 to 15 of 100 results
-     </span>
-    </div>
-    <div class="flex space-x-2">
-     <button class="p-2 bg-gray-200 rounded-md" id="toggleMode" >
-     update
-     </button>
-     <span class="p-2">
-      1
-     </span>
-     <button class="p-2 bg-gray-200 rounded-md">
-      Next
-     </button>
-    </div>
-   </div>
-   <div class="container mt-5"  id="form">
-        <h1 style="font-weight:bold; font-size:17px; text-align:center;" id="label_file">upload excel file</h1>
-    <form id="form1">
-         <div  style="max-width:400px; margin-top:0px;">
-             <label for="fileInput" class="form-label" >excel file</label>
-             <input type="file" class= "form-control" accept=".xlsx, .xls" id="fileInput" >
-         </div>
-         <button type="submit" class="btn btn-primary" id="uploadButton" style="margin:10px;" >submit</button>
-    </form>
-
-   </div>
-
-  </main>
-  <script src="/static/java/adminReport.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-        function toggleMenu() {
-            document.querySelector(".nav-links").classList.toggle("show");
-        }
-  </script>
- </body>
+</script>
+</body>
 </html>
