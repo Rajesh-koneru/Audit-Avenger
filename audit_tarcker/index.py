@@ -99,7 +99,6 @@ def admin():
 #auditor_page route
 @auth.route(f'/auditor_page/<username>')
 @login_required
-
 def auditor(username):
     if session.get('role') == 'auditor':
         return render_template('auditor_page.html' ,username=session['username'],id=session['id'])

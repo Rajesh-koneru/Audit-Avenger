@@ -70,7 +70,6 @@ def create_App():
         return render_template('dashboard.html')
 
     @app.route('/auditor_page')  # Renamed to avoid conflict with blueprint
-
     def auditor_page():
         return render_template('admin.html')
 
