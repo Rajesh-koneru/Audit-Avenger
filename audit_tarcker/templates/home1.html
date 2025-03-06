@@ -9,6 +9,7 @@
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="/audit_tarcker/static/2.png" >
   <style>
    body {
             font-family: 'Roboto', sans-serif;
@@ -23,11 +24,13 @@
        width:400px;
        font-size:30px;
        font-weight:bold;
-       margin-left:40px;
-       color:yellow;
+       margin-left:20px;
+       color:#FFEB3B;
+       padding-top:5px;
    }
    .logo img{
-      padding:10px;
+      padding:5px 5px 5px 5px ;
+
    }
    #name{
        position:relative;
@@ -102,13 +105,36 @@
             margin-left:5px;
             }
         }
+     #response div{
+         transition: transform 0.5s ease-in-out,background-color 0.5s ease-in-out;
+     }
+     #response div:hover{
+          background-color:grey;
+          transform:scale(1.02);
+     }
+     #about p{
+         transition: transform 0.5s ease-in-out,color 0.5s ease-in-out;
+     }
+     #about p:hover{
+         color:#FFEB3B;
+         transform:scale(1.02);
+     }
+     #icon i{
+         transition: transform 0.5s ease-in-out,color 0.5s ease-in-out;
+     }
+     #icon i:hover{
+         color:#FFEB3B;
+         transform:scale(1.5);
+   }
+
+
       </style>
-    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='2.png')}}">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename=https://ik.imagekit.io/yaeed3jhi/Picsart_25-02-08_21-13-53-074.png?updatedAt=1741186239202)}}">
  </head>
  <body class="bg-black text-white">
   <header class="bg-black p-4  flex justify-between items-center  border-b-2 border-yellow-500">
    <div class="logo">
-   <img src="2.png">
+   <img src="/audit_tarcker/static/2.png" width="55px" style="border-radius:35px;">
     <h1  class="text-1xl font-bold">Audit Avengers</h1>
    </div>
    <nav class="space-x-4" id="nav">
@@ -131,23 +157,13 @@
    <div class="hamburger" onclick="toggleMenu()">☰</div>
   </header>
   <section class="bg-black p-8 text-center">
-   <h1 class="text-4xl font-bold text-yellow-500">
-    Unmasking Financial Excellence
-   </h1>
-   <p class="mt-4">
-    We empower businesses to achieve their financial goals with confidence through expert auditing and financial analysis.
-   </p>
-   <div class="mt-6 space-x-4">
-    <img alt="Audit Avengers logo with a shield and checkmark" class="mt-8 mx-auto" height="300" src="https://drive.google.com/file/d/1i6kbCu51oSbrnUrTLwonQBKYeaI1CJ9o/view?usp=drive_link" width="600"/>
-    <div class="mt-4 space-x-4">
-     <button class="bg-yellow-500 text-black px-4 py-2 rounded">
-      Our Services
-     </button>
-     <button class="border border-yellow-500 text-yellow-500 px-4 py-2 rounded">
-      Contact Us
-     </button>
-    </div>
-   </div>
+     <h1 class="text-4xl font-bold text-yellow-500">
+      Unmasking Financial Excellence
+     </h1>
+     <p class="mt-4">
+      We empower businesses to achieve their financial goals with confidence through expert auditing and financial analysis.
+     </p>
+   <div class="mt-6 space-x-4"><img alt="Audit Avengers logo with a shield and checkmark" class="mt-8 mx-auto" height="300" src="https://ik.imagekit.io/yaeed3jhi/Picsart_25-02-08_21-13-53-074.png?updatedAt=1741186239202" width="600"/></div>
   </section>
   <section id="about" class="bg-black p-8 text-center">
    <h2 class="text-3xl font-bold text-yellow-500">
@@ -159,7 +175,7 @@
    <div class="mt-8 flex justify-center space-x-8">
     <div class="text-center">
      <div class="text-2xl font-bold text-yellow-500">
-      15+
+      5+
      </div>
      <div>
       Years Experience
@@ -195,7 +211,7 @@
    <h2 class="text-3xl font-bold text-yellow-500 text-center">
     Our Services
    </h2>
-   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="Response" >
     <div class="bg-gray-700 p-4 rounded">
      <i class="fas fa-file-alt text-yellow-500 text-2xl">
      </i>
@@ -267,18 +283,18 @@
      Meet the Founder
     </h2>
     <p class="mt-4">
-     Nikhil Mailapuram, the visionary behind Audit Avengers, has over 2 years of experience in the auditing industry. His dedication to integrity and excellence has driven Audit Avengers to become a trusted name in the field. John's leadership and expertise ensure that every client receives personalized and professional service.
+     Nikhil Mailapuram, the visionary behind Audit Avengers, has over 2 years of experience in the auditing industry. His dedication to integrity and excellence has driven Audit Avengers to become a trusted name in the field. Nikhil's leadership and expertise ensure that every client receives personalized and professional service.
     </p>
-    <div class="mt-4 space-x-4">
-     <a class="text-yellow-500" href="#">
-      <i class="fab fa-twitter">
+    <div class="mt-4 space-x-4" id="icon">
+     <a class="text-yellow-500" href="https://x.com/NikhilMailapuam?t=6L6yAKRF4JTVs8Gmbuxhiw&s=09">
+      <i class="fab fa-twitter" >
       </i>
      </a>
-     <a class="text-yellow-500" href="#">
+     <a class="text-yellow-500" href="http://www.linkedin.com/in/mailapuram-nikhil-b4b92424b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
       <i class="fab fa-linkedin">
       </i>
      </a>
-     <a class="text-yellow-500" href="#">
+     <a class="text-yellow-500" href="https://www.facebook.com/share/1EAnn3XRjs/">
       <i class="fab fa-facebook">
       </i>
      </a>
@@ -321,7 +337,7 @@
      <p class="mt-2">
       <i class="fas fa-envelope text-yellow-500">
       </i>
-      contactauditavengers@gmail.com
+      infoauditavengers@gmail.com
      </p>
      <p class="mt-2">
       <i class="fas fa-clock text-yellow-500">
@@ -349,7 +365,7 @@
       © 2022 Audit Avengers. All rights reserved.
      </p>
      <p>
-      Unmasking financial excellence through expert auditing and financial analysis since 2010.
+      Unmasking financial excellence through expert auditing and financial analysis since 2022.
      </p>
     </div>
     <div class="mb-4 md:mb-0">
@@ -357,11 +373,6 @@
       Quick Links
      </h3>
      <ul class="space-y-2">
-      <li>
-       <a class="hover:text-yellow-500" href="#home">
-        Home
-       </a>
-      </li>
       <li>
        <a class="hover:text-yellow-500" href="#about">
         About

@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function (){
     }
     fetchData();    //calling function
 
-
     async function activeData(){
           let response=await fetch("https://finalavengers.onrender.com/admin/active_audits");    //api call
           let data= await response.json();

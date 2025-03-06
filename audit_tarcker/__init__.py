@@ -55,13 +55,10 @@ def create_App():
     def signup():
         return render_template('sinin.html')
 
-    # Sign-in Page
-    @app.route('/signin_page')
-    def signin():
-        return render_template('register.html')
 
     # Admin report
     @app.route('/admin/report')
+    @only_one('admin')
     def admin_report():
         return redirect('/admin/report')
 
@@ -73,6 +70,7 @@ def create_App():
         return render_template('dashboard.html')
 
     @app.route('/auditor_page')  # Renamed to avoid conflict with blueprint
+
     def auditor_page():
         return render_template('admin.html')
 

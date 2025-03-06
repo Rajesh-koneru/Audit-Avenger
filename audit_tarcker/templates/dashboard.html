@@ -5,6 +5,7 @@
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/audit_tarcker/static/2.png">
     <style>
         #navbar {
             display: flex;
@@ -37,6 +38,31 @@
             cursor: pointer;
         }
 
+        #total{
+                transition: background-color 0.5s ease-in-out;
+        }
+        #total:hover{
+         background-color:lightgrey;
+        }
+        #active{
+                transition: background-color 0.5s ease-in-out;
+        }
+        #active:hover{
+         background-color:lightgrey;
+        }
+        #complete{
+                transition: background-color 0.5s ease-in-out;
+        }
+        #complete:hover{
+         background-color:lightgrey;
+        }
+        #pend{
+                transition: background-color 0.5s ease-in-out;
+        }
+        #pend:hover{
+         background-color:lightgrey;
+        }
+
         /* Responsive styles */
         @media screen and (max-width: 480px) {
             .nav-links {
@@ -67,38 +93,12 @@
             }
 
         }
-        #total{
-        transition:background-color 0.5s ease-in-out;
-        }
-        #total:hover{
-            background-color:lightgray;
-        }
-        #active{
-        transition:background-color 0.5s ease-in-out;
-        }
-        #active:hover{
-            background-color:lightgray;
-        }
-        #complete{
-        transition:background-color 0.5s ease-in-out;
-        }
-        #complete:hover{
-            background-color:lightgray;
-        }
-        #pend{
-        transition:background-color 0.5s ease-in-out;
-        }
-        #pend:hover{
-            background-color:lightgray;
-        }
-
-
     </style>
 </head>
 <body class="bg-gray-100" >
     <nav class="bg-black text-white p-4 flex justify-between items-center" id="navbar">
         <div class="flex items-center">
-            <i class="fas fa-shield-alt text-yellow-500 text-2xl mr-2"></i>
+            <img src="/audit_tarcker/static/2.png" width="50px"  style="border-radius:30px;margin-right:15px;"></img>
             <span class="font-bold text-xl">Audit Avengers (Admin)</span>
         </div>
         <div class="space-x-4" >
@@ -118,7 +118,7 @@
             <div class="bg-white p-6 rounded-lg shadow" id="total">
                 <div class="flex items-center">
                     <i class="fas fa-users text-purple-500 text-3xl"></i>
-                    <div class="ml-4" >
+                    <div class="ml-4">
                         <p class="text-gray-600">Total Auditors</p>
                         <p class="text-2xl font-bold" id="totalAudits">24</p>
                     </div>
@@ -152,11 +152,11 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 lg:grid-cols-0 gap-4 mt-10" >
+        <div class="grid grid-cols-1 lg:grid-cols-0 gap-4 mt-6">
             <div class="bg-white p-6 rounded-lg shadow" id="recent">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold">Recent Audits</h2>
-                    <a href="#" class="text-yellow-500">View all</a>
+                    <a href="admin/report" class="text-yellow-500">View all</a>
                 </div>
                 <table class="w-full text-left">
                     <thead>
@@ -174,22 +174,9 @@
                             <td class="py-2"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span></td>
                             <td class="py-2">2024-03-15</td>
                         </tr>
-                        <tr>
-                            <td class="py-2">Compliance Review</td>
-                            <td class="py-2">Jane Smith</td>
-                            <td class="py-2"><span class="bg-green-100 text-green-800 px-2 py-1 rounded">Completed</span></td>
-                            <td class="py-2">2024-03-12</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2">Security Assessment</td>
-                            <td class="py-2">Mike Johnson</td>
-                            <td class="py-2"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">On Hold</span></td>
-                            <td class="py-2">2024-03-10</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 <script src="/static/java/dashboard.js"></script>
@@ -197,8 +184,6 @@
         function toggleMenu() {
             document.querySelector(".nav-links").classList.toggle("show");
         }
-
-
   </script>
 </body>
 </html>
