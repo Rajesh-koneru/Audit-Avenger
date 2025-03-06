@@ -19,8 +19,9 @@
          justify-content:center;
     }
     #form{
-       width:40%;
+       width:100%;
        float:left;
+       display:block;
     }
     header{
         background: linear-gradient(to right, #000000, #111111);
@@ -171,8 +172,8 @@
      </button>
     </div>
    </div>
-   <div id="scroll_div">
-         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+   <div id="scroll_div" style="color:black">
+         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden" style="color:black">
           <thead class="bg-gray-700 text-white" >
            <tr id="head">
             <th class="py-2 px-4 text-left">
@@ -207,8 +208,10 @@
             </th>
            </tr>
           </thead>
-          <tbody class="table_body">
-
+          <tbody class="table_body" style="color:black; ">
+          <tr>
+           <td>hello</td>
+          </tr>
           </tbody>
          </table>
    </div>
@@ -221,10 +224,8 @@
          </div>
          <button type="submit" class="btn btn-primary" id="uploadButton" style="margin:10px;" >submit</button>
     </form>
-
    </div>
-
-  </main>
+  </main>gi
   <script src="/static/java/adminReport.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>

@@ -15,16 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log(item.planned_data)
                 // If in Update Mode, make 'audit_status' editable
                 row.innerHTML = `
-                    <td class="py-2 px-4">${item.Audit_id}</td>
-                    <td class="py-2 px-4">${item.auditor_name}</td>
-                    <td class="py-2 px-4">${item.planned_date}</td>
-                    <td class="py-2 px-4">${item.state}</td>
-                    <td class="py-2 px-4">${item.city}</td>
-                    <td class="py-2 px-4">${item.client_name}</td>
-                    <td class="py-2 px-4">${item.auditor_contact}</td>
-                    <td class="py-2 px-4" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
-                    <td class="py-2 px-4">${item.payment_amount}</td>
-                    <td class="py-2 px-4">${item.payment_status}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.city}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
+                    <td class="bg-gray-800 text-white p-2"${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -195,35 +195,3 @@ document.getElementById('uploadButton').addEventListener('click', function(event
 
             reader.readAsArrayBuffer(file);
         });
-
-
-// manual upload  /new data
-document.getElementById('submit').addEventListener("click",()=>{
-        const element=document.querySelectorAll('.input');
-
-        console.log('all inputs are selected');
-        data={}
-        forEach((ele)=>{
-            let name=ele.name;
-            let value=ele.value;
-            data[name]=value;
-        })
-        console.log(data)
-        async function sendData(){
-            let response=await fetch("https://finalavengers.onrender.com/admin/manual_update" ,{
-                   method:'POST',
-                   headers: { 'Content-Type': 'application/json' },  // 👈 Ensure correct JSON content type
-                   body: JSON.stringify({ "data": data })
-
-
-            });
-           if(!response.ok){
-                console.warn('data not sent')
-                return 'data not sent'
-           }
-           meg=await response.json()
-           console.log(meg);
-           alert(meg);
-        }
-        sendData();
-});

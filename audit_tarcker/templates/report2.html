@@ -17,7 +17,7 @@
 <header class="bg-black text-yellow-500 p-4 flex flex-col">
     <div class="flex justify-between items-center">
         <div class="flex items-center">
-            <img alt="AA" class="h-10 w-10 mr-2" height="50" src="{{url_for}}" width="50"/>
+            <img alt="AA" class="h-10 w-10 mr-2" height="50" src="https://ik.imagekit.io/yaeed3jhi/Picsart_25-02-08_21-13-53-074.png?updatedAt=1741186239202" width="50"/>
             <h1 class="text-2xl font-bold">Audit Avengers</h1>
         </div>
         <div class="md:hidden block">
@@ -47,19 +47,35 @@
                 <i class="fas fa-plus"></i> New Audit
             </button>
         </div>
-        <div class="hidden md:flex items-center space-x-2" id="filter_div" style="position:relative;left:0px;">
+        <div class="md:hidden block">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition" onclick="toggleActions()">Actions ☰</button>
+        </div>
+        <div class="hidden md:flex items-center space-x-2" id="filter_div">
             <select class="p-2 border border-gray-300 rounded-md text-black" id="filter">
                 <option value="Completed">Completed</option>
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
             </select>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="filterBtn">
+            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn">
                 <i class></i> Filter
             </button>
             <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn">
                 <i class="fas fa-edit"></i> Edit
             </button>
         </div>
+    </div>
+    <div class="action-links hidden flex-col space-y-2 mt-2 md:hidden">
+        <select class="p-2 border border-gray-300 rounded-md text-black" id="filter">
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+        </select>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn">
+            <i class ></i> Filter
+        </button>
+        <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn">
+            <i class="fas fa-edit"></i> Edit
+        </button>
     </div>
     <div class="overflow-x-auto" id="scroll_div">
         <table class="min-w-full bg-gradient-to-r from-gray-800 to-black shadow-md rounded-lg overflow-hidden">
