@@ -129,13 +129,12 @@
 
 
       </style>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='/audit_tarcker/static/2.png') }}">
-
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='2.png') }}">
  </head>
  <body class="bg-black text-white">
   <header class="bg-black p-4  flex justify-between items-center  border-b-2 border-yellow-500">
    <div class="logo">
-   <img src="/audit_tarcker/static/2.png" width="55px" style="border-radius:35px;">
+   <img src="{{ url_for('static', filename='2.png') }}" width="55px" style="border-radius:35px;">
     <h1  class="text-1xl font-bold">Audit Avengers</h1>
    </div>
    <nav class="space-x-4" id="nav">
