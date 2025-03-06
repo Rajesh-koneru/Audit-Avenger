@@ -129,7 +129,7 @@ def admin_status_update():
     except Exception as e:
         return jsonify(e) ,500
 
-@report.route('admin/manual_update' ,methods=['post'])
+@report.route('/admin/manual_update' ,methods=['post'])
 def manual_update():
     json_data=request.get_json()
     if json_data=='':
