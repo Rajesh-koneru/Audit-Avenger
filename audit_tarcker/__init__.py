@@ -58,9 +58,10 @@ def create_App():
 
     # Admin report
     @app.route('/admin/report')
-    @only_one('admin')
     def admin_report():
         return redirect('/admin/report')
+
+
 
     # Dashboard (Protected)
     @app.route('/dashboard')  # Role-based check first
