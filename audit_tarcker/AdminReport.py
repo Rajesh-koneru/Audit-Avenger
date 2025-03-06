@@ -29,10 +29,10 @@ def total_auditor():
         total=0
         for i in audit_ids:
             total+=1
-        print(total)
+
         return jsonify(total)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
 
 # active audits
@@ -44,10 +44,10 @@ def active_audits():
         total2=0
         for i in Active_record:
             total2+=1
-        print(total2)
+
         return jsonify(total2)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
 # active audits
 @report.route('/admin/complete')
@@ -57,10 +57,10 @@ def complete():
         total3=0
         for i in  Complete_status :
             total3+=1
-        print(total3)
+
         return jsonify(total3)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
 
 #pending audits
@@ -72,23 +72,22 @@ def pending():
         total4 = 0
         for i in pending_report:
             total4 += 1
-        print(total4)
+
 
         return jsonify(total4)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
 # dashboard interaction
 @report.route('/admin/Recent_audit')
 def recent_audits():
     try:
         recent_audit_report=list(collection.find({},{"audit_status":1,"client_name":1,"planned_date":1,"auditor_name":1, "_id":0}).limit(5))
-        print("printing recent audits")
-        print(recent_audit_report)
+
 
         return jsonify(recent_audit_report)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
 
 # filter data based on admin choice
@@ -100,36 +99,41 @@ def filter_data():
             return jsonify({"error": "Invalid JSON format, expected {'data': [...]}"}), 400
 
         value = json_data["data"]  # Extract the array
-        print("Received JSON11:", json_data)  # Debugging
-        print(value)
+
 
 # data base query for filter data
         filter_data=list(collection.find({"audit_status":value},{"_id":0}))
 
-        print(filter_data)
+
         return jsonify(filter_data)
     except Exception as e:
-        print(e)
+
         return jsonify({"error": str(e)}), 500
+
+
+
 
 # admin manual updates auditors status if he is not update through app
 @report.route('/admin/update_status' ,methods=["POST"])
 def admin_status_update():
     try:
         data=request.get_json()
-        print(data)
+
         value=data['Id']
         status=data['value']
-        print(value)
+
         # data base manipulation
 
         collection.update_one({"Audit_id":value},{"$set":{"audit_status":status}})
-        print('updated')
+
         return jsonify({"message":"database updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
 
-@report.route('/admin/manual_update' ,methods=['post'])
+
+
+# single record update in the database
+@report.route('/admin/manual_update' ,methods=['POST'])
 def manual_update():
     json_data=request.get_json()
     if json_data=='':

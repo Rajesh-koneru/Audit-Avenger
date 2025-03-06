@@ -70,11 +70,11 @@ def create_App():
     def dashboard():
         return render_template('dashboard.html')
 
-    @app.route('/auditor_page')  # Renamed to avoid conflict with blueprint
-    def auditor_page():
-        return render_template('admin.html')
-
     @app.route('/report')
     def repo():
         return render_template('report1.html')
+
+    @app.route('/admin/manual_data')
+    def new_data():
+        return render_template('newaudit.html')
     return app

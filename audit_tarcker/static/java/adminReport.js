@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     let isUpdateMode = false; // Track mode state
-    const toggleButton = document.getElementById("toggleMode");
+    const toggleButton = document.getElementById("editBtn");
     const tableBody = document.querySelector(".table_body");
 
     // Fetch and load data based on mode
@@ -88,13 +88,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Toggle Mode on Button Click
     toggleButton.addEventListener("click", function () {
         isUpdateMode = !isUpdateMode; // Toggle mode
-        toggleButton.innerText = isUpdateMode ? "Switch to Report Mode" : "Switch to Update Mode";
+        toggleButton.innerText = isUpdateMode ? "report" : "edit";
         loadTableData(); // Reload table with correct mode
     });
 
     // Initial Data Load
     loadTableData();
 });
+
+
+
+
+
    // Filtering data based on admin choice
 async function filteredData(){
     let filter=document.getElementById('filter').value;
@@ -192,8 +197,8 @@ document.getElementById('uploadButton').addEventListener('click', function(event
         });
 
 
-// manual upload
-document.getElementById('manualBtn').addEventListener('click',()=>{
+// manual upload  /new data
+document.getElementById('submit').addEventListener("click",()=>{
         const element=document.querySelectorAll('.input');
 
         console.log('all inputs are selected');
@@ -221,5 +226,4 @@ document.getElementById('manualBtn').addEventListener('click',()=>{
            alert(meg);
         }
         sendData();
-
 });

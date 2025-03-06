@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>New Audit Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        .input {
+            box-shadow: none; /* Removes default shadows */
+            appearance: none; /* Removes default styling (for inputs on some browsers) */
+            border: 1px solid #d1d5db; /* Default border (light gray) */
+            border-radius: 0.25rem; /* Rounded corners (4px) */
+            width: 90%; /* Full width */
+            padding: 0.5rem 0.75rem; /* Top & bottom padding: 8px, Left & right padding: 12px */
+            color: #4a5568; /* Text color (gray-700) */
+            line-height: 1.25; /* Tight line spacing */
+            outline: none; /* Removes default focus outline */
+        }
+
+        .input:focus {
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); /* Custom shadow on focus */
+            outline: none; /* Ensures outline is not shown */
+        }
+
+    </style>
+</head>
+<body class="bg-black font-roboto min-h-screen flex items-center justify-center">
+    <div class="container mx-auto p-6" style="width:1000px; justify-content:center;padding:100px">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg" style="padding:100px;">
+            <h1 class="text-2xl font-bold mb-6 border-b-2 border-gray-300 pb-2 text-yellow-500">New Audit</h1>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="audit-name">Audit Name</label>
+                    <input class="input" id="audit-name" type="text" placeholder="Enter audit name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="auditor-name">Auditor Name</label>
+                    <input class="input" id="auditor-name" type="text" placeholder="Enter auditor name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="planned-date">Planned Date</label>
+                    <input class="input" id="planned-date" type="date">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="state">State</label>
+                    <input class="input" id="state" type="text" placeholder="Enter state">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="city">City</label>
+                    <input class="input" id="city" type="text" placeholder="Enter city">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="client-name">Client Name</label>
+                    <input class="input" id="client-name" type="text" placeholder="Enter client name">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="contact">Contact</label>
+                    <input class="input" id="contact" type="text" placeholder="Enter contact">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="audit-status">Audit Status</label>
+                    <select class="input" id="audit-status"  >
+                        <option>Planned</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="payment-amount">Payment Amount</label>
+                    <input class="input" id="payment-amount" type="number" placeholder="Enter payment amount">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-yellow-500 text-sm font-bold mb-2" for="payment-status">Payment Status</label>
+                    <select class="input" id="payment-status">
+                        <option>Paid</option>
+                        <option>Unpaid</option>
+                        <option>Pending</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between" style="width:200px; ">
+                    <button class="input" type="button" style="background-color:lightgrey " id="submit">
+                        New Audit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+<script src="/static/java/adminReport.js"></script>
+</body>
+</html>
