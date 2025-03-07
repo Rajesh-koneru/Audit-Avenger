@@ -23,6 +23,12 @@
        float:left;
        display:block;
     }
+    #successMsg{
+        font-size:20px;
+        width:100px;
+        color:#28a745;
+        display:none
+    }
     header{
         background: linear-gradient(to right, #000000, #111111);
         height:10vh;
@@ -73,7 +79,9 @@
 
             .nav-links.show {
                 display: flex;
-                margin-top:25px;
+                margin-top:5px;
+                background: linear-gradient(to right, #1f2937, #000000);
+                border-radius:0px 0px 10px 10px;
             }
 
             .nav-links li {
@@ -88,6 +96,7 @@
   @media screen and (max-width: 600px){
      #scroll_div{
          overflow-x:scroll;
+         overflow-y:scroll;
      }
      #search_div{
         width:125px;
@@ -114,6 +123,21 @@
      #form{
      width:340px;
      }
+     # #successMsg{
+        font-size:2px;
+     }
+
+  }
+
+  .StatusColor{
+       color:green;
+       background-color:#1F2937;
+       padding:8px;
+  }
+  .paymentColor{
+      color:green;
+      background-color:#1F2937;
+      padding:8px;
   }
  </style>
  </head>
@@ -130,7 +154,7 @@
        <li> <a class="text-yellow-500 hover:text-yellow-300" href="/" >
          Home
        </a></li>
-        <li><a class="text-yellow-500 hover:text-yellow-300" href="#" >
+        <li><a class="text-yellow-500 hover:text-yellow-300" href="/dashboard" >
          DashBoard
         </a></li>
         <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin /download">
@@ -150,6 +174,7 @@
                 <i class="fas fa-plus"></i> New Audit
             </a>
      </div>
+    <div><small id="successMsg">hello how are you</small></div>
     <div  id="filter_div">
      <select class="p-2 border border-gray-300 rounded-md" style="margin:10px 5px; color:black;height:40px;" id="filter">
 
@@ -210,7 +235,6 @@
           </thead>
           <tbody class="table_body" style="color:black; ">
           <tr>
-           <td>hello</td>
           </tr>
           </tbody>
          </table>
@@ -225,7 +249,7 @@
          <button type="submit" class="btn btn-primary" id="uploadButton" style="margin:10px;" >submit</button>
     </form>
    </div>
-  </main>gi
+  </main>
   <script src="/static/java/adminReport.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>

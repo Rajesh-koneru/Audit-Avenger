@@ -92,7 +92,7 @@ def logout():
 @only_one('admin')
 def admin():
     if session.get('username') == ADMIN_USERNAME:
-        return redirect('/dashboard')
+        return redirect('/admin/dashboard')
     return "Unauthorized", 403
 
 

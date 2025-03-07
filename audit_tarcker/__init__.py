@@ -64,7 +64,7 @@ def create_App():
 
 
     # Dashboard (Protected)
-    @app.route('/dashboard')  # Role-based check first
+    @app.route('/admin/dashboard')  # Role-based check first
     @login_required  # Then login check
     @only_one('admin')
     def dashboard():

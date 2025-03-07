@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let isUpdateMode = false; // Track mode state
     const toggleButton = document.getElementById("editBtn");
     const tableBody = document.querySelector(".table_body");
+    const successMsg =document.getElementById('successMsg');
 
     // Fetch and load data based on mode
     async function loadTableData() {
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach((item) => {
                 let row = document.createElement("tr");
                 console.log(item.planned_data)
-                // If in Update Mode, make 'audit_status' editable
+                row.setAttribute('class', 'rowData');                // If in Update Mode, make 'audit_status' editable
                 row.innerHTML = `
                     <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
@@ -22,9 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td class="bg-gray-800 text-white p-2">${item.city}</td>
                     <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
-                    <td class="bg-gray-800 text-white p-2"${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.payment_status}</td>
+                    <td class="StatusColor"  ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
+                    <td class="bg-gray-800 text-white p-2" >${item.payment_amount}</td>
+                    <td class="paymentColor" >${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -83,21 +84,139 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
             console.error("Error updating status:", error);
         }
+        if(data){
+              successMsg.style.display='block';
+              successMsg.innerText=data;
+        }
+        else{
+            successMsg.style.display='none';
+            successMsg.innerText='';
+        };
+
     }
 
     // Toggle Mode on Button Click
     toggleButton.addEventListener("click", function () {
+
         isUpdateMode = !isUpdateMode; // Toggle mode
-        toggleButton.innerText = isUpdateMode ? "report" : "edit";
+        toggleButton.innerText = isUpdateMode ? "Save" : "Edit";
         loadTableData(); // Reload table with correct mode
     });
 
     // Initial Data Load
     loadTableData();
+
+    //function to change the text color of audit status  based on there values..
+    function ColorUpdate(){
+           const color=document.querySelectorAll('.StatusColor');
+
+           console.log('all values Are elements are selected',color);
+            console.log(color.textContent)
+           color.forEach((ele)=>{
+                 let val=ele.textContent;
+                 console.log(val)
+                 if(val=='Completed'){
+                       ele.style.color='#28a745';
+                 }
+                 else if( val=='In Progress'){
+                        ele.style.color="#F97316";
+                 }
+                 else{
+                        ele.style.color="#B91C1C";
+                 }
+           })
+
+    }
+    setTimeout(() => {
+         ColorUpdate();
+    }, 2000);
+
+    //function for changing payments status color
+     function PaymentColor(){
+           const payColor=document.querySelectorAll('.paymentColor');
+
+           console.log('all values Are elements are selected',payColor);
+           console.log(payColor.innerText)
+
+           payColor.forEach((ele)=>{
+                 let val=ele.innerText;
+
+                 if(val=='Paid'){
+                       ele.style.color='#28a745';
+                       console.log('color added')
+                 }
+                 else if( val=='Pending'){
+                        ele.style.color="#F97316";
+                 }
+                 else{
+                        ele.style.color="#B91C1C";
+                 }
+           })
+
+    }
+   setTimeout(() => {
+    PaymentColor();
+
+}, 2000);
+
+
+function hover() {
+    const elements = document.querySelectorAll('.StatusColor'); // Get all elements
+    console.log(elements); // Debugging
+    elements.forEach((ele) => {
+        ele.addEventListener('mouseover', () => {
+            const value = ele.innerText.trim(); // Get text inside td
+            console.log(value); // Debugging
+
+            ele.style.transition = "background-color 0.5s ease-in-out"; // Apply transition
+            ele.style.backgroundColor = '';
+            if (value === 'Completed') {
+                ele.style.backgroundColor = '#28a745';
+                ele.style.color = 'black';
+            } else if (value === 'In Progress') {
+                ele.style.backgroundColor = '#F97316';
+                ele.style.color = 'black';
+            } else {
+                ele.style.backgroundColor = '#B91C1C';
+                ele.style.color = 'black';
+            }
+        });
+        ele.addEventListener('mouseout', () => {
+            ele.style.backgroundColor = ''; // Reset to default
+            ele.style.color = ''; // Reset to default
+        });
+    });
+}
+
+
+
+            function rowHover() {
+                const elements = document.querySelectorAll('.rowData'); // Get all elements
+                console.log(elements); // Debugging
+                elements.forEach((ele) => {
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        console.log(value); // Debugging
+
+                        ele.style.transition = "background-color 0.5s ease-in-out,opacity 0.5s ease-in-out ,transform 0.5s ease-in-out"; // Apply transition
+                        ele.style.backgroundColor = 'lightgrey';
+                        ele.style.opacity=0.8;
+                        ele.style.transform=scale(1.01);
+                    });
+                    ele.addEventListener('mouseout', () => {
+                        ele.style.backgroundColor = ''; // Reset to default
+                         ele.style.opacity='';// Reset to default
+                    });
+                });
+            }
+            setTimeout(()=>{
+                hover();
+                rowHover()
+            },2000)
+
+
+
 });
-
-
-
 
 
    // Filtering data based on admin choice
@@ -128,16 +247,16 @@ async function filteredData(){
                 console.log(`${item.planned_data}`)
                 let row = document.createElement("tr");
                 row.innerHTML = `
-                    <td class="py-2 px-4">${item.Audit_id}</td>
-                    <td class="py-2 px-4">${item.auditor_name}</td>
-                    <td class="py-2 px-4">${item.planned_date}</td>
-                    <td class="py-2 px-4">${item.state}</td>
-                    <td class="py-2 px-4">${item.city}</td>
-                    <td class="py-2 px-4">${item.client_name}</td>
-                    <td class="py-2 px-4">${item.auditor_contact}</td>
-                    <td class="py-2 px-4" id='status' style="background-color='green'">${item.audit_status}</td>
-                    <td class="py-2 px-4">${item.payment_amount}</td>
-                    <td class="py-2 px-4">${item.payment_status}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.city}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
+                    <td class="bg-gray-800 text-white p-2" id='status' style="background-color='green'">${item.audit_status}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -194,4 +313,9 @@ document.getElementById('uploadButton').addEventListener('click', function(event
             };
 
             reader.readAsArrayBuffer(file);
-        });
+});
+
+
+// Run the function after the page loads
+
+

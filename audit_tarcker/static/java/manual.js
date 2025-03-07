@@ -8,8 +8,8 @@ document.getElementById('submit').addEventListener("click", () => {
 
     // Iterate over NodeList using forEach
     elements.forEach((ele) => { // ✅ `forEach` should be used on `elements`, not separately
-        let name = ele.name;  // Get the input name attribute
-        let value = ele.value; // Get the input value
+        let name = ele.name.trim();  // Get the input name attribute
+        let value = ele.value.trim(); // Get the input value
         data[name] = value; // Store in the data object
     });
 
@@ -29,15 +29,22 @@ document.getElementById('submit').addEventListener("click", () => {
                 return 'Data not sent';
             }
 
+
             let msg = await response.json(); // ✅ Corrected variable name (`meg` → `msg`)
             console.log(msg);
             alert(msg.message || "Data sent successfully!"); // ✅ Show a proper message
-
-        } catch (error) {
+            // redirecting to dashboard after success
+            if (result.ok) {
+                window.location.href = 'https://finalavengers.onrender.com/dashboard';
+            }
+        }
+        catch (error) {
             console.error("Error sending data:", error); // ✅ Handle network errors
             alert("An error occurred while sending data.");
         }
     }
 
     sendData(); // ✅ Call function to send data
+
 });
+

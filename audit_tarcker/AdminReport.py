@@ -136,23 +136,38 @@ def admin_status_update():
 @report.route('/admin/manual_update' ,methods=['POST'])
 def manual_update():
     json_data=request.get_json()
+    print(json_data)
     if json_data=='':
         print('no data received')
     data=json_data['data']
     print(data)
     try:
+        date_str = data["Planned Date"]
+
+        # Detect the format and parse accordingly
+        if "-" in date_str:  # Example: 2025-03-20 (YYYY-MM-DD)
+            planned_date = date_str  # Already correct, no conversion needed
+        else:  # Example: 03/20/25 (MM/DD/YY)
+            planned_date = datetime.strptime(date_str, "%Y-%m-%d").strftime("%Y-%m-%d")
+
+        # Store the planned_date
+        data["planned_date"] = planned_date
+
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+    try:
         collection.insert_one(
             {
-                "Audit_id": data["Audit ID"],
+                "Audit_id": data["Audit Id"],
                 "auditor_name": data["Auditor Name"],
                 "client_name": data["Client Name"],
-                "planned_date": datetime.strptime(data[" Planned Date"], "%m/%d/%y").strftime("%Y-%m-%d"),
+                "planned_date": datetime.strptime(data["Planned Date"], "%Y-%m-%d").strftime("%Y-%m-%d"),
                 "state": data["State"],
-                "city": data[" City"],
-                "auditor_contact": data[" Contact Number"],
-                "audit_status": data[" Audit Status"],
+                "city": data["City"],
+                "auditor_contact": data.get("Contact",'N/A'),
+                "audit_status": data["Audit Status"],
                 "payment_amount": data["Payment Amount"],
-                "payment_status": data[" Payment Status "]
+                "payment_status": data["Payment Status"]
             })
         print('data inserted ')
         return jsonify('data inserted successfully...')
