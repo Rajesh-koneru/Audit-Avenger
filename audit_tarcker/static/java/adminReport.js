@@ -23,9 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td class="bg-gray-800 text-white p-2">${item.city}</td>
                     <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
-                    <td class="StatusColor"  ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
+                    <td class="StatusColor" data-field="status" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
                     <td class="bg-gray-800 text-white p-2" >${item.payment_amount}</td>
-                    <td class="paymentColor" >${item.payment_status}</td>
+                    <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''} >${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -45,10 +45,17 @@ document.addEventListener("DOMContentLoaded", function () {
         tableBody.addEventListener("focusout", async function (event) {
             if (event.target.hasAttribute("contenteditable")) {
                 let auditId = event.target.getAttribute("data-id");
+                let fieldType = event.target.getAttribute("data-field");
                 let newStatus = event.target.innerText.trim();
 
+
                 if (auditId && newStatus) {
-                    await updateStatus(auditId, newStatus);
+                    if(fieldType==='status'){
+                        await updateStatus(auditId, newStatus);
+                    }
+                    else if(fieldType==='payment_status'){
+                        await  paymentUpdate(auditId,newStatus);
+                    }
                 }
             }
 
@@ -81,18 +88,60 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
              // Show success message
 
+            if(response.ok){
+                  successMsg.style.display='block';
+                  successMsg.innerText=data;
+            }
+             else{
+                  successMsg.style.display='none';
+            };
+
+            setTimeout(()=>{
+                successMsg.style.display='none';
+            },1000);
+
         } catch (error) {
             console.error("Error updating status:", error);
         }
-        if(data){
+
+    }
+
+
+
+     // Function to send payment  update request
+    async function paymentUpdate(auditId, paymentStatus) {
+        try {
+            const response = await fetch("https://finalavengers.onrender.com/admin/update_payment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "Id": auditId, "value": paymentStatus })
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
+            }
+
+            const data = await response.json();
+
+             // Show success message
+             if(response.ok){
               successMsg.style.display='block';
               successMsg.innerText=data;
-        }
-        else{
-            successMsg.style.display='none';
-            successMsg.innerText='';
-        };
+              }
+              else{
+                 successMsg.style.display='none';
+              };
+               setTimeout(()=>{
+                successMsg.style.display='none';
+            },1000);
 
+
+        } catch (error) {
+            console.error("Error updating status:", error);
+        }
     }
 
     // Toggle Mode on Button Click
@@ -111,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function () {
            const color=document.querySelectorAll('.StatusColor');
 
            console.log('all values Are elements are selected',color);
-            console.log(color.textContent)
+           console.log(color.textContent)
            color.forEach((ele)=>{
                  let val=ele.textContent;
                  console.log(val)
@@ -154,41 +203,113 @@ document.addEventListener("DOMContentLoaded", function () {
            })
 
     }
-   setTimeout(() => {
-    PaymentColor();
+                setTimeout(() => {
+                    PaymentColor();
 
-}, 2000);
+                }, 2000);
 
 
-function hover() {
-    const elements = document.querySelectorAll('.StatusColor'); // Get all elements
-    console.log(elements); // Debugging
-    elements.forEach((ele) => {
-        ele.addEventListener('mouseover', () => {
-            const value = ele.innerText.trim(); // Get text inside td
-            console.log(value); // Debugging
+            function hover() {
+                const elements = document.querySelectorAll('.StatusColor'); // Get all elements
+                const element1=document.querySelectorAll('.paymentColor');
+                console.log(elements); // Debugging
+                elements.forEach((ele) => {
+                    var col='';
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        const color=ele.style.color;
+                        console.log(color);
+                        console.log(value); // Debugging
 
-            ele.style.transition = "background-color 0.5s ease-in-out"; // Apply transition
-            ele.style.backgroundColor = '';
-            if (value === 'Completed') {
-                ele.style.backgroundColor = '#28a745';
-                ele.style.color = 'black';
-            } else if (value === 'In Progress') {
-                ele.style.backgroundColor = '#F97316';
-                ele.style.color = 'black';
-            } else {
-                ele.style.backgroundColor = '#B91C1C';
-                ele.style.color = 'black';
+                        ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
+
+                        if (value === 'Completed') {
+                            ele.style.backgroundColor = '#28a745';
+                            ele.style.borderRadius='15px';
+
+                            ele.style.color='black';
+                            col='#28a745';
+
+
+                        } else if (value === 'In Progress') {
+                            ele.style.backgroundColor = '#F97316';
+                             ele.style.borderRadius='15px';
+
+                              ele.style.color='black';
+                              col='#F97316';
+
+
+                        } else {
+                            ele.style.backgroundColor = '#B91C1C';
+                            ele.style.borderRadius='15px';
+
+                             ele.style.color='black';
+                             col='#B91C1C';
+
+
+                        }
+
+                    });
+
+                    ele.addEventListener('mouseout', () => {
+
+                        ele.style.backgroundColor = '';
+                        ele.style.borderRadius='';// Reset to default
+                         ele.style.opacity='';
+                         ele.style.color=col;// Reset to default
+                    });
+                });
+
+
+                //payment values bg change on hover
+
+                element1.forEach((ele) => {
+                    var col='';
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        const color=ele.style.color;
+                        console.log(color);
+                        console.log(value); // Debugging
+
+                        ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
+
+                        if (value === 'Paid') {
+                            ele.style.backgroundColor = '#28a745';
+                            ele.style.borderRadius='15px';
+
+                            ele.style.color='black';
+                            col='#28a745';
+
+
+                        } else if (value === 'Pending') {
+                            ele.style.backgroundColor = '#F97316';
+                             ele.style.borderRadius='15px';
+
+                              ele.style.color='black';
+                              col='#F97316';
+
+
+                        } else {
+                            ele.style.backgroundColor = '#B91C1C';
+                            ele.style.borderRadius='15px';
+
+                             ele.style.color='black';
+                             col='#B91C1C';
+
+
+                        }
+
+                    });
+
+                    ele.addEventListener('mouseout', () => {
+
+                        ele.style.backgroundColor = '';
+                        ele.style.borderRadius='';// Reset to default
+                         ele.style.opacity='';
+                         ele.style.color=col;// Reset to default
+                    });
+                });
             }
-        });
-        ele.addEventListener('mouseout', () => {
-            ele.style.backgroundColor = ''; // Reset to default
-            ele.style.color = ''; // Reset to default
-        });
-    });
-}
-
-
 
             function rowHover() {
                 const elements = document.querySelectorAll('.rowData'); // Get all elements
@@ -199,7 +320,7 @@ function hover() {
                         console.log(value); // Debugging
 
                         ele.style.transition = "background-color 0.5s ease-in-out,opacity 0.5s ease-in-out ,transform 0.5s ease-in-out"; // Apply transition
-                        ele.style.backgroundColor = 'lightgrey';
+                        ele.style.backgroundColor = 'grey';
                         ele.style.opacity=0.8;
                         ele.style.transform=scale(1.01);
                     });
@@ -246,6 +367,7 @@ async function filteredData(){
             data.forEach((item) => {
                 console.log(`${item.planned_data}`)
                 let row = document.createElement("tr");
+                row.setAttribute('class','rowData');
                 row.innerHTML = `
                     <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
@@ -254,9 +376,9 @@ async function filteredData(){
                     <td class="bg-gray-800 text-white p-2">${item.city}</td>
                     <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
-                    <td class="bg-gray-800 text-white p-2" id='status' style="background-color='green'">${item.audit_status}</td>
+                    <td class="StatusColor" >${item.audit_status}</td>
                     <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.payment_status}</td>
+                    <td class="paymentColor">${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -265,6 +387,175 @@ async function filteredData(){
     } catch (error) {
         console.error("Error:", error);
     }
+
+
+    //audit status text  color update
+    function ColorUpdate(){
+           const color=document.querySelectorAll('.StatusColor');
+
+           console.log('all values Are elements are selected',color);
+            console.log(color.textContent)
+           color.forEach((ele)=>{
+                 let val=ele.textContent;
+                 console.log(val)
+                 if(val=='Completed'){
+                       ele.style.color='#28a745';
+                 }
+                 else if( val=='In Progress'){
+                        ele.style.color="#F97316";
+                 }
+                 else{
+                        ele.style.color="#B91C1C";
+                 }
+           })
+
+    }
+    //function for changing payments status color
+     function PaymentColor(){
+           const payColor=document.querySelectorAll('.paymentColor');
+
+           console.log('all values Are elements are selected',payColor);
+           console.log(payColor.innerText)
+
+           payColor.forEach((ele)=>{
+                 let val=ele.innerText;
+
+                 if(val=='Paid'){
+                       ele.style.color='#28a745';
+                       console.log('color added')
+                 }
+                 else if( val=='Pending'){
+                        ele.style.color="#F97316";
+                 }
+                 else{
+                        ele.style.color="#B91C1C";
+                 }
+           })
+
+    }
+
+            function hover() {
+                const elements = document.querySelectorAll('.StatusColor'); // Get all elements
+                const payEle= document.querySelectorAll('.paymentColor');
+                console.log(elements); // Debugging
+                elements.forEach((ele) => {
+                    var col='';
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        const color=ele.style.color;
+                        console.log(color);
+                        console.log(value); // Debugging
+
+                        ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
+
+                        if (value === 'Completed') {
+                            ele.style.backgroundColor = '#28a745';
+                            ele.style.borderRadius='15px';
+
+                            ele.style.color='black';
+                            col='#28a745';
+
+
+                        } else if (value === 'In Progress') {
+                            ele.style.backgroundColor = '#F97316';
+                             ele.style.borderRadius='15px';
+
+                              ele.style.color='black';
+                              col='#F97316';
+
+
+                        } else {
+                            ele.style.backgroundColor = '#B91C1C';
+                            ele.style.borderRadius='15px';
+
+                             ele.style.color='black';
+                             col='#B91C1C';
+
+
+                        }
+
+                    });
+
+                    ele.addEventListener('mouseout', () => {
+
+                        ele.style.backgroundColor = '';
+                        ele.style.borderRadius='';// Reset to default
+                         ele.style.opacity='';
+                         ele.style.color=col;// Reset to default
+                    });
+                });
+
+                payEle.forEach((ele) => {
+                    var col='';
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        const color=ele.style.color;
+                        console.log(color);
+                        console.log(value); // Debugging
+
+                        ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
+
+                        if (value === 'Paid') {
+                            ele.style.backgroundColor = '#28a745';
+                            ele.style.borderRadius='15px';
+
+                            ele.style.color='black';
+                            col='#28a745';
+
+
+                        } else if (value === 'Pending') {
+                            ele.style.backgroundColor = '#F97316';
+                             ele.style.borderRadius='15px';
+
+                              ele.style.color='black';
+                              col='#F97316';
+
+
+                        } else {
+                            ele.style.backgroundColor = '#B91C1C';
+                            ele.style.borderRadius='15px';
+                             ele.style.color='black';
+                             col='#B91C1C';
+                        }
+                    });
+
+                    ele.addEventListener('mouseout', () => {
+
+                        ele.style.backgroundColor = '';
+                        ele.style.borderRadius='';// Reset to default
+                         ele.style.opacity='';
+                         ele.style.color=col;// Reset to default
+                    });
+                });
+            }
+
+            function rowHover() {
+                const elements = document.querySelectorAll('.rowData'); // Get all elements
+                console.log(elements); // Debugging
+                elements.forEach((ele) => {
+                    ele.addEventListener('mouseover', () => {
+                        const value = ele.innerText.trim(); // Get text inside td
+                        console.log(value); // Debugging
+
+                        ele.style.transition = "background-color 0.5s ease-in-out,opacity 0.5s ease-in-out ,transform 0.5s ease-in-out"; // Apply transition
+                        ele.style.backgroundColor = 'grey';
+                        ele.style.opacity=0.8;
+                        ele.style.transform=scale(1.01);
+                    });
+                    ele.addEventListener('mouseout', () => {
+                        ele.style.backgroundColor = ''; // Reset to default
+                         ele.style.opacity='';// Reset to default
+                    });
+                });
+            }
+
+
+   setTimeout(() => {
+     PaymentColor();
+     ColorUpdate();
+     hover();
+     rowHover()
+   }, 1000);
 
 }
 document.getElementById("filterBtn").addEventListener("click", filteredData);
@@ -316,6 +607,5 @@ document.getElementById('uploadButton').addEventListener('click', function(event
 });
 
 
-// Run the function after the page loads
 
 

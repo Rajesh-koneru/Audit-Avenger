@@ -130,6 +130,24 @@ def admin_status_update():
     except Exception as e:
         return jsonify(e) ,500
 
+#admin payment status update
+@report.route('/admin/update_payment' ,methods=['POST'])
+def payment_update():
+    try:
+        data=request.get_json()
+
+        value=data['Id']
+        status=data['value']
+        print(value,status)
+
+        # data base manipulation
+
+        collection.update_one({"Audit_id":value},{"$set":{"payment_status":status}})
+        print('successfully updated')
+
+        return jsonify({"message":"database updated successfully..."})
+    except Exception as e:
+        return jsonify(e) ,500
 
 
 # single record update in the database

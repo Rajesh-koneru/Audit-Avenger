@@ -34,11 +34,10 @@ document.getElementById('submit').addEventListener("click", () => {
             console.log(msg);
             alert(msg.message || "Data sent successfully!"); // ✅ Show a proper message
             // redirecting to dashboard after success
-            if (result.ok) {
+            if (response.ok) {
                 window.location.href = 'https://finalavengers.onrender.com/dashboard';
             }
-        }
-        catch (error) {
+        }catch(error) {
             console.error("Error sending data:", error); // ✅ Handle network errors
             alert("An error occurred while sending data.");
         }

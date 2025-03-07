@@ -72,7 +72,7 @@ def create_App():
 
     @app.route('/report')
     def repo():
-        return render_template('report1.html')
+        return render_template('report2.html')
 
     @app.route('/admin/manual_data')
     def new_data():
