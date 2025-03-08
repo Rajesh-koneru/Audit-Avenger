@@ -63,11 +63,9 @@
             font-size: 24px;
             cursor: pointer;
         }
-        #addBtn{
-            width:200px;
-             left:160px;
-             position:relative;
-            }
+        #submit{
+            width:100px;
+        }
 
         /* Responsive styles */
         @media screen and (max-width: 480px) {
@@ -98,9 +96,8 @@
                 display: block;
 
             }
-            #addBtn{
-             left:10px;
-             position:relative;;
+            #submit{
+               left:-100px;
             }
 
         }
@@ -179,12 +176,12 @@
                         <option>Pending</option>
                     </select>
                 </div>
-                <div  id="addBtn">
-                    <button class="input" type="button"  id="submit">
-                         <i class="fas fa-plus"></i> Add
-                    </button>
-                </div>
-            </form>
+
+                <button class="input" type="button"  id="submit">
+                    <i class="fas fa-plus"></i> Add
+
+
+             </form>
         </div>
     </div>
     <footer class="bg-black text-white p-4 mt-8 border-t-2 border-yellow-500">

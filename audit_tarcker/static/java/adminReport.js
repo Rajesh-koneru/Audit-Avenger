@@ -14,8 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
             data.forEach((item) => {
                 let row = document.createElement("tr");
                 console.log(item.planned_data)
-                row.setAttribute('class', 'rowData');                // If in Update Mode, make 'audit_status' editable
-                row.innerHTML = `
+                row.setAttribute('class', 'rowData');
+                 row.setAttribute('class','rowData');
+                 row.style.borderBottomWidth = '1px';
+                 row.style.borderColor = '#eab308';
+                 row.innerHTML = `
                     <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
@@ -368,6 +371,9 @@ async function filteredData(){
                 console.log(`${item.planned_data}`)
                 let row = document.createElement("tr");
                 row.setAttribute('class','rowData');
+                 row.style.borderBottomWidth = '1px';
+                row.style.borderColor = '#eab308';
+
                 row.innerHTML = `
                     <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
