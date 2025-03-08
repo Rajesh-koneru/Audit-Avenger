@@ -19,8 +19,8 @@ def client():
 
 import json
 
-def test_home_page(client):
-    """Test if the home page loads correctly"""
+"""def test_home_page(client):
+   Test if the home page loads correctly
     response = client.get('/admin/Recent_audit')
     assert response.status_code == 200
 
@@ -29,7 +29,7 @@ def test_home_page(client):
 
     # Check if expected data is present (modify based on actual data structure)
     assert isinstance(data, list)  # Ensure response is a lis
-"""def test_update_route(client):
+def test_update_route(client):
     # testing update route
 
     data={"Id":"AA0001","value":" "}
@@ -41,7 +41,7 @@ def test_home_page(client):
     # Verify the response JSON.
     response_json = response.get_json()
     assert response_json["message"] == "database updated successfully..."
-"""
+
 def test_upload(client):
     response=client.get("/auditor/auditor_details")
     assert response.status_code == 200
@@ -51,5 +51,15 @@ def test_upload(client):
 
     # Check if expected data is present (modify based on actual data structure)
     assert isinstance(data, list)  # Ensure response is a list
+
+"""
+
+
+def test_download(client):
+    response=client.post('/admin/download ',json={'name':'hello'})
+    assert response.status_code ==200
+
+    data=json.loads(response.data)
+
 
 

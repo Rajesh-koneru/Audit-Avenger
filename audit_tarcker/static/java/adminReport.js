@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
               };
                setTimeout(()=>{
                 successMsg.style.display='none';
-            },1000);
+            },2000);
 
 
         } catch (error) {
@@ -600,7 +600,7 @@ document.getElementById('download').addEventListener('click',async()=>{
             const response = await fetch('https://finalavengers.onrender.com/admin/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({fileName:value})
+                    body: JSON.stringify({"fileName":value})
             });
 
             if (!response.ok) {
@@ -618,6 +618,7 @@ document.getElementById('download').addEventListener('click',async()=>{
             a.remove();
 
             console.log("File downloaded successfully!");
+            alert('download success');
 
          }catch (error) {
                 console.error("Download error:", error);

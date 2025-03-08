@@ -14,7 +14,7 @@ from audit_tarcker.config import collection
 download = Blueprint('file_download', __name__)
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
 #AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
-@download.route('/admin/download')
+@download.route('/admin/download', methods=["POST"])
 @login_required
 @only_one('admin')
 
@@ -23,7 +23,6 @@ def file_download():
     name=req.get('fileName')
     if name:
         print(name)
-
     def fetch_data():
         data=list(collection.find({},{"_id":0}))
         df = pd.DataFrame(data)
