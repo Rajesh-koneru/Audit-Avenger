@@ -126,7 +126,7 @@ def admin_status_update():
 
         collection.update_one({"Audit_id":value},{"$set":{"audit_status":status}})
 
-        return jsonify({"message":"database updated successfully..."})
+        return jsonify({"message":"Audit Status Updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
 
@@ -145,7 +145,7 @@ def payment_update():
         collection.update_one({"Audit_id":value},{"$set":{"payment_status":status}})
         print('successfully updated')
 
-        return jsonify({"message":"database updated successfully..."})
+        return jsonify({"message":"payment Status Updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
 

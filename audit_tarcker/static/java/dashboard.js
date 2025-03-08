@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function (){
     async function  fetchData(){
         let response=await fetch("https://finalavengers.onrender.com/admin/total_audits");   //fetching  data from backend
         let data =await response.json();
-        console.log(data)
+
         ele.innerText=data;
     }
     fetchData();    //calling function
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function (){
     async function activeData(){
           let response=await fetch("https://finalavengers.onrender.com/admin/active_audits");    //api call
           let data= await response.json();
-          console.log(data)
+
           active_audits.innerText=data;
     }
     activeData()     //calling a function
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function (){
     async function completeData(){
           let response=await fetch("https://finalavengers.onrender.com/admin/complete");    //api call
           let data= await response.json();
-          console.log(data)
+
           complete.innerText=data;
 
     }
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (){
      async function pending_audits(){
           let response=await fetch("https://finalavengers.onrender.com/admin/pending");    //api call
           let data= await response.json();
-          console.log(data)
+
           pending.innerText=data;
 
     }
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function (){
     async function recent_audits(){
           let response=await fetch("https://finalavengers.onrender.com/admin/Recent_audit");    //api call
           let data= await response.json();
-          console.log(data)
+
           table_body.innerHTML = "";
 
           data.forEach((val)=>{

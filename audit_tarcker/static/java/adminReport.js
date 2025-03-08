@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             data.forEach((item) => {
                 let row = document.createElement("tr");
-                console.log(item.planned_data)
+
                 row.setAttribute('class', 'rowData');
                  row.setAttribute('class','rowData');
                  row.style.borderBottomWidth = '1px';
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if(response.ok){
                   successMsg.style.display='block';
-                  successMsg.innerText=data;
+                  successMsg.innerText=data['message'];
             }
              else{
                   successMsg.style.display='none';
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },1000);
 
         } catch (error) {
-            console.error("Error updating status:", error);
+            console.error("Error  while updating status:", error);
         }
 
     }
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
              // Show success message
              if(response.ok){
               successMsg.style.display='block';
-              successMsg.innerText=data;
+              successMsg.innerText=data['message'];
               }
               else{
                  successMsg.style.display='none';
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         } catch (error) {
-            console.error("Error updating status:", error);
+            console.error("Error while  updating payment status:", error);
         }
     }
 
@@ -162,11 +162,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function ColorUpdate(){
            const color=document.querySelectorAll('.StatusColor');
 
-           console.log('all values Are elements are selected',color);
-           console.log(color.textContent)
            color.forEach((ele)=>{
                  let val=ele.textContent;
-                 console.log(val)
+
                  if(val=='Completed'){
                        ele.style.color='#28a745';
                  }
@@ -186,16 +184,12 @@ document.addEventListener("DOMContentLoaded", function () {
     //function for changing payments status color
      function PaymentColor(){
            const payColor=document.querySelectorAll('.paymentColor');
-
-           console.log('all values Are elements are selected',payColor);
-           console.log(payColor.innerText)
-
            payColor.forEach((ele)=>{
                  let val=ele.innerText;
 
                  if(val=='Paid'){
                        ele.style.color='#28a745';
-                       console.log('color added')
+
                  }
                  else if( val=='Pending'){
                         ele.style.color="#F97316";
@@ -215,14 +209,12 @@ document.addEventListener("DOMContentLoaded", function () {
             function hover() {
                 const elements = document.querySelectorAll('.StatusColor'); // Get all elements
                 const element1=document.querySelectorAll('.paymentColor');
-                console.log(elements); // Debugging
                 elements.forEach((ele) => {
                     var col='';
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
                         const color=ele.style.color;
-                        console.log(color);
-                        console.log(value); // Debugging
+
 
                         ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
 
@@ -271,8 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
                         const color=ele.style.color;
-                        console.log(color);
-                        console.log(value); // Debugging
 
                         ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
 
@@ -316,16 +306,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
             function rowHover() {
                 const elements = document.querySelectorAll('.rowData'); // Get all elements
-                console.log(elements); // Debugging
+
                 elements.forEach((ele) => {
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
-                        console.log(value); // Debugging
+
 
                         ele.style.transition = "background-color 0.5s ease-in-out,opacity 0.5s ease-in-out ,transform 0.5s ease-in-out"; // Apply transition
-                        ele.style.backgroundColor = 'grey';
+                        ele.style.backgroundColor='lightgrey';
                         ele.style.opacity=0.8;
-                        ele.style.transform=scale(1.01);
+                        ele.style.transform='scale(1.01)';
                     });
                     ele.addEventListener('mouseout', () => {
                         ele.style.backgroundColor = ''; // Reset to default
@@ -346,7 +336,7 @@ document.addEventListener("DOMContentLoaded", function () {
    // Filtering data based on admin choice
 async function filteredData(){
     let filter=document.getElementById('filter').value;
-    console.log(filter)
+
     const tableBody = document.querySelector(".table_body");
     try{
         const response= await fetch("https://finalavengers.onrender.com/admin/filter",{
@@ -357,18 +347,18 @@ async function filteredData(){
             body: JSON.stringify({ "data": filter })
 
         });
-        console.log("Response object:", response);
+
         if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`HTTP error! Status: ${response.status}, Message: ${errorText}`);
     }
 
         const data = await response.json();
-        console.log(data)
+
         tableBody.innerHTML = ""; // Clear existing rows
 
             data.forEach((item) => {
-                console.log(`${item.planned_data}`)
+
                 let row = document.createElement("tr");
                 row.setAttribute('class','rowData');
                  row.style.borderBottomWidth = '1px';
@@ -398,9 +388,6 @@ async function filteredData(){
     //audit status text  color update
     function ColorUpdate(){
            const color=document.querySelectorAll('.StatusColor');
-
-           console.log('all values Are elements are selected',color);
-            console.log(color.textContent)
            color.forEach((ele)=>{
                  let val=ele.textContent;
                  console.log(val)
@@ -419,10 +406,6 @@ async function filteredData(){
     //function for changing payments status color
      function PaymentColor(){
            const payColor=document.querySelectorAll('.paymentColor');
-
-           console.log('all values Are elements are selected',payColor);
-           console.log(payColor.innerText)
-
            payColor.forEach((ele)=>{
                  let val=ele.innerText;
 
@@ -443,14 +426,11 @@ async function filteredData(){
             function hover() {
                 const elements = document.querySelectorAll('.StatusColor'); // Get all elements
                 const payEle= document.querySelectorAll('.paymentColor');
-                console.log(elements); // Debugging
                 elements.forEach((ele) => {
                     var col='';
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
                         const color=ele.style.color;
-                        console.log(color);
-                        console.log(value); // Debugging
 
                         ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
 
@@ -496,8 +476,6 @@ async function filteredData(){
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
                         const color=ele.style.color;
-                        console.log(color);
-                        console.log(value); // Debugging
 
                         ele.style.transition = "background-color 0.5s ease-in" ; // Apply transition
 
@@ -537,16 +515,16 @@ async function filteredData(){
 
             function rowHover() {
                 const elements = document.querySelectorAll('.rowData'); // Get all elements
-                console.log(elements); // Debugging
+
                 elements.forEach((ele) => {
                     ele.addEventListener('mouseover', () => {
                         const value = ele.innerText.trim(); // Get text inside td
-                        console.log(value); // Debugging
+
 
                         ele.style.transition = "background-color 0.5s ease-in-out,opacity 0.5s ease-in-out ,transform 0.5s ease-in-out"; // Apply transition
                         ele.style.backgroundColor = 'grey';
                         ele.style.opacity=0.8;
-                        ele.style.transform=scale(1.01);
+                        ele.style.transform='scale(1.01)';
                     });
                     ele.addEventListener('mouseout', () => {
                         ele.style.backgroundColor = ''; // Reset to default
@@ -574,7 +552,7 @@ document.getElementById('uploadButton').addEventListener('click', function(event
 
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
-            console.log(file)
+
             if (!file) {
                 alert("Please select an Excel file first!");
                 return;
@@ -590,7 +568,7 @@ document.getElementById('uploadButton').addEventListener('click', function(event
                 raw: false,  // Keeps the data as strings, but dates need conversion
                 dateNF: "dd-mm-yyyy" // Ensures proper date format
                 });
-                console.log("this is data",jsonData)
+
                  if (jsonData.length === 0) {
                         console.warn("File was read, but it returned an empty array.");
                 }
@@ -603,7 +581,7 @@ document.getElementById('uploadButton').addEventListener('click', function(event
                 })
                 .then(response => response.json())  // Handle response properly
                 .then(data => {
-                    console.log(data);
+
                     alert(data.message);
                 })
                 .catch(error => console.error('Error:', error));
@@ -611,6 +589,42 @@ document.getElementById('uploadButton').addEventListener('click', function(event
 
             reader.readAsArrayBuffer(file);
 });
+
+
+
+//sending request for downloading report
+document.getElementById('download').addEventListener('click',async()=>{
+         try {
+            const value=document.getElementById('fileName').value.trim();
+            console.log(value)
+            const response = await fetch('https://finalavengers.onrender.com/admin/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({fileName:value})
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const blob = await response.blob(); // Convert response to Blob (Excel file)
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${value}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            console.log("File downloaded successfully!");
+
+         }catch (error) {
+                console.error("Download error:", error);
+         }
+ })
+
+
 
 
 

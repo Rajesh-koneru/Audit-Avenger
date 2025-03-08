@@ -36,7 +36,7 @@ def load_user(user_id):
         return Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD,role='admin')
     try:
         login_details=tuple(collection.find({"auditor_name":user_id},{"Audit_id":1,"auditor_name":1,"_id":0}))
-        print(login_details)
+
         if user_id==login_details[0]["auditor_name"]:
             print('i am here .... auditor ' )
             return Users(user_id=login_details[0]["auditor_name"], password=login_details[0]["Audit_id"],role='auditor')  # Adjust attributes as needed
@@ -66,7 +66,7 @@ def login():
         # fetching auditor details from database
 
         auditor_data=tuple(collection.find({"Audit_id":password},{"Audit_id":1,"auditor_name":1,"_id":0}))
-        print(auditor_data)
+
         if auditor_data:
             user1=Users(user_id=auditor_data[0]["auditor_name"],password=generate_password_hash(auditor_data[0]["Audit_id"], method="pbkdf2:sha256"),role='auditor')
             session['username'] = username

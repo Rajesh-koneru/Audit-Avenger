@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
         let response=await fetch("https://finalavengers.onrender.com/auditor/auditor_details")
         let data=await response.json()
 
-        console.log(data)
+
         auditorName=data['username']
-        console.log(auditorName);
+
         name.innerText=auditorName;
         async function fetchData(){
             try{
@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
                 // getting response
                    data= await response.json()
-                   console.log(data)
+
 
                    tableBody.innerHTML = ""; // Clear table before loading new data
                    data.forEach((item) => {
                         let row = document.createElement("tr");
-                        console.log(item.state)
+
                         // If in Update Mode, make 'audit_status' editable
                         row.innerHTML = `
                             <td class="py-2 px-4">${item.Audit_id}</td>
@@ -76,14 +76,13 @@ async function updateStatus(){
 
    btn.addEventListener('click' ,async ()=>{
     const value=document.getElementById('update').value;
-    console.log(value);
+
     let response1=await fetch("https://finalavengers.onrender.com/auditor/auditor_details")
         let data=await response1.json()
 
-        console.log(data)
         auditorName=data['username']
         auditorId=data['id']
-        console.log(auditorName ,auditorId);
+
        const response=await fetch("https://finalavengers.onrender.com/auditor/status_update " ,{
                        method:'POST',
                        headers: {
@@ -98,7 +97,6 @@ async function updateStatus(){
         }
         //getting response
         data= await response.json()
-        console.log(data)
         alert(data['message'])
         showSuccessMessage(data['message'])
         function showSuccessMessage(message) {

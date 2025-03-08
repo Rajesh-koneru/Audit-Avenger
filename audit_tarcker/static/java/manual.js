@@ -2,7 +2,6 @@ document.getElementById('submit').addEventListener("click", () => {
     // Select all elements with the class "input"
     const elements = document.querySelectorAll('.input');
 
-    console.log('All inputs are selected:', elements); // ✅ Fixed syntax error (missing comma)
 
     let data = {}; // Initialize an empty object
 
@@ -13,7 +12,7 @@ document.getElementById('submit').addEventListener("click", () => {
         data[name] = value; // Store in the data object
     });
 
-    console.log(data); // ✅ Log the collected data
+
 
     // Function to send data asynchronously
     async function sendData() {
@@ -25,20 +24,20 @@ document.getElementById('submit').addEventListener("click", () => {
             });
 
             if (!response.ok) {
-                console.warn('Data not sent');
+
                 return 'Data not sent';
             }
 
 
             let msg = await response.json(); // ✅ Corrected variable name (`meg` → `msg`)
-            console.log(msg);
-            alert(msg.message || "Data sent successfully!"); // ✅ Show a proper message
+
+
             // redirecting to dashboard after success
             if (response.ok) {
-                window.location.href = 'https://finalavengers.onrender.com/dashboard';
+                window.location.href = 'https://finalavengers.onrender.com/admin/dashboard';
             }
         }catch(error) {
-            console.error("Error sending data:", error); // ✅ Handle network errors
+           // ✅ Handle network errors
             alert("An error occurred while sending data.");
         }
     }
