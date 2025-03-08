@@ -1,0 +1,261 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Audit Avengers Report Page
+  </title>
+   <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='2.png') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+ <style>
+    #filter_div{
+         display:flex;
+         padding:10px;
+         justify-content:center;
+    }
+    #form{
+       width:100%;
+       float:left;
+       display:block;
+    }
+    #successMsg{
+        font-size:20px;
+        width:100px;
+        color:#28a745;
+        display:none
+    }
+    header{
+        background: linear-gradient(to right, #000000, #111111);
+        height:10vh;
+    }
+      #navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            color: white;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #FFEB3B;
+            font-size: 18px;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 480px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: #444;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+            }
+
+            .nav-links.show {
+                display: flex;
+                margin-top:5px;
+                background: linear-gradient(to right, #1f2937, #000000);
+                border-radius:0px 0px 10px 10px;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+  @media screen and (max-width: 600px){
+     #scroll_div{
+         overflow-x:scroll;
+         overflow-y:scroll;
+     }
+     #search_div{
+        width:125px;
+     }
+     #Input1{
+         width:100px;
+     }
+     #filter_div{
+         width:100px;
+         display:block;
+     }
+     #filter{
+         width:100px;
+     }
+     #fileInput{
+         width:250px;
+     }
+     #label_file{
+        width:200px;
+     }
+     #form1{
+         width:340px;
+     }
+     #form{
+     width:340px;
+     }
+     # #successMsg{
+        font-size:2px;
+     }
+
+  }
+
+  .StatusColor{
+       color:green;
+       background-color:#1F2937;
+       padding:8px;
+  }
+  .paymentColor{
+      color:green;
+      background-color:#1F2937;
+      padding:8px;
+  }
+ </style>
+ </head>
+ <body class="bg-gradient-to-l from-gray-800 to-black text-white">
+  <header class="text-yellow-500 p-4 flex justify-between items-center">
+   <div class="flex items-center">
+    <img alt="Audit Avengers logo with a shield icon" class="h-10 w-10 mr-2" height="50" src="{{ url_for('static', filename='2.png') }}" width="50px" style="border-radius:35px"/>
+    <h1 class="text-2xl font-bold">
+     Audit Avengers
+    </h1>
+   </div>
+   <nav class="flex space-x-4" id="navbar">
+    <ul class="nav-links">
+       <li> <a class="text-yellow-500 hover:text-yellow-300" href="/" >
+         Home
+       </a></li>
+        <li><a class="text-yellow-500 hover:text-yellow-300" href="/dashboard" >
+         DashBoard
+        </a></li>
+        <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin /download">
+         Download
+        </a></li>
+        <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data">delete</a></li>
+    </ul>
+   </nav>
+   <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </header>
+
+  <main class="p-6">
+
+   <div class="flex justify-between items-center mb-4" >
+     <div class="flex items-center space-x-2" id="search_div">
+            <a class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn" href="/admin/manual_data">
+                <i class="fas fa-plus"></i> New Audit
+            </a>
+     </div>
+    <div><small id="successMsg">hello how are you</small></div>
+    <div  id="filter_div">
+     <select class="p-2 border border-gray-300 rounded-md" style="margin:10px 5px; color:black;height:40px;" id="filter">
+
+      <option value="Completed">
+       Completed
+      </option>
+      <option value="Pending">
+       Pending
+      </option>
+      <option value="In Progress">
+       In Progress
+      </option>
+     </select>
+
+     <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition" id="filterBtn" style="height:40px; margin-top:10px;" >
+    <i class="fas fa-filter"></i> Filter
+     </button>
+     <button class="bg-yellow-500 text-white px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn" style="height:40px;margin:10px;">
+      <i class="fas fa-edit"></i> Edit
+     </button>
+    </div>
+   </div>
+   <div id="scroll_div" style="color:black">
+         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden" style="color:black">
+          <thead class="bg-gray-700 text-white" >
+           <tr id="head">
+            <th class="py-2 px-4 text-left">
+             Audit Name
+            </th>
+            <th class="py-2 px-4 text-left">
+             Auditor Name
+            </th>
+            <th class="py-2 px-4 text-left">
+             Planned date
+            </th>
+            <th class="py-2 px-4 text-left">
+            state
+            </th>
+            <th class="py-2 px-4 text-left">
+             city
+            </th>
+            <th class="py-2 px-4 text-left">
+             Client Name
+            </th>
+            <th class="py-2 px-4 text-left">
+             Contact
+            </th>
+            <th class="py-2 px-4 text-left">
+             audit_status
+            </th>
+            <th class="py-2 px-4 text-left">
+             payment_amount
+            </th>
+            <th class="py-2 px-4 text-left">
+             payment_status
+            </th>
+           </tr>
+          </thead>
+          <tbody class="table_body" style="color:black; ">
+          <tr>
+          </tr>
+          </tbody>
+         </table>
+   </div>
+   <div class="container mt-5 bg-gradient-to-r from-gray-800 to-black p-6 rounded-lg"  id="form">
+        <h1 style="font-weight:bold; font-size:17px; text-align:center;" id="label_file">upload excel file</h1>
+    <form id="form1">
+         <div  style="max-width:400px; margin-top:0px;">
+             <label for="fileInput" class="form-label" >excel file</label>
+             <input type="file" class= "form-control" accept=".xlsx, .xls" id="fileInput" >
+         </div>
+         <button type="submit" class="btn btn-primary" id="uploadButton" style="margin:10px;" >submit</button>
+    </form>
+   </div>
+  </main>
+  <script src="/static/java/adminReport.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+        function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("show");
+        }
+  </script>
+ </body>
+</html>
