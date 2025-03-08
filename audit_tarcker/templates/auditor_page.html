@@ -18,6 +18,36 @@
          color:#FFEB3B;
          transform:scale(1.5);
         }
+        #successMessage{
+            font-size:20px;
+            color:black;
+            background-color:lightgreen;
+            padding:10px;
+            margin:10px;
+            border-radius:10px;
+            display:none;
+        }
+
+        @media screen and (max-width:480px){
+            #update{
+                width:95px;
+                margin-left:20px;
+
+            }
+            #select{
+            justify-content:end;
+            width:105px;
+            }
+            #btnStatus{
+                margin-left:5px;
+                width:95px;
+
+            }
+            #select label{
+                font-size:15px;
+            }
+
+        }
     </style>
 </head>
 <body class="bg-black text-white">
@@ -50,18 +80,23 @@
     <!-- WELCOME MESSAGE -->
     <div class="flex flex-wrap items-center pl-10">
         <h1 class="text-2xl font-bold">HELLO WELCOME:</h1>
-        <h1 class="text-2xl font-bold ml-4 text-yellow-400">RAJESH</h1>
+        <h1 class="text-2xl font-bold ml-4 text-yellow-400" id="name">RAJESH</h1>
     </div>
 
     <!-- STATUS UPDATE SECTION -->
-    <div class="flex flex-wrap justify-end p-4 m-2 ">
-        <label for="update" class="form-label text-lg mr-2">Status Update:</label>
-        <select id="update" class="p-0 mx-1 border rounded bg-transparent text-white">
-            <option value="Completed" class="text-black">Completed</option>
-            <option value="Pending" class="text-black">Pending</option>
-            <option value="In-Progress" class="text-black">In Progress</option>
-        </select>
-        <button class="bg-yellow-500 text-white px-4 py-2 mt-2  rounded">Update</button>
+    <div class="flex justify-between items-center p-4 m-2 ">
+        <div >
+            <small id="successMessage">hello how are you</small>
+        </div>
+        <div id="select"><label for="update" class="form-label text-lg mr-2">Status Update:</label>
+            <select id="update" class="p-2 mx-1 border rounded bg-transparent text-white">
+                <option value="Completed" class="text-black">Completed</option>
+                <option value="Pending" class="text-black">Pending</option>
+                <option value="In-Progress" class="text-black">In Progress</option>
+            </select>
+            <button class="bg-yellow-500 text-white px-4 py-2 mt-2  rounded" id="btnStatus">Update</button>
+        </div>
+
     </div>
 
     <!-- AUDIT DETAILS TABLE -->
@@ -83,19 +118,8 @@
                         <th class="py-2 px-4">Payment Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="border-b border-yellow-500">
-                        <td class="p-2">AUD001</td>
-                        <td class="p-2">John Doe</td>
-                        <td class="p-2">2025-03-15</td>
-                        <td class="p-2">Completed</td>
-                        <td class="p-2">New York</td>
-                        <td class="p-2">XYZ Corp</td>
-                        <td class="p-2">+123456789</td>
-                        <td class="p-2">Completed</td>
-                        <td class="p-2">$1000</td>
-                        <td class="p-2">Paid</td>
-                    </tr>
+                <tbody class="tbody">
+                    <!--dynamic rows -->
                 </tbody>
             </table>
         </div>

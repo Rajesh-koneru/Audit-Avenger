@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded"  ,async function(){
-        let name=document.querySelector('.name');
+        let name=document.getElementById('name');
         let tableBody=document.querySelector('.tbody');
 
 
@@ -9,8 +9,9 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
 
         auditorName=data['username']
-
+     // showing name -->
         name.innerText=auditorName;
+        //getting auditor details from db
         async function fetchData(){
             try{
                 response=await fetch("https://finalavengers.onrender.com/auditor/data" ,{
