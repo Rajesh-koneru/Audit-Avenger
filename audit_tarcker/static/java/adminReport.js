@@ -153,6 +153,9 @@ document.addEventListener("DOMContentLoaded", function () {
         isUpdateMode = !isUpdateMode; // Toggle mode
         toggleButton.innerText = isUpdateMode ? "Save" : "Edit";
         loadTableData(); // Reload table with correct mode
+        if(isUpdateMode==='false'){
+            location.reload();
+        }
     });
 
     // Initial Data Load

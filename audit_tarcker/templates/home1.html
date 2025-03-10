@@ -128,7 +128,17 @@
      #icon i:hover{
          color:#FFEB3B;
          transform:scale(1.5);
+     }
+     #sticky{
+        position:fixed;
+        left:1430px;
+        top:750px;
+        width:200px;
+     }
+   #sticky i{
+      font-size:30px;
    }
+
 
 
       </style>
@@ -208,6 +218,12 @@
       Client Satisfaction
      </div>
     </div>
+   </div>
+   <div id="sticky">
+    <a class="text-yellow-500" href="https://x.com/NikhilMailapuam?t=6L6yAKRF4JTVs8Gmbuxhiw&s=09">
+      <i class="fab fa-twitter" >
+      </i>
+     </a>
    </div>
   </section>
   <section id="services" class="bg-black p-8">
@@ -313,12 +329,12 @@
      <h3 class="font-bold">
       Get in Touch
      </h3>
-     <form class="mt-4 space-y-4">
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Full Name" type="text"/>
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Email Address" type="email"/>
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Subject" type="text"/>
-      <textarea class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Your message here..."></textarea>
-      <button class="bg-yellow-500 text-black px-4 py-2 rounded">
+     <form class="mt-4 space-y-4" >
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Full Name" type="text" id="name"/>
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Email Address" type="email" id="mail"/>
+      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Subject" type="text" />
+      <textarea class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Your message here..." id="msg"></textarea>
+      <button class="bg-yellow-500 text-black px-4 py-2 rounded" id="mailBtn">
        Send Message
       </button>
      </form>
@@ -449,6 +465,9 @@
     function toggleMenu() {
             document.querySelector(".nav-links").classList.toggle("show");
         }
+
+
  </script>
+ <script src="/static/java/mail.js"></script>
  </body>
 </html>

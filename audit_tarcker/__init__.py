@@ -19,6 +19,7 @@ def create_App():
     from audit_tarcker.down_report import download
     from audit_tarcker.test import only_one
     from audit_tarcker.database import mango_base
+    from audit_tarcker.Smtp import mail_bp
 
     app = Flask(__name__)
     app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -45,6 +46,8 @@ def create_App():
     app.register_blueprint(download)
     app.register_blueprint(mango_base)
 
+    #registering mail server
+    app.register_blueprint(mail_bp)
 
     @app.route('/')
     def home():
@@ -60,8 +63,6 @@ def create_App():
     @app.route('/admin/report')
     def admin_report():
         return redirect('/admin/report')
-
-
 
     # Dashboard (Protected)
     @app.route('/admin/dashboard')  # Role-based check first
