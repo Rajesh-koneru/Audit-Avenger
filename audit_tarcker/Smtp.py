@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_mail import Message
-from mail_config import mail, email
+from audit_tarcker.mail_config import mail, email
 
 mail_bp = Blueprint('mail', __name__)
 

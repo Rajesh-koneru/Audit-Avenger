@@ -20,6 +20,7 @@ def create_App():
     from audit_tarcker.test import only_one
     from audit_tarcker.database import mango_base
     from audit_tarcker.Smtp import mail_bp
+    from audit_tarcker.mail_config import mail, email
 
     app = Flask(__name__)
     app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
