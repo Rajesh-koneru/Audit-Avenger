@@ -1,22 +1,36 @@
-async function sendMail(){
+async function sendMail() {
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('mail').value.trim();
+    const message = document.getElementById('msg').value.trim();
 
-     const name=document.getElementById('name').value.trim();
-     const email=document.getElementById('mail').value.trim();
-     const message=document.getElementById('msg').value.trim();
+    console.log("Sending Message:", message);
 
-     let response=await('https://finalavengers.onrender.com/admin/report',{
+    if (!name || !email || !message) {
+        alert("All fields are required!");
+        return;
+    }
+
+    try {
+        let response = await fetch('https://finalavengers.onrender.com/admin/report', {
             method: "POST",
             headers: {
-               "Content-Type": "application/json"
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ 'SenderName': name, "Email": email,"Message":message })
-     });
+            body: JSON.stringify({ 'SenderName': name, "Email": email, "Message": message })
+        });
 
-     if(!response.ok){
-            return json('some error occured at server') ,400
-     }
-     let msg=await response.json();
-     console.log(msg)
-     alert(msg);
+        if (!response.ok) {
+            throw new Error(`Server Error: ${response.status}`);
+        }
+
+        let msg = await response.json();
+        console.log("Server Response:", msg.message);
+        alert(msg.message);
+
+    } catch (error) {
+        console.error("Error sending mail:", error);
+        alert("Failed to send mail. Please try again later.");
+    }
 }
-document.getElementById('mailBtn').addEventListener('click',sendMail)
+
+document.getElementById('mailBtn').addEventListener('click', sendMail);
