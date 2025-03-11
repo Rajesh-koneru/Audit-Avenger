@@ -11,14 +11,14 @@ async function sendMail() {
     }
 
     try {
-        let response = await fetch('https://finalavengers.onrender.com/admin/report', {
+        let response = await fetch('https://finalavengers.onrender.com/sendMail', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ 'SenderName': name, "Email": email, "Message": message })
         });
-
+        console.log(response)
         if (!response.ok) {
             throw new Error(`Server Error: ${response.status}`);
         }

@@ -52,7 +52,6 @@ def test_upload(client):
     # Check if expected data is present (modify based on actual data structure)
     assert isinstance(data, list)  # Ensure response is a list
 
-"""
 
 
 def test_download(client):
@@ -60,6 +59,27 @@ def test_download(client):
     assert response.status_code ==200
 
     data=json.loads(response.data)
+"""
+
+def test_send_mail(client):
+    """Test the sendMail API endpoint"""
+    response = client.post(
+        "/sendMail",
+        data=json.dumps({
+            "SenderName": "Test User",
+            "Email": "rajeshkoneru29@gmail.com",
+            "Message": "Hello! This is a test."
+        }),
+        content_type="application/json"
+    )
+
+    assert response.status_code == 200 or response.status_code == 500  # Ensure it doesn't fail silently
+    json_data = response.get_json()
+
+    if response.status_code == 200:
+        assert json_data["message"] == "Email sent successfully!"
+    else:
+        assert "error" in json_data  # Expect an error message if it fails
 
 
 

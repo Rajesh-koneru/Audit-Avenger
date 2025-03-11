@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import os
 from flask_login import login_required
 from flask_session import Session
+from audit_tarcker.mail_config import mail
 
 # database connection
 #BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
@@ -20,7 +21,7 @@ def create_App():
     from audit_tarcker.test import only_one
     from audit_tarcker.database import mango_base
     from audit_tarcker.Smtp import mail_bp
-    from audit_tarcker.mail_config import mail, email
+
 
     app = Flask(__name__)
     app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
@@ -34,6 +35,19 @@ def create_App():
     # Flask-Login setup
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
+
+
+    # mail server configuration
+
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use Gmail SMTP
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')  # Replace with your email
+    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')  # Use App Password, not Gmail password
+    app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_USERNAME')
+
+    # Initialize mail with app
+    mail.init_app(app)
 
     app.secret_key = token_hex(16)  # Secure session key
     app.config['SESSION_TYPE'] = 'filesystem'
