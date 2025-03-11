@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import os
 from flask_login import login_required
 from flask_session import Session
-from audit_tarcker.mail_config import mail
+
 
 # database connection
 #BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
