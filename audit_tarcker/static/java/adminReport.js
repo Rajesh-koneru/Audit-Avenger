@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td class="bg-gray-800 text-white p-2">${item.city}</td>
                     <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
-                    <td class="StatusColor" data-field="status" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''}>${item.audit_status}</td>
+                    <td class="StatusColor" data-field="status" ${isUpdateMode ? ' data-id="'+ item.Audit_id + '"'  : ''}>${item.audit_status}</td>
                     <td class="bg-gray-800 text-white p-2" >${item.payment_amount}</td>
-                    <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? 'contenteditable="true" data-id="' + item.Audit_id + '"' : ''} >${item.payment_status}</td>
+                    <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? 'data-id="' + item.Audit_id + '"' : ''} >${item.payment_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -44,33 +44,59 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Function to enable content editing
-    function enableEditing() {
-        tableBody.addEventListener("focusout", async function (event) {
-            if (event.target.hasAttribute("contenteditable")) {
-                let auditId = event.target.getAttribute("data-id");
-                let fieldType = event.target.getAttribute("data-field");
-                let newStatus = event.target.innerText.trim();
+   function enableEditing() {
+     tableBody.addEventListener("click", function (event) {
+        let td = event.target;
 
+        // Check if the clicked element is a cell and has 'data-field' attribute
+        if (td.tagName === "TD" && td.hasAttribute("data-field")) {
+            let auditId = td.getAttribute("data-id");
+            let fieldType = td.getAttribute("data-field");
+            let currentValue = td.textContent.trim();
+
+            // Create a <select> dropdown
+            let select = document.createElement("select");
+            let options = fieldType === "status"
+                ? ["Completed", "Pending", "In Progress"] // Example statuses
+                : ["Paid","Unpaid","Pending"];  // Example payment statuses
+
+            options.forEach(option => {
+                let opt = document.createElement("option");
+                opt.value = option;
+                opt.textContent = option;
+                if (option === currentValue) opt.selected = true;
+                select.appendChild(opt);
+            });
+
+            // Replace text with the select dropdown
+            td.innerHTML = "";
+            td.appendChild(select);
+            select.focus();
+
+            // When the selection changes, update the data
+            select.addEventListener("change", async function () {
+                let newStatus = this.value.trim();
 
                 if (auditId && newStatus) {
-                    if(fieldType==='status'){
+                    if (fieldType === "status") {
                         await updateStatus(auditId, newStatus);
-                    }
-                    else if(fieldType==='payment_status'){
-                        await  paymentUpdate(auditId,newStatus);
+                    } else if (fieldType === "payment_status") {
+                        await paymentUpdate(auditId, newStatus);
                     }
                 }
-            }
 
-        });
+                // Restore the updated text inside the <td>
+                td.textContent = newStatus;
+            });
 
-        tableBody.addEventListener("keydown", function (event) {
-            if (event.target.hasAttribute("contenteditable") && event.key === "Enter") {
-                event.preventDefault();
-                event.target.blur(); // Trigger update
-            }
-        });
-    }
+            // On losing focus, restore text value
+            select.addEventListener("blur", function () {
+                td.textContent = currentValue;
+            });
+        }
+     });
+   }
+
 
     // Function to send update request
     async function updateStatus(auditId, newStatus) {
@@ -153,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
         isUpdateMode = !isUpdateMode; // Toggle mode
         toggleButton.innerText = isUpdateMode ? "Save" : "Edit";
         loadTableData(); // Reload table with correct mode
-        if(isUpdateMode==='false'){
+        if(!isUpdateMode){
             location.reload();
         }
     });

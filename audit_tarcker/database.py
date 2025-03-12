@@ -3,9 +3,9 @@ from flask import blueprints, request, Blueprint,jsonify
 
 mango_base=Blueprint("base",__name__)
 # to delete data in mongodb
-@mango_base.route('/admin/delete_data')
+@mango_base.route('/admin/delete_data', methods=['DELETE'])
 def delete_data():
     collection.drop()
-    return jsonify("data deleted")
+    return jsonify({"message":"data deleted from data base..."})
 
 
