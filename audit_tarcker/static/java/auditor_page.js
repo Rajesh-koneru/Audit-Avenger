@@ -4,22 +4,23 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
 
 
-        let response=await fetch("https://finalavengers.onrender.com/auditor/auditor_details")
+        let response=await fetch("/auditor/auditor_details")
         let data=await response.json()
 
 
         auditorName=data['username']
+        auditorId=data['id']
      // showing name -->
         name.innerText=auditorName;
         //getting auditor details from db
         async function fetchData(){
             try{
-                response=await fetch("https://finalavengers.onrender.com/auditor/data" ,{
+                response=await fetch("/auditor/data" ,{
                        method:'POST',
                        headers: {
                         "Content-Type": "application/json"
                     },
-                    body :JSON.stringify({ "name": auditorName})
+                    body :JSON.stringify({ "Id":auditorId ,'username':auditorName})
                 })
 
                 // checking if response is okay or not
@@ -30,7 +31,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
                 // getting response
                    data= await response.json()
-
+                    console.log(data)
 
                    tableBody.innerHTML = ""; // Clear table before loading new data
                    data.forEach((item) => {
@@ -44,16 +45,14 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
                             <td class="py-2 px-4">${item.state}</td>
                             <td class="py-2 px-4">${item.city}</td>
                              <td class="py-2 px-4">${item.client_name}</td>
-                             <td class="py-2 px-4">${item.auditor_contact}</td>
+                             <td class="py-2 px-4">${item.contact}</td>
                             <td class="py-2 px-4">${item.audit_status}</td>
                             <td class="py-2 px-4">${item.payment_amount}</td>
                             <td class="py-2 px-4">${item.payment_status}</td>
 
                             `;
                         tableBody.append(row);
-
                    })
-
             }catch(error){
                 console.error("Error fetching audit data:", error);
             }
@@ -61,18 +60,32 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
         fetchData();
 });
 
+//securing updating status...
+ async function checking(){
+    const submit=document.getElementById('submit');
+    const audit_id=document.getElementById('Id').value.trim();
+    const client_id=document.getElementById('clId').value.trim();
+    const select=document.getElementById('select');
+
+    let response=await fetch('https://finalavengers.onrender.com/auditor/check');
+    if(!response.ok){
+        console.log('the client was not matched ');
+    }
+    let data=await response.json();
+    console.log(data['message']);
+    if(response.ok){
+        q
+
+    }
+
+}
+
+
+
 // updating status details..
 
 async function updateStatus(){
-//    const value=document.getElementById('update').value;
-//    console.log(value);
-//    let response=await fetch("http://127.0.0.1:5000/auditor/auditor_details")
-//        let data=await response.json()
-//
-//        console.log(data)
-//        auditorName=data['username']
-//        auditorId=data['id']
-//        console.log(auditorName ,auditorId);
+
    const btn=document.getElementById('btnStatus');
 
    btn.addEventListener('click' ,async ()=>{

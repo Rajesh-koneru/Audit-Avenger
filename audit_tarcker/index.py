@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import sqlite3
 from datetime import datetime, timedelta
-from audit_tarcker.config import collection
+from audit_tarcker.config import get_connection
 from audit_tarcker.test import only_one
 
 # Securely store admin credentials (Better to use environment variables)
@@ -28,18 +28,22 @@ class Users(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    print(user_id)
+    print('this is user id',user_id)
+    conn=get_connection()
+    pointer = conn.cursor()
     if not user_id:
         return None
 
     if user_id==ADMIN_USERNAME:
         return Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD,role='admin')
     try:
-        login_details=tuple(collection.find({"auditor_name":user_id},{"Audit_id":1,"auditor_name":1,"_id":0}))
 
-        if user_id==login_details[0]["auditor_name"]:
-            print('i am here .... auditor ' )
-            return Users(user_id=login_details[0]["auditor_name"], password=login_details[0]["Audit_id"],role='auditor')  # Adjust attributes as needed
+        pointer.execute('SELECT password, Auditor_name FROM auditor_details WHERE Auditor_name=%s', (user_id,))
+        login_details= pointer.fetchone()
+
+        if user_id==login_details["Auditor_name"]:
+            print('i am here .... auditor')
+            return Users(user_id=login_details["Auditor_name"], password=login_details["password"],role='auditor')  # Adjust attributes as needed
     except Exception as e:
         print(f"Database Error: {e}")
 
@@ -62,19 +66,21 @@ def login():
             login_user(user)
             return redirect('/admin1')
 
-
         # fetching auditor details from database
-
-        auditor_data=tuple(collection.find({"Audit_id":password},{"Audit_id":1,"auditor_name":1,"_id":0}))
+        with get_connection() as conn:
+            pointer = conn.cursor()
+            pointer.execute(f'select password,Auditor_name from auditor_details where password=%s', (password,))
+            auditor_data = pointer.fetchone()
 
         if auditor_data:
-            user1=Users(user_id=auditor_data[0]["auditor_name"],password=generate_password_hash(auditor_data[0]["Audit_id"], method="pbkdf2:sha256"),role='auditor')
+            user1 = Users(user_id=auditor_data['Auditor_name'],password=generate_password_hash(auditor_data['password'], method="pbkdf2:sha256"), role='auditor')
             session['username'] = username
             session.permanent = True
             session['islogin'] = True
-            session['role']='auditor'
-            session['id']=password
+            session['role'] = 'auditor'
+            session['id'] = password
             login_user(user1)
+
             return redirect(f'/auditor_page/{username}')
     return redirect('/signup_page')
 
@@ -101,6 +107,7 @@ def admin():
 @login_required
 def auditor(username):
     if session.get('role') == 'auditor':
+        print(session.get('role'))
         return render_template('auditor_page.html' ,username=session['username'],id=session['id'])
     return f'error unauthorized' ,403
 

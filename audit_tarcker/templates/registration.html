@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auditor Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f9f9f9;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 50px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ccc;
+
+
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      padding: 10px;
+      border: none;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+      h2{
+        margin-left:650px;
+      }
+  </style>
+</head>
+<body>
+
+  <h2>Auditor Registration Form</h2>
+  <form >
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email ID</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" name="phone" required>
+
+    <label for="qualification">Qualification</label>
+    <input type="text" id="qualification" name="qualification">
+
+    <label for="experience">Years of Experience</label>
+    <input type="number" id="experience" name="experience" min="0">
+
+    <label for="password">password</label>
+    <input type="text" id="password" name="password">
+
+    <button type="submit" id="button">Register</button>
+
+    <div style="margin-top:10px; margin-left:100px; ">
+        <span>already have an account:</span>
+      <a href="/signup_page" class="text-yellow-500 hover:text-yellow-400">
+        <i ></i>login
+      </a>
+    </div>
+  </form>
+
+<script src="/static/java/register.js"></script>
+</body>
+</html>

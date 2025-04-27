@@ -1,8 +1,10 @@
+from multiprocessing.connection import Client
+
 from flask import Blueprint, request, jsonify
 import sqlite3
 import os
 from datetime import datetime
-from audit_tarcker.config import collection
+from audit_tarcker.config import get_connection
 
 #BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
 #AuditTrack= os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
@@ -21,31 +23,39 @@ def upload_excel():
         if not json_data or "data" not in json_data:
             return jsonify({"error": "Invalid JSON format, expected {'data': [...]}"}), 400
 
-        data = json_data["data"] # Extract the array
-        if data==" ":
+        data = json_data["data"]  # Extract the array
+        if data == " ":
             print("Received JSON is empty")  # Debugging
-        print(json_data)
-        collection.create_index("Audit_id", unique=True)
+        print(data)
+        conn=get_connection()
+        cursor = conn.cursor()
+        print('connected to my sql')
 
-        collection.insert_many([
-            {
-                "Audit_id": row["Audit ID"],
-                "auditor_name": row["Auditor Name"],
-                "client_name": row["Client Name"],
-                "planned_date":datetime.strptime(row[" Planned Date"], "%m/%d/%y").strftime("%Y-%m-%d"),
-                "state": row["State"],
-                "city": row[" City"],
-                "auditor_contact": row[" Contact Number"],
-                "audit_status": row[" Audit Status"],
-                "payment_amount": row["Payment Amount"],
-                "payment_status": row[" Payment Status "]
-            }
-            for row in data  # Assuming data_list is a list of dictionaries
-        ])
+        for row in data:
+            row = {key.strip(): value for key, value in row.items()}  # Strip spaces from keys
+            print(row)
+            planned_date = '2025-01-01'  # Default value
+            Client_id = 1
+            contact_number = int(row.get("Contact Number", "Unknown"))  # Handle missing keys safely
 
-        print('data entered....!')
+            cursor.execute("""
+                INSERT INTO audit_report (Audit_id, auditor_name, planned_date, 
+                                          State, City, Client_name, Client_id, Contact, Audit_status, 
+                                          payment_amount, payment_status, track) 
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            """, (
+                row['Audit ID'], row['Auditor Name'], planned_date,
+                row['State'], row['City'], row['Client Name'], Client_id, contact_number, row['Audit Status'],
+                int(row['Payment Amount']), row['Payment Status'], row.get("Track", "Not Tracked")
+            ))
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+        print('data entered....')
         return jsonify({"message": "Data successfully saved to database!"})
 
     except Exception as e:
         print("Error:", str(e))
         return jsonify({"error": str(e)}), 500
+

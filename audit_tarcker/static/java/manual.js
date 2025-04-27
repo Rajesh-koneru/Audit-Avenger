@@ -12,12 +12,10 @@ document.getElementById('submit').addEventListener("click", () => {
         data[name] = value; // Store in the data object
     });
 
-
-
     // Function to send data asynchronously
     async function sendData() {
         try {
-            let response = await fetch("https://finalavengers.onrender.com/admin/manual_update", {
+            let response = await fetch("/admin/manual_update", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },  // ✅ Correct content type
                 body: JSON.stringify({ "data": data }) // ✅ Ensure proper JSON structure
@@ -34,7 +32,7 @@ document.getElementById('submit').addEventListener("click", () => {
 
             // redirecting to dashboard after success
             if (response.ok) {
-                window.location.href = 'https://finalavengers.onrender.com/admin/dashboard';
+                window.location.href = '/admin/dashboard';
             }
         }catch(error) {
            // ✅ Handle network errors

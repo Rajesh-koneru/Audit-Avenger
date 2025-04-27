@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // Fetch and load data based on mode
     async function loadTableData() {
         try {
-            let response = await fetch("https://finalavengers.onrender.com/admin/report");
+            let response = await fetch("/admin/report");
             let data = await response.json();
             tableBody.innerHTML = ""; // Clear table before loading new data
-
+            console.log(data)
             data.forEach((item) => {
                 let row = document.createElement("tr");
 
@@ -19,15 +19,15 @@ document.addEventListener("DOMContentLoaded", function () {
                  row.style.borderBottomWidth = '1px';
                  row.style.borderColor = '#eab308';
                  row.innerHTML = `
-                    <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.state}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.city}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.Audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_name}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.planned_data}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center ">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.city}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.client_name}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.contact}</td>
                     <td class="StatusColor" data-field="status" ${isUpdateMode ? ' data-id="'+ item.Audit_id + '"'  : ''}>${item.audit_status}</td>
-                    <td class="bg-gray-800 text-white p-2" >${item.payment_amount}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center" >${item.payment_amount}</td>
                     <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? 'data-id="' + item.Audit_id + '"' : ''} >${item.payment_status}</td>
                 `;
 
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let select = document.createElement("select");
             let options = fieldType === "status"
                 ? ["Completed", "Pending", "In Progress"] // Example statuses
-                : ["Paid","Unpaid","Pending"];  // Example payment statuses
+                : ["Paid","Unpaid","Requested"];  // Example payment statuses
 
             options.forEach(option => {
                 let opt = document.createElement("option");
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to send update request
     async function updateStatus(auditId, newStatus) {
         try {
-            const response = await fetch("https://finalavengers.onrender.com/admin/update_status", {
+            const response = await fetch("/admin/update_status", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
      // Function to send payment  update request
     async function paymentUpdate(auditId, paymentStatus) {
         try {
-            const response = await fetch("https://finalavengers.onrender.com/admin/update_payment", {
+            const response = await fetch("/admin/update_payment", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -368,7 +368,7 @@ async function filteredData(){
 
     const tableBody = document.querySelector(".table_body");
     try{
-        const response= await fetch("https://finalavengers.onrender.com/admin/filter",{
+        const response= await fetch("/admin/filter",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -397,11 +397,11 @@ async function filteredData(){
                     <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
                     <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
                     <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.state}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.city}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.client_name}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.auditor_contact}</td>
-                    <td class="StatusColor" >${item.audit_status}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.State}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.City}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.Client_name}</td>
+                    <td class="bg-gray-800 text-white p-2">${item.Contact}</td>
+                    <td class="StatusColor" >${item.Audit_status}</td>
                     <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
                     <td class="paymentColor">${item.payment_status}</td>
                 `;
@@ -626,7 +626,7 @@ document.getElementById('download').addEventListener('click',async()=>{
          try {
             const value=document.getElementById('fileName').value.trim();
             console.log(value)
-            const response = await fetch('https://finalavengers.onrender.com/admin/download', {
+            const response = await fetch('/admin/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({"fileName":value})

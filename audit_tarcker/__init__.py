@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify, redirect
 from secrets import token_hex
-from pymongo import MongoClient
 import os
 from flask_login import login_required
 from flask_session import Session
@@ -16,23 +15,22 @@ def create_App():
     from audit_tarcker.auditor_page import status
     from audit_tarcker.AdminReport import report
     from audit_tarcker.index import auth
-    from audit_tarcker.config import collection
+    from audit_tarcker.config import get_connection
     from audit_tarcker.upolad import file
     from audit_tarcker.down_report import download
     from audit_tarcker.test import only_one
     from audit_tarcker.database import mango_base
     from audit_tarcker.Smtp import mail_bp
-
+    from audit_tarcker.Audit_log import audit_log
+    from audit_tarcker.register import register
 
     app = Flask(__name__)
-    app.config["MONGO_URI"] = "mongodb+srv://raghavendhargpth:MLOBWMCnt6VD9dkh@cluster0.9ipen.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-
     # ✅ Connect to MongoDB
-    mongo_client = MongoClient(app.config["MONGO_URI"])
 
-    app.mongo_client = mongo_client
+
+    """app.mongo_client = mongo_client
     app.audit_collection =collection
-
+"""
     # Flask-Login setup
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
@@ -61,9 +59,14 @@ def create_App():
     app.register_blueprint(status, name="status_blueprint")  # ✅ Unique name
     app.register_blueprint(download)
     app.register_blueprint(mango_base)
+    app.register_blueprint(audit_log)
 
     #registering mail server
     app.register_blueprint(mail_bp)
+
+
+   # register blueprint
+    app.register_blueprint(register)
 
     @app.route('/')
     def home():
@@ -93,5 +96,9 @@ def create_App():
 
     @app.route('/admin/manual_data')
     def new_data():
-        return render_template('newaudit.html')
+        return render_template('1.html')
+
+    @app.route('/register_page' ,methods=['GET'])
+    def register():
+        return render_template('registration.html')
     return app

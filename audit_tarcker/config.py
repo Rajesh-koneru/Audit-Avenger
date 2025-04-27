@@ -1,8 +1,8 @@
 from pymongo.server_api import ServerApi
 from pymongo import MongoClient
-
+import pymysql
 import os
-
+"""
 # Use the correct MongoDB Atlas connection string
 DATABASE_URL = os.getenv("DATABASE_URL1")
 
@@ -19,6 +19,21 @@ try:
 
 except Exception as e:
     print("❌ Connection error:", e)
+"""
+
+
+# Connect to PlanetScale
+def get_connection():
+    return pymysql.connect(
+    host="127.0.0.1",
+    user="raju",
+    password="Bujji@192921",
+    database="AuditTracker",
+    cursorclass = pymysql.cursors.DictCursor,
+    autocommit = True  # Ensures automatic commit
+)
+
+
 
 
 

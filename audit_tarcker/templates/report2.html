@@ -15,11 +15,13 @@
        color:green;
        background-color:#1F2937;
        padding:8px;
+        text-align: center;
        }
       .paymentColor{
       color:green;
       background-color:#1F2937;
       padding:8px;
+       text-align: center;
       }
       #filter_div{
          display:flex;
@@ -116,7 +118,7 @@
                 <li><a class="text-yellow-500 hover:text-yellow-300" href="/">Home</a></li>
                 <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/dashboard">Dashboard</a></li>
                 <li><button class="text-yellow-500 hover:text-yellow-300" onclick="openModal()" >Download</button></li>
-                <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data" onclick="confirmDelete(event)">Delete</a></li>
+                <li><a class="text-yellow-500 hover:text-yellow-300" onclick="confirmDelete(event)">Delete</a></li>
             </ul>
         </nav>
     </div>
@@ -125,8 +127,8 @@
     <nav id="mobile-menu" class="hidden flex flex-col items-center space-y-2 bg-gray-800 p-4 rounded-lg">
         <a class="text-yellow-500 hover:text-yellow-300" href="/">Home</a>
         <a class="text-yellow-500 hover:text-yellow-300" href="/admin/dashboard">Dashboard</a>
-        <button class="text-yellow-500 hover:text-yellow-300" >Download</button>
-        <a class="text-yellow-500 hover:text-yellow-300" href="/admin/delete_data">Delete</a>
+        <button class="text-yellow-500 hover:text-yellow-300"  onclick="openModal()" >Download</button>
+        <a class="text-yellow-500 hover:text-yellow-300" onclick="confirmDelete(event)">Delete</a>
     </nav>
 
 
@@ -160,6 +162,15 @@
       </option>
       <option value="In Progress">
        In Progress
+      </option>
+      <option value="Paid">
+        Paid
+      </option>
+       <option value="Unpaid">
+        UnPaid
+      </option>
+      <option value="Requested">
+        Requested
       </option>
      </select>
 
@@ -219,22 +230,21 @@
    function toggleMenu() {
             let menu = document.getElementById("mobile-menu");
             menu.classList.toggle("hidden");
-        }
+   }
 
     function openModal() {
             document.getElementById("nameModal").classList.remove("hidden");
         }
 
-        function closeModal() {
+    function closeModal() {
             document.getElementById("nameModal").classList.add("hidden");
-        }
-        function timeDelay(){
+    }
+    function timeDelay(){
             setTimeout(()=>{
                 closeModal();
 
             },1000)
-        }
-   }
+    }
     async function confirmDelete(event) {
         event.preventDefault(); // Stop the default link action
 
@@ -242,7 +252,7 @@
 
         if (confirmation) {
             // Proceed with deletion (redirect to delete link)
-             let response = await fetch(`/admin/delete_data/${id}`, {
+             let response = await fetch("/admin/delete_data", {
                 method: "DELETE", // Use DELETE method
                 headers: { "Content-Type": "application/json" }
             });
