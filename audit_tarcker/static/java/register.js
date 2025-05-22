@@ -1,32 +1,33 @@
+// Function for registration
+async function register() {
+    let name = document.getElementById('name').value;
+    let mail = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
 
-// function for registration
-
-async function register(){
-     let name =document.getElementById('name').value;
-     let mail=document.getElementById('email').value;
-     let phone =document.getElementById('phone').value;
-     let qualification=document.getElementById('qualification').value;
-     let experience = document.getElementById('experience').value;
-     let  password = document.getElementById('password').value;
-     console.log(password)
-
-    let response=await fetch('/registration',{
-            method:'POST',
+    try {
+        let response = await fetch('/apply/audit_application', {
+            method: 'POST',
             headers: {
-             'Content-Type': 'application/json'
-             },
-            body :JSON.stringify({ "name":name,'email':mail,'phone':phone,'qualification':qualification,'experience':experience,'password':password})
-    })
-    if (!response.ok) {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name,
+                email: mail,
+                phone: phone
+            })
+        });
 
-         throw new Error(`HTTP error! Status: ${response.status} not okay`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        let data = await response.json();
+        alert(data['message']);
+        window.location.href =data['link'];
+    } catch (error) {
+        console.error('Error during registration:', error);
+        alert('Failed to register. Please try again.');
     }
-     data= await response.json()
-      console.log(data)
-      alert(data['message']);
 }
 
-
-//calling function
-
-document.getElementById('button').addEventListener('click',register);
+// Calling function
+document.getElementById('button').addEventListener('click', register);

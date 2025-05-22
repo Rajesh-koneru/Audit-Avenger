@@ -1,4 +1,4 @@
-from flask import Flask ,redirect,render_template,Blueprint,request,jsonify,session,flash
+from flask import Flask ,redirect,render_template,Blueprint,request,jsonify,session,flash,url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -6,6 +6,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from audit_tarcker.config import get_connection
 from audit_tarcker.test import only_one
+import time
 
 # Securely store admin credentials (Better to use environment variables)
 ADMIN_USERNAME = os.getenv('ADMIN_USERNAME', 'Admin@raghu')
@@ -24,8 +25,6 @@ class Users(UserMixin):
         self.id = str(user_id)
         self.password=password
         self.role=role
-
-
 @login_manager.user_loader
 def load_user(user_id):
     print('this is user id',user_id)
@@ -38,15 +37,14 @@ def load_user(user_id):
         return Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD,role='admin')
     try:
 
-        pointer.execute('SELECT password, Auditor_name FROM auditor_details WHERE Auditor_name=%s', (user_id,))
+        pointer.execute('SELECT Audit_id, auditor_name FROM Audit_report WHERE auditor_name=%s', (user_id,))
         login_details= pointer.fetchone()
 
-        if user_id==login_details["Auditor_name"]:
-            print('i am here .... auditor')
-            return Users(user_id=login_details["Auditor_name"], password=login_details["password"],role='auditor')  # Adjust attributes as needed
+        if user_id==login_details["auditor_name"]:
+            print('i am here .... auditor ',user_id)
+            return Users(user_id=login_details["auditor_name"], password=login_details["Audit_id"],role='auditor')  # Adjust attributes as needed
     except Exception as e:
         print(f"Database Error: {e}")
-
     return None  # User not found
 
 # Admin login route
@@ -61,7 +59,7 @@ def login():
             session.permanent = True
             user = Users(user_id=ADMIN_USERNAME,password=generate_password_hash(ADMIN_PASSWORD, method="pbkdf2:sha256") ,role='admin')
             session['username'] = username
-            session['islogin'] = True
+            session['islogin'] = 'True'
             session['role']='admin'
             login_user(user)
             return redirect('/admin1')
@@ -69,14 +67,14 @@ def login():
         # fetching auditor details from database
         with get_connection() as conn:
             pointer = conn.cursor()
-            pointer.execute(f'select password,Auditor_name from auditor_details where password=%s', (password,))
+            pointer.execute(f'select Audit_id,auditor_name from Audit_report where Audit_id=%s', (password,))
             auditor_data = pointer.fetchone()
 
         if auditor_data:
-            user1 = Users(user_id=auditor_data['Auditor_name'],password=generate_password_hash(auditor_data['password'], method="pbkdf2:sha256"), role='auditor')
+            user1 = Users(user_id=auditor_data['auditor_name'],password=generate_password_hash(auditor_data['Audit_id'], method="pbkdf2:sha256"), role='auditor')
             session['username'] = username
             session.permanent = True
-            session['islogin'] = True
+            session['islogin'] ='True'
             session['role'] = 'auditor'
             session['id'] = password
             login_user(user1)
@@ -98,6 +96,7 @@ def logout():
 @only_one('admin')
 def admin():
     if session.get('username') == ADMIN_USERNAME:
+        print(session.get('islogin'))
         return redirect('/admin/dashboard')
     return "Unauthorized", 403
 
@@ -109,6 +108,16 @@ def auditor(username):
     if session.get('role') == 'auditor':
         print(session.get('role'))
         return render_template('auditor_page.html' ,username=session['username'],id=session['id'])
-    return f'error unauthorized' ,403
+    return f'error unauthorized',403
+
+@auth.route('/user/home_page', methods=['GET'])
+def user_home_status():
+    print("Session islogin value:",session.get('islogin'))
+    status=session.get('islogin')
+    if status=='True':
+        return jsonify({'status': 'logged_in'})
+    else:
+        return jsonify({'status': 'not_logged_in'})
+
 
 

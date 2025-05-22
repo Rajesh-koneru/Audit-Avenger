@@ -38,16 +38,35 @@ def manual_update():
                 Days,
                 Qualification,
                 equipment,
-                location,
+                loction,
+                state,
                 Amount,
                 requirements,
-                Client_id
-            ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                Client_id,
+                WhatsappLink
+            ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         with get_connection() as conn:
             pointer = conn.cursor()
-            pointer.execute(query, ( data['Audit Id'],data['Auditor type'] ,data['industry'],data['Date'],data['auditor require'],data['Day'],data['Qualification'],data['equipment'],data['location'],data['Amount'],data['requirement'],data['client_id']))
+            pointer.execute(query, ( data['Audit Id'],data['Auditor type'] ,data['industry'],data['Date'],data['auditor require'],data['Day'],data['Qualification'],data['equipment'],data['location'],data['State'],data['Amount'],data['requirement'],data['client_id'] ,data['whatsapp']))
         print('data inserted ')
         return jsonify('data inserted successfully...')
     except Exception as e:
         print(e)
         return jsonify(e) ,400
+
+# audit details card
+
+@audit_log.route("/audit_details")
+def audit_details():
+    try:
+        query="""select * from audit_details"""
+        with get_connection() as conn:
+            pointer = conn.cursor()
+            pointer.execute(query)
+            data=pointer.fetchall()
+            print(data)
+        return jsonify(data)
+    except Exception as e:
+        print(e)
+        return jsonify(e),400
+

@@ -26,7 +26,7 @@
       #filter_div{
          display:flex;
          padding:10px;
-         justify-content:center;
+         justify-content:right;
       }
       #successMsg{
         font-size:15px;
@@ -40,12 +40,17 @@
              margin-top:10px;
       }
       #filter{
-            width:98%;
-            margin:0;
+            width:10%;
+            margin-right:0px;
+
       }
       #filterBtn{
             margin:10px;
             height:40px;
+      }
+      #submitBtn{
+        margin:10px;
+        height:40px;
       }
       #icon i{
         transition:color 0.5s ease-in-out ,transform 0.5s ease-in-out;
@@ -54,7 +59,16 @@
         color :#FFEB3B;
         transform:scale(1.5);
       }
-
+      .input{
+          color:#fff;
+          background-color:#1F2937;
+          border:0.1rem solid white;
+          border-radius:5px;
+      }
+      input::placeholder {
+          text-align: center;
+          font:1px;
+      }
 
         @media screen and (max-width: 600px){
                  #scroll_div{
@@ -117,7 +131,6 @@
             <ul class="nav-links flex space-x-4">
                 <li><a class="text-yellow-500 hover:text-yellow-300" href="/">Home</a></li>
                 <li><a class="text-yellow-500 hover:text-yellow-300" href="/admin/dashboard">Dashboard</a></li>
-                <li><button class="text-yellow-500 hover:text-yellow-300" onclick="openModal()" >Download</button></li>
                 <li><a class="text-yellow-500 hover:text-yellow-300" onclick="confirmDelete(event)">Delete</a></li>
             </ul>
         </nav>
@@ -133,72 +146,29 @@
 
 
 </header>
-
-<div id="nameModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
-        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h2 class="text-lg mb-4">Enter File Name</h2>
-            <input id="fileName" type="text" class="p-2 border rounded w-full text-black" placeholder="Type your name..."  >
-            <div class="flex justify-between mt-4">
-                <button onclick="timeDelay()" class="bg-green-500 px-4 py-2 rounded" id="download">Submit</button>
-            </div>
-        </div>
-</div>
 <main class="p-6">
-    <div class="flex justify-between items-center mb-4" >
-     <div class="flex items-center space-x-2" id="search_div">
-            <a class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-700 transition" id="newAuditBtn" href="/admin/manual_data">
-                <i class="fas fa-plus"></i> New Audit
-            </a>
-     </div>
     <div><small id="successMsg"></small></div>
-    <div  id="filter_div">
-     <select class="p-2 border border-gray-300 rounded-md" style="margin:10px 0px; color:black;height:40px;" id="filter">
-
-      <option value="Completed">
-       Completed
-      </option>
-      <option value="Pending">
-       Pending
-      </option>
-      <option value="In Progress">
-       In Progress
-      </option>
-      <option value="Paid">
-        Paid
-      </option>
-       <option value="Unpaid">
-        UnPaid
-      </option>
-      <option value="Requested">
-        Requested
-      </option>
-     </select>
-
+    <div  id="filter_div"> --filter div--
      <button class="bg-blue-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition" id="filterBtn" >
     <i class="fas fa-filter"></i> Filter
      </button>
-     <button class="bg-yellow-500 text-white px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-yellow-700 transition" id="editBtn">
-      <i class="fas fa-edit"></i> Edit
-     </button>
     </div>
-   </div>
     <div class="overflow-x-auto" id="scroll_div">
         <table class="min-w-full bg-gradient-to-r from-gray-800 to-black shadow-md rounded overflow-hidden w-full text-white border border-yellow-500">
             <thead class="bg-gray-700 text-white ">
                 <tr id="head" class="bg-transparent border-b border-yellow-500">
-                    <th class="py-2 px-4 text-center">Audit Id</th>
-                    <th class="py-2 px-4 text-center">Auditor Id</th>
-                    <th class="py-2 px-4 text-center">Auditor Name</th>
-                    <th class="py-2 px-4 text-center">Audit Type</th>
-                    <th class="py-2 px-4 text-center">Planned Date</th>
-                    <th class="py-2 px-4 text-center">Contact</th>
-                    <th class="py-2 px-4 text-center">Email</th>
-                    <th class="py-2 px-4 text-center">Client Id</th>
-                    <th class="py-2 px-4 text-center">State</th>
-                    <th class="py-2 px-4 text-center">Location</th>
-                    <th class="py-2 px-4 text-center">Payment Amount</th>
-                    <th class="py-2 px-4 text-center">Payment Status</th>
-                    <th class="py-2 px-4 text-center">Audit Status</th>
+                    <th class="py-2 px-4 text-left">Audit Id</th>
+                    <th class="py-2 px-4 text-left">Auditor Id</th>
+                    <th class="py-2 px-4 text-left">Auditor Name</th>
+                    <th class="py-2 px-4 text-left">Audit Type</th>
+                    <th class="py-2 px-4 text-left">Date</th>
+                    <th class="py-2 px-4 text-left">Phone</th>
+                    <th class="py-2 px-4 text-left">Email</th>
+                    <th class="py-2 px-4 text-left">State</th>
+                    <th class="py-2 px-4 text-left">Client Id</th>
+                    <th class="py-2 px-4 text-left">Payment</th>
+                    <th class="py-2 px-4 text-left">Status</th>
+
                 </tr>
             </thead>
             <tbody class="table_body"  >
@@ -207,15 +177,10 @@
             </tbody>
         </table>
     </div>
-    <div class="container mt-5 bg-gradient-to-r from-gray-800 to-black p-6 rounded-lg" id="form">
-        <h1 class="font-bold text-lg text-center mb-4" id="label_file">Upload Excel File</h1>
-        <form id="form1">
-            <div class="mb-4">
-                <label class="form-label block mb-2" for="fileInput">Excel File</label>
-                <input accept=".xlsx, .xls" class="form-control w-full p-2 border border-gray-300 rounded-md text-black" id="fileInput" type="file"/>
-            </div>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" id="uploadButton" type="submit">Submit</button>
-        </form>
+    <div style="display:flex; justify-content:right;padding:10px;">
+    <button class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-800 transition" id="submitBtn" >
+    <i class="fas fa-arrow-right"></i> submit
+     </button>
     </div>
 </main>
 <footer class="bg-black text-white p-4 mt-8 border-t-2 border-yellow-500">
@@ -245,31 +210,9 @@
     function timeDelay(){
             setTimeout(()=>{
                 closeModal();
-
             },1000)
     }
-    async function confirmDelete(event) {
-        event.preventDefault(); // Stop the default link action
-
-        let confirmation = confirm("Are you sure you want to delete this record? This action cannot be undone.");
-
-        if (confirmation) {
-            // Proceed with deletion (redirect to delete link)
-             let response = await fetch("/admin/delete_data", {
-                method: "DELETE", // Use DELETE method
-                headers: { "Content-Type": "application/json" }
-            });
-            if(!response.ok){
-                console.warn('server not responds properly...')
-            }
-            let data=await response.json();
-            console.log(data['message']);
-            alert(data['message']);
-        } else {
-            alert("Deletion canceled.");
-        }
-    }
 </script>
-<script src="/static/java/adminReport.js"></script>
+<script src="/static/java/application.js"></script>
 </body>
 </html>

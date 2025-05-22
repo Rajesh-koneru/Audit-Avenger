@@ -19,3 +19,4 @@ def only_one(*role):
             return func(*arg)
         return checker
     return decorator
+

@@ -1,3 +1,7 @@
+
+
+# not used in any place , it is only test root
+
 from flask import Flask, Blueprint, redirect, request, jsonify, render_template
 from audit_tarcker.config import get_connection
 
@@ -12,7 +16,7 @@ def signin():
     def auditor_id():
         with get_connection() as conn:
             pointer = conn.cursor()
-            pointer.execute("SELECT auditor_id FROM auditor_details ORDER BY auditor_id DESC LIMIT 1")
+            pointer.execute("SELECT Auditor_id FROM applications ORDER BY Auditor_id DESC LIMIT 1")
             result=pointer.fetchone()
             print(result)
             if result:
@@ -34,14 +38,11 @@ def signin():
                 Auditor_id,
                 Auditor_name,
                 contact,
-                email,
-                password,
-                Qualification,
-                experience
-            ) values(%s,%s,%s,%s,%s,%s,%s)"""
+                email
+            ) values(%s,%s,%s,%s)"""
         with get_connection() as conn:
             pointer = conn.cursor()
-            pointer.execute(query, (aud_id,json_data['name'],json_data['phone'] ,json_data['email'],json_data['password'],json_data['qualification'],json_data['experience']))
+            pointer.execute(query, (aud_id,json_data['name'],json_data['phone'] ,json_data['email']))
         return jsonify({'message':'data inserted successfully...'})
     except Exception as e:
         print(e)

@@ -27,9 +27,7 @@ def upload_excel():
         if data == " ":
             print("Received JSON is empty")  # Debugging
         print(data)
-        conn=get_connection()
-        cursor = conn.cursor()
-        print('connected to my sql')
+
 
         for row in data:
             row = {key.strip(): value for key, value in row.items()}  # Strip spaces from keys
@@ -38,20 +36,29 @@ def upload_excel():
             Client_id = 1
             contact_number = int(row.get("Contact Number", "Unknown"))  # Handle missing keys safely
 
-            cursor.execute("""
-                INSERT INTO audit_report (Audit_id, auditor_name, planned_date, 
-                                          State, City, Client_name, Client_id, Contact, Audit_status, 
-                                          payment_amount, payment_status, track) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """, (
-                row['Audit ID'], row['Auditor Name'], planned_date,
-                row['State'], row['City'], row['Client Name'], Client_id, contact_number, row['Audit Status'],
-                int(row['Payment Amount']), row['Payment Status'], row.get("Track", "Not Tracked")
-            ))
-
-        conn.commit()
-        cursor.close()
-        conn.close()
+            query = """insert into audit_details(
+                           Audit_id,
+                           Audit_type,
+                           industry,
+                           Date,
+                           Auditors_require,
+                           Days,
+                           Qualification,
+                           equipment,
+                           loction,
+                           state,
+                           Amount,
+                           requirements,
+                           Client_id,
+                           WhatsappLink
+                       ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            with get_connection() as conn:
+                pointer = conn.cursor()
+                pointer.execute(query, (
+                row['Audit Id'], row['Auditor type'], row['industry'], row['Date'], row['auditor require'],
+                row['Day'], row['Qualification'], row['equipment'], row['location'], row['State'], row['Amount'],
+                row['requirement'], row['client_id'], row['whatsapp']))
+            # <- Optional 'track'
         print('data entered....')
         return jsonify({"message": "Data successfully saved to database!"})
 

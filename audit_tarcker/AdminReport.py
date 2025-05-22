@@ -16,7 +16,7 @@ import os
 
 @report.route('/admin/report')
 def admin_report():
-    query = """ select * from Audit_report"""
+    query = """ select * from audit_report"""
    # row=list(collection.find({},{"_id": 0}))query=""" select * from Audit_report"""
 
     conn=get_connection()
@@ -28,8 +28,7 @@ def admin_report():
     data=[]
     print(row)
     for i in range(len(row)):
-
-        data1={'Audit_id':row[i]['Audit_id'],'auditor_name':row[i]['auditor_name'],'client_name':row[i]["Client_name"],'planned_data':row[i]['planned_date'],'state':row[i]['State'],'city':row[i]['City'],'audit_status':row[i]['Audit_status'],'payment_amount':row[i]['payment_amount'],'payment_status':row[i]['payment_status'],'contact':row[i]['Contact']}
+        data1={'Audit_id':row[i]['Audit_id'],'auditor_name':row[i]['auditor_name'],'planned_date':row[i]['planned_date'],'state':row[i]['State'],'audit_status':row[i]['Audit_status'],'payment_amount':row[i]['payment_amount'],'payment_status':row[i]['payment_status'],'contact':row[i]['Contact'] ,'auditor_id':row[i]['auditor_id'],'audit_type':row[i]['audit_type'],'client_id':row[i]['Client_id'],'location':row[i]['location'],'email':row[i]['email']}
         data.append(data1)
 
     return jsonify(data)
@@ -107,11 +106,12 @@ def pending():
 @report.route('/admin/Recent_audit')
 def recent_audits():
     try:
-        query4 = """select client_name,planned_Date, auditor_name,Audit_status from Audit_report limit 5 """
+        query4 = """select Audit_id,auditor_id,planned_Date, auditor_name,audit_status from audit_report limit 5 """
         with get_connection() as conn:
             pointer = conn.cursor()
             pointer.execute(query4)
             data1 = pointer.fetchall()
+            print(data1)
 
             return jsonify(data1)
     except Exception as e:
@@ -173,7 +173,7 @@ def admin_status_update():
         print(value)
         # data base manipulation
 
-        update_query = f""" update Audit_report set audit_status=%s where Audit_id=%s"""
+        update_query = f""" update Audit_report set audit_status=%s where auditor_id=%s"""
         with get_connection() as conn:
             pointer = conn.cursor()
             pointer.execute(update_query, (status, value))
@@ -193,7 +193,7 @@ def payment_update():
         print(value,status)
 
         # data base manipulation
-        update_query = f""" update Audit_report set payment_status=%s where Audit_id=%s"""
+        update_query = f""" update Audit_report set payment_status=%s where auditor_id=%s"""
         with get_connection() as conn:
             pointer = conn.cursor()
             pointer.execute(update_query, (status, value))

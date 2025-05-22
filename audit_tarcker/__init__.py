@@ -3,6 +3,8 @@ from secrets import token_hex
 import os
 from flask_login import login_required
 from flask_session import Session
+from grpclib.plugin.main import render
+
 from audit_tarcker.mail_config import mail
 
 
@@ -23,6 +25,8 @@ def create_App():
     from audit_tarcker.Smtp import mail_bp
     from audit_tarcker.Audit_log import audit_log
     from audit_tarcker.register import register
+    from audit_tarcker.apply import audit_bp
+    from audit_tarcker.whatsappweb import application
 
     app = Flask(__name__)
     # ✅ Connect to MongoDB
@@ -61,12 +65,21 @@ def create_App():
     app.register_blueprint(mango_base)
     app.register_blueprint(audit_log)
 
+
     #registering mail server
     app.register_blueprint(mail_bp)
 
 
    # register blueprint
     app.register_blueprint(register)
+
+
+    #application register
+    app.register_blueprint(audit_bp)
+
+    # application blueprint
+    app.register_blueprint(application)
+
 
     @app.route('/')
     def home():
@@ -98,7 +111,11 @@ def create_App():
     def new_data():
         return render_template('1.html')
 
-    @app.route('/register_page' ,methods=['GET'])
-    def register():
-        return render_template('registration.html')
+    @app.route('/application')
+    def application():
+        return render_template('application.html')
+
+    @app.route('/audit_card',methods=['GET'])
+    def card():
+        return render_template('audit card .html')
     return app

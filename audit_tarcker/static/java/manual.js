@@ -32,6 +32,7 @@ document.getElementById('submit').addEventListener("click", () => {
 
             // redirecting to dashboard after success
             if (response.ok) {
+                alert(msg);
                 window.location.href = '/admin/dashboard';
             }
         }catch(error) {

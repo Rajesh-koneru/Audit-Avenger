@@ -20,15 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
                  row.style.borderColor = '#eab308';
                  row.innerHTML = `
                     <td class="bg-gray-800 text-white p-2 text-center">${item.Audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_id}</td>
                     <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_name}</td>
-                    <td class="bg-gray-800 text-white p-2 text-center">${item.planned_data}</td>
-                    <td class="bg-gray-800 text-white p-2 text-center ">${item.state}</td>
-                    <td class="bg-gray-800 text-white p-2 text-center">${item.city}</td>
-                    <td class="bg-gray-800 text-white p-2 text-center">${item.client_name}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center ">${item.audit_type}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.planned_date}</td>
                     <td class="bg-gray-800 text-white p-2 text-center">${item.contact}</td>
-                    <td class="StatusColor" data-field="status" ${isUpdateMode ? ' data-id="'+ item.Audit_id + '"'  : ''}>${item.audit_status}</td>
-                    <td class="bg-gray-800 text-white p-2 text-center" >${item.payment_amount}</td>
-                    <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? 'data-id="' + item.Audit_id + '"' : ''} >${item.payment_status}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.email}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.client_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.location}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.payment_amount}</td>
+                    <td class="paymentColor" data-field="payment_status" ${isUpdateMode ? ' data-id="'+ item.auditor_id + '"'  : ''}>${item.payment_status}</td>
+                    <td class="StatusColor" data-field="status" ${isUpdateMode ? 'data-id="' + item.auditor_id + '"' : ''} >${item.audit_status}</td>
                 `;
 
                 tableBody.appendChild(row);
@@ -57,8 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Create a <select> dropdown
             let select = document.createElement("select");
             let options = fieldType === "status"
-                ? ["Completed", "Pending", "In Progress"] // Example statuses
-                : ["Paid","Unpaid","Requested"];  // Example payment statuses
+                ?["Completed", "Pending", "In Progress"] // Example statuses
+                :["Paid","Unpaid","Requested"];  // Example payment statuses
 
             options.forEach(option => {
                 let opt = document.createElement("option");
@@ -76,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // When the selection changes, update the data
             select.addEventListener("change", async function () {
                 let newStatus = this.value.trim();
+
 
                 if (auditId && newStatus) {
                     if (fieldType === "status") {
@@ -98,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
    }
 
 
-    // Function to send update request
+    // Function to send update audit request
     async function updateStatus(auditId, newStatus) {
         try {
             const response = await fetch("/admin/update_status", {
@@ -394,18 +398,20 @@ async function filteredData(){
                 row.style.borderColor = '#eab308';
 
                 row.innerHTML = `
-                    <td class="bg-gray-800 text-white p-2">${item.Audit_id}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.auditor_name}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.planned_date}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.State}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.City}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.Client_name}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.Contact}</td>
-                    <td class="StatusColor" >${item.Audit_status}</td>
-                    <td class="bg-gray-800 text-white p-2">${item.payment_amount}</td>
-                    <td class="paymentColor">${item.payment_status}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.Audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_name}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center ">${item.audit_type}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.planned_date}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.contact}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.email}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.client_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.location}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.payment_amount}</td>
+                    <td class="paymentColor" >${item.payment_status}</td>
+                    <td class="StatusColor"  >${item.Audit_status}</td>
                 `;
-
                 tableBody.appendChild(row);
             })
 

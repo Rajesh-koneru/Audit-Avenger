@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Audit Avengers</title>
+</head>
+<body>
+  <h1>Available Audits</h1>
+  <div id="audit-list">
+    <div class="audit">
+      <p>Audit ID: AUD12345</p>
+      <button onclick="applyForAudit('AUD12345')">Apply</button>
+    </div>
+    <div class="audit">
+      <p>Audit ID: AUD67890</p>
+      <button onclick="applyForAudit('AUD67890')">Apply</button>
+    </div>
+  </div>
+
+  <script>
+    function applyForAudit(auditId) {
+      const adminPhoneNumber = "919390193971"; // Add admin phone with country code
+      const message = `Hello Admin, I would like to apply for Audit ID: ${auditId}`;
+      const whatsappURL = `https://wa.me/${adminPhoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, "_blank");
+    }
+  </script>
+</body>
+</html>
