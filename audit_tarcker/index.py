@@ -37,12 +37,12 @@ def load_user(user_id):
         return Users(user_id=ADMIN_USERNAME,password=ADMIN_PASSWORD,role='admin')
     try:
 
-        pointer.execute('SELECT Audit_id, auditor_name FROM Audit_report WHERE auditor_name=%s', (user_id,))
+        pointer.execute('SELECT auditor_id, auditor_name FROM audit_report WHERE auditor_name=%s', (user_id,))
         login_details= pointer.fetchone()
 
         if user_id==login_details["auditor_name"]:
             print('i am here .... auditor ',user_id)
-            return Users(user_id=login_details["auditor_name"], password=login_details["Audit_id"],role='auditor')  # Adjust attributes as needed
+            return Users(user_id=login_details["auditor_name"], password=login_details["auditor_id"],role='auditor')  # Adjust attributes as needed
     except Exception as e:
         print(f"Database Error: {e}")
     return None  # User not found
@@ -67,11 +67,11 @@ def login():
         # fetching auditor details from database
         with get_connection() as conn:
             pointer = conn.cursor()
-            pointer.execute(f'select Audit_id,auditor_name from Audit_report where Audit_id=%s', (password,))
+            pointer.execute(f'select auditor_id,auditor_name from audit_report where auditor_id=%s', (password,))
             auditor_data = pointer.fetchone()
 
         if auditor_data:
-            user1 = Users(user_id=auditor_data['auditor_name'],password=generate_password_hash(auditor_data['Audit_id'], method="pbkdf2:sha256"), role='auditor')
+            user1 = Users(user_id=auditor_data['auditor_name'],password=generate_password_hash(auditor_data['auditor_id'], method="pbkdf2:sha256"), role='auditor')
             session['username'] = username
             session.permanent = True
             session['islogin'] ='True'

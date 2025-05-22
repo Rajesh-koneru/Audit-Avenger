@@ -1,10 +1,32 @@
-import sqlite3
-from audit_tarcker.config import AuditTrack
+import mysql.connector
+import os
 
-conn = sqlite3.connect(AuditTrack)
-with open("dump.sql", "w") as f:
-    for line in conn.iterdump():
-        f.write(f"{line}\n")
+# Use keyword arguments instead of full URL
+conn = mysql.connector.connect(
+    host="interchange.proxy.rlwy.net",
+    port=20639,
+    user="root",
+    password="nwPKmzXjMQOHkjlaGLndEYiCwXuOOBTa",
+    database="railway"
+)
+
+print("Database connected...")
+
+cursor = conn.cursor()
+
+
+folder = r"C:\Users\user\Music\OneDrive\Documents\dumps"
+print("Files in folder:", os.listdir(folder))
+
+with open(r"C:\Users\user\PycharmProjects\flaskApp\db backup\Dump20250522\audittracker_audit_report.sql", "r") as f:
+
+    sql = f.read()
+    for statement in sql.split(';'):
+        if statement.strip():
+            cursor.execute(statement)
+
+conn.commit()
+cursor.close()
 conn.close()
 
-print("✅ SQLite database dumped to dump.sql")
+print("Import completed.")

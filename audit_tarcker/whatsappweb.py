@@ -96,7 +96,7 @@ def report():
             conn.commit()
             # Step 2: Start background thread to delete after delay
             threading.Thread(target=delete_data, args=(data,)).start()
-            return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.'}), 200
+            return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.','auditor_id':aud_id,'phone':row['phone'],'auditor_name':row['auditor_name']}), 200
     except Exception as e:
         print(str(e))
         return None

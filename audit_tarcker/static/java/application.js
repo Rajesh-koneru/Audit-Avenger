@@ -111,6 +111,19 @@ setTimeout(()=>{
                             const result = await response.json();
                             console.log("Response:", result);
                             alert(result['message']);
+                            const phoneNumber = result['phone']; // Replace with receiver's WhatsApp number4
+                            const name=result['auditor_name']
+                            const password=result['auditor_id']
+                            const message = `Hello, ${name}! Thank you for applying. your application is selected Your username and password for login is :username:${name} ,password:${password}`;
+
+                           // Encode message for URL
+                            const encodedMessage = encodeURIComponent(message);
+
+                             // Create WhatsApp link
+                            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+                              // Redirect to WhatsApp
+                              window.open(whatsappURL, '_blank');
                             setTimeout(()=>{
                                 alert(result['delete_message']);
                             },7000)

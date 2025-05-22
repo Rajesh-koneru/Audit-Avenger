@@ -1,8 +1,6 @@
 
-
 from audit_tarcker.config import get_connection
 from flask import blueprints, request, Blueprint,jsonify
-
 mango_base=Blueprint("base",__name__)
 # to delete data in mongodb
 @mango_base.route('/admin/delete_data', methods=['DELETE'])
