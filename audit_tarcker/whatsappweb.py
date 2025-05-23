@@ -17,7 +17,6 @@ import os
 @application.route('/admin/application')
 def admin_report():
     query = """ select * from applications"""
-   # row=list(collection.find({},{"_id": 0}))query=""" select * from Audit_report"""
 
     conn=get_connection()
 

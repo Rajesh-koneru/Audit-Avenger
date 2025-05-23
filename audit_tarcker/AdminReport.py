@@ -32,7 +32,7 @@ def admin_report():
 @report.route('/admin/total_audits')
 def total_auditor():
     try:
-        query = """select audit_id from Audit_report"""
+        query = """select audit_id from audit_report"""
         with get_connection() as conn:
             pointer=conn.cursor(dictionary=True)
             pointer.execute(query)
@@ -40,7 +40,6 @@ def total_auditor():
             total = 0
             for i in data:
                 total += 1
-
             return jsonify(total)
     except Exception as e:
         print(e)
@@ -50,7 +49,7 @@ def total_auditor():
 @report.route('/admin/active_audits')
 def active_audits():
     try:
-        query1 = """select audit_status from Audit_report where Audit_status='In Progress'"""
+        query1 = """select audit_status from audit_report where Audit_status='In Progress'"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query1)
@@ -67,7 +66,7 @@ def active_audits():
 @report.route('/admin/complete')
 def complete():
     try:
-        query2 = """select audit_status from Audit_report where Audit_status='Completed'"""
+        query2 = """select audit_status from audit_report where Audit_status='Completed'"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query2)
@@ -85,7 +84,7 @@ def complete():
 @report.route('/admin/pending')
 def pending():
     try:
-        query3 = """select audit_status from Audit_report where Audit_status='Pending'"""
+        query3 = """select audit_status from audit_report where Audit_status='Pending'"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query3)
@@ -126,7 +125,7 @@ def filter_data():
 
         if value=='Completed' or value=='Pending' or value=='In Progress':
             # data base query for filter data
-            query4 = f"""select * from Audit_report where audit_status=%s """
+            query4 = f"""select * from audit_report where audit_status=%s """
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4,(value,))
@@ -135,7 +134,7 @@ def filter_data():
                 return jsonify(data2)
         elif value=='Paid' or value=='Unpaid' or value=='Requested':
             # data base query for filter data
-            query4 = f"""select * from Audit_report where payment_status=%s """
+            query4 = f"""select * from audit_report where payment_status=%s """
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4, (value,))
@@ -144,7 +143,7 @@ def filter_data():
                 return jsonify(data2)
         else:
             # data base query for filter data
-            query4 = f"""select * from Audit_report where State=%s """
+            query4 = f"""select * from audit_report where State=%s """
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4, (value,))
@@ -169,7 +168,7 @@ def admin_status_update():
         print(value)
         # data base manipulation
 
-        update_query = f""" update Audit_report set audit_status=%s where auditor_id=%s"""
+        update_query = f""" update audit_report set audit_status=%s where auditor_id=%s"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(update_query, (status, value))
@@ -189,7 +188,7 @@ def payment_update():
         print(value,status)
 
         # data base manipulation
-        update_query = f""" update Audit_report set payment_status=%s where auditor_id=%s"""
+        update_query = f""" update audit_report set payment_status=%s where auditor_id=%s"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(update_query, (status, value))
