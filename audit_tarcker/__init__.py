@@ -7,11 +7,7 @@ from grpclib.plugin.main import render
 
 from audit_tarcker.mail_config import mail
 
-
-# database connection
-#BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'instance'))
-#AuditTrack = os.path.join(BASE_DIR, 'auditTracker.db')
-
+# create app is the function for the app audit avengers where everything runs through this function
 def create_App():
     from audit_tarcker.index import login_manager
     from audit_tarcker.auditor_page import status

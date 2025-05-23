@@ -6,8 +6,6 @@ import os
 from datetime import datetime
 from audit_tarcker.config import get_connection
 
-#BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-#AuditTrack= os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
 
 
 file = Blueprint('file',__name__)
@@ -53,7 +51,7 @@ def upload_excel():
                            WhatsappLink
                        ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             with get_connection() as conn:
-                pointer = conn.cursor()
+                pointer = conn.cursor(dictionary=True)
                 pointer.execute(query, (
                 row['Audit Id'], row['Auditor type'], row['industry'], row['Date'], row['auditor require'],
                 row['Day'], row['Qualification'], row['equipment'], row['location'], row['State'], row['Amount'],

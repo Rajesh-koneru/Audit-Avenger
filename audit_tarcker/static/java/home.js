@@ -8,14 +8,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         let data = await response.json();
         let status = data['status'];
+        let role=data['role']
         console.log(status);
-        if (status === 'logged_in') {
+        alert(status)
+        if (status === 'logged_in' && role == 'admin') {
             Getbtn.innerText = 'Dashboard';  // <- fixed assignment
             Getbtn.setAttribute('href', '/admin/dashboard');
             console.log('Attribute changed...');
-        } else {
-            Getbtn.innerText = 'Get Started';  // <- fixed assignment
+        } else if( status === 'logged_in' && role =='auditor') {
+            Getbtn.innerText = 'Dashboard';  // <- fixed assignment
+            Getbtn.setAttribute('href', '/auditor_page/<username>');
+            console.log('Attribute changed...');
+        }else {
+            Getbtn.innerText = 'Get Started';
             Getbtn.setAttribute('href', '/signup_page');
+
         }
     } catch (error) {
         console.error("Error fetching user status:", error);

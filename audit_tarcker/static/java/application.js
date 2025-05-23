@@ -120,7 +120,7 @@ setTimeout(()=>{
                             const encodedMessage = encodeURIComponent(message);
 
                              // Create WhatsApp link
-                            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+                            const whatsappURL = `https://wa.me/+91${phoneNumber}?text=${encodedMessage}`;
 
                               // Redirect to WhatsApp
                               window.open(whatsappURL, '_blank');

@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
         auditorName=data['username']
         auditorId=data['id']
+        alert(auditorId)
      // showing name -->
         name.innerText=auditorName;
         //getting auditor details from db
@@ -31,7 +32,7 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
                 // getting response
                    data= await response.json()
-                    console.log(data)
+                   console.log(data)
 
                    tableBody.innerHTML = ""; // Clear table before loading new data
                    data.forEach((item) => {
@@ -39,18 +40,20 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
 
                         // If in Update Mode, make 'audit_status' editable
                         row.innerHTML = `
-                            <td class="py-2 px-4">${item.Audit_id}</td>
-                            <td class="py-2 px-4">${item.auditor_name}</td>
-                            <td class="py-2 px-4">${item.planned_date}</td>
-                            <td class="py-2 px-4">${item.state}</td>
-                            <td class="py-2 px-4">${item.city}</td>
-                             <td class="py-2 px-4">${item.client_name}</td>
-                             <td class="py-2 px-4">${item.contact}</td>
-                            <td class="py-2 px-4">${item.audit_status}</td>
-                            <td class="py-2 px-4">${item.payment_amount}</td>
-                            <td class="py-2 px-4">${item.payment_status}</td>
-
-                            `;
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.Audit_id}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_id}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.auditor_name}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center ">${item.audit_type}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.planned_date}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.contact}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.email}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.client_id}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.state}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.location}</td>
+                        <td class="bg-gray-800 text-white p-2 text-center">${item.payment_amount}</td>
+                        <td class="paymentColor" >${item.payment_status}</td>
+                        <td class="StatusColor"  >${item.audit_status}</td>
+                    `;
                         tableBody.append(row);
                    })
             }catch(error){
@@ -60,29 +63,29 @@ document.addEventListener("DOMContentLoaded"  ,async function(){
         fetchData();
 });
 
-//securing updating status...
- async function checking(){
-    const submit=document.getElementById('submit');
-    const audit_id=document.getElementById('Id').value.trim();
-    const client_id=document.getElementById('clId').value.trim();
-    const select=document.getElementById('select');
-
-    let response=await fetch('https://finalavengers.onrender.com/auditor/check');
-    if(!response.ok){
-        console.log('the client was not matched ');
-    }
-    let data=await response.json();
-    console.log(data['message']);
-    if(response.ok){
-        q
-
-    }
-
-}
-
-
-
-// updating status details..
+////securing updating status...
+// async function checking(){
+//    const submit=document.getElementById('submit');
+//    const audit_id=document.getElementById('Id').value.trim();
+//    const client_id=document.getElementById('clId').value.trim();
+//    const select=document.getElementById('select');
+//
+//    let response=await fetch('https://finalavengers.onrender.com/auditor/check');
+//    if(!response.ok){
+//        console.log('the client was not matched ');
+//    }
+//    let data=await response.json();
+//    console.log(data['message']);
+//    if(response.ok){
+//
+//
+//    }
+//
+//}
+//
+//
+//
+//// updating status details..
 
 async function updateStatus(){
 

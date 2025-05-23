@@ -12,9 +12,7 @@ import sqlite3
 import os
 import sqlite3
 import os
-#BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-#AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
-#root for application load
+
 
 @application.route('/admin/application')
 def admin_report():
@@ -23,7 +21,7 @@ def admin_report():
 
     conn=get_connection()
 
-    pointer=conn.cursor()
+    pointer=conn.cursor(dictionary=True)
     pointer.execute(query)
 
     row=pointer.fetchall()
@@ -46,7 +44,7 @@ def status_update():
         status=data['status']
         query="""update applications set status=%s where Auditor_id=%s"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query,(status,auditor_id))
             print('status updated successfully')
             conn.commit()
@@ -66,7 +64,7 @@ def report():
              data = [data]  # Convert single object to list for unified handling
 
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
 
             for row in data:
                 row = {key.strip(): value for key, value in row.items()}  # Clean keys
@@ -127,7 +125,7 @@ def loca(value):
         location_query="""select loction from audit_details where Audit_id=%s"""
         # getting connection to the db
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(location_query,(value,))
             location_info=pointer.fetchone()
 
@@ -150,7 +148,7 @@ def delete_data(data):
         # search query for db
         query="""delete from applications where status=%s"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query ,(value,))
             print('data deleted successfully')
     except Exception as e:
@@ -160,7 +158,7 @@ def delete_data(data):
 # for generating auditor_id
 def auditor_id():
     with get_connection() as conn:
-        pointer = conn.cursor()
+        pointer = conn.cursor(dictionary=True)
         pointer.execute("SELECT auditor_id FROM audit_report ORDER BY auditor_id DESC LIMIT 1")
         result=pointer.fetchone()
         print(result)

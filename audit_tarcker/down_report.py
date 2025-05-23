@@ -19,7 +19,7 @@ def file_download():
         download_query = "SELECT * FROM audit_report"
         conn = get_connection()  # Get connection
         try:
-            with conn.cursor() as cursor:
+            with conn.cursor(dictionary=True) as cursor:
                 cursor.execute(download_query)
                 data = cursor.fetchall()
                 df = pd.DataFrame(data)  # Convert to DataFrame

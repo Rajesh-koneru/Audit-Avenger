@@ -12,7 +12,7 @@ conn = mysql.connector.connect(
 
 print("Database connected...")
 
-cursor = conn.cursor()
+cursor = conn.cursor(dictionary=True)
 
 
 folder = r"C:\Users\user\Music\OneDrive\Documents\dumps"

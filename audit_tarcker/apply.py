@@ -35,7 +35,7 @@ def application():
 
     def auditor_id():
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute("SELECT Auditor_id FROM applications ORDER BY Auditor_id DESC LIMIT 1")
             result=pointer.fetchone()
             print(result)
@@ -61,7 +61,7 @@ def application():
                 WHERE Audit_id = %s
             """
             with get_connection() as conn:
-                pointer = conn.cursor()
+                pointer = conn.cursor(dictionary=True)
                 pointer.execute(query, (Audit_id,))
             return pointer.fetchone()
         except Exception as e:
@@ -76,7 +76,7 @@ def application():
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s,%s)
         """
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             print('connecting to db')
             pointer.execute(insert_query, (
                 aud_id,json_data['name'], json_data['phone'], json_data['email'],

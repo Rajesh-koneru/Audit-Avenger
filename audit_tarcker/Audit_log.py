@@ -46,7 +46,7 @@ def manual_update():
                 WhatsappLink
             ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query, ( data['Audit Id'],data['Auditor type'] ,data['industry'],data['Date'],data['auditor require'],data['Day'],data['Qualification'],data['equipment'],data['location'],data['State'],data['Amount'],data['requirement'],data['client_id'] ,data['whatsapp']))
         print('data inserted ')
         return jsonify('data inserted successfully...')
@@ -61,7 +61,7 @@ def audit_details():
     try:
         query="""select * from audit_details"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query)
             data=pointer.fetchall()
             print(data)

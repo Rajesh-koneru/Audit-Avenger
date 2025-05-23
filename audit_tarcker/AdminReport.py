@@ -10,10 +10,6 @@ import os
 import sqlite3
 import os
 
-
-#BASE_DIR = os.path.abspath(os.path.dirname(__file__))  # Get the directory of the current file
-#AuditTrack = os.path.join(BASE_DIR, '..', 'instance', 'auditTracker.db')
-
 @report.route('/admin/report')
 def admin_report():
     query = """ select * from audit_report"""
@@ -21,7 +17,7 @@ def admin_report():
 
     conn=get_connection()
 
-    pointer=conn.cursor()
+    pointer=conn.cursor(dictionary=True)
     pointer.execute(query)
 
     row=pointer.fetchall()
@@ -38,7 +34,7 @@ def total_auditor():
     try:
         query = """select audit_id from Audit_report"""
         with get_connection() as conn:
-            pointer=conn.cursor()
+            pointer=conn.cursor(dictionary=True)
             pointer.execute(query)
             data = pointer.fetchall()
             total = 0
@@ -56,7 +52,7 @@ def active_audits():
     try:
         query1 = """select audit_status from Audit_report where Audit_status='In Progress'"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query1)
             data1 = pointer.fetchall()
             total2 = 0
@@ -73,7 +69,7 @@ def complete():
     try:
         query2 = """select audit_status from Audit_report where Audit_status='Completed'"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query2)
             data1 = pointer.fetchall()
             total3 = 0
@@ -91,7 +87,7 @@ def pending():
     try:
         query3 = """select audit_status from Audit_report where Audit_status='Pending'"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query3)
             data1 = pointer.fetchall()
             total4 = 0
@@ -108,7 +104,7 @@ def recent_audits():
     try:
         query4 = """select Audit_id,auditor_id,planned_Date, auditor_name,audit_status from audit_report limit 5 """
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(query4)
             data1 = pointer.fetchall()
             print(data1)
@@ -132,7 +128,7 @@ def filter_data():
             # data base query for filter data
             query4 = f"""select * from Audit_report where audit_status=%s """
             with get_connection() as conn:
-                pointer = conn.cursor()
+                pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4,(value,))
                 data2 = pointer.fetchall()
                 print(data2)
@@ -141,7 +137,7 @@ def filter_data():
             # data base query for filter data
             query4 = f"""select * from Audit_report where payment_status=%s """
             with get_connection() as conn:
-                pointer = conn.cursor()
+                pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4, (value,))
                 data2 = pointer.fetchall()
                 print(data2)
@@ -150,7 +146,7 @@ def filter_data():
             # data base query for filter data
             query4 = f"""select * from Audit_report where State=%s """
             with get_connection() as conn:
-                pointer = conn.cursor()
+                pointer = conn.cursor(dictionary=True)
                 pointer.execute(query4, (value,))
                 data2 = pointer.fetchall()
                 print(data2)
@@ -175,7 +171,7 @@ def admin_status_update():
 
         update_query = f""" update Audit_report set audit_status=%s where auditor_id=%s"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(update_query, (status, value))
             print('updated')
             return jsonify({"message": "database updated successfully..."})
@@ -195,7 +191,7 @@ def payment_update():
         # data base manipulation
         update_query = f""" update Audit_report set payment_status=%s where auditor_id=%s"""
         with get_connection() as conn:
-            pointer = conn.cursor()
+            pointer = conn.cursor(dictionary=True)
             pointer.execute(update_query, (status, value))
 
         print('successfully updated')
@@ -203,49 +199,3 @@ def payment_update():
         return jsonify({"message":"payment Status Updated successfully..."})
     except Exception as e:
         return jsonify(e) ,500
-
-"""
-# single record update in the database
-@report.route('/admin/manual_update' ,methods=['POST'])
-def manual_update():
-    json_data=request.get_json()
-    print(json_data)
-    if json_data=='':
-        print('no data received')
-    data=json_data['data']
-    print(data)
-    try:
-        date_str = data["Planned Date"]
-
-        # Detect the format and parse accordingly
-        if "-" in date_str:  # Example: 2025-03-20 (YYYY-MM-DD)
-            planned_date = date_str  # Already correct, no conversion needed
-        else:  # Example: 03/20/25 (MM/DD/YY)
-            planned_date = datetime.strptime(date_str, "%Y-%m-%d").strftime("%Y-%m-%d")
-
-        # Store the planned_date
-        data["planned_date"] = planned_date
-
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
-    try:
-        collection.insert_one(
-            {
-                "Audit_id": data["Audit Id"],
-                "auditor_name": data["Auditor Name"],
-                "client_name": data["Client Name"],
-                "planned_date": datetime.strptime(data["Planned Date"], "%Y-%m-%d").strftime("%Y-%m-%d"),
-                "state": data["State"],
-                "city": data["City"],
-                "auditor_contact": data.get("Contact",'N/A'),
-                "audit_status": data["Audit Status"],
-                "payment_amount": data["Payment Amount"],
-                "payment_status": data["Payment Status"]
-            })
-        print('data inserted ')
-        return jsonify('data inserted successfully...')
-    except Exception as e:
-        print(e)
-        return jsonify(e) ,400
-
-"""
