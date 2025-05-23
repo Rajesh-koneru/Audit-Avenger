@@ -38,3 +38,5 @@ gunicorn==23.0.0
 flask-cors==5.0.1
 Flask-Mail==0.10.0
 mysql-connector-python==9.3.0
+protobuf==4.25.3
+
