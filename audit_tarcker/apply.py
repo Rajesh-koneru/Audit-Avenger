@@ -23,7 +23,7 @@ def register_page():
 def application():
     print('enntering into application...')
     # Check login
-    audit_id = session['Audit_id']
+    audit_id = session.get('Audit_id')
     print(audit_id)
     if not audit_id:
         return jsonify({'error': 'Session expired or audit ID not set'}), 403
@@ -78,6 +78,7 @@ def application():
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             print('connecting to db')
+            print(audit_data)
             pointer.execute(insert_query, (
                 aud_id,json_data['name'], json_data['phone'], json_data['email'],
                 audit_data['Audit_id'], audit_data['Audit_type'], audit_data['Date'],
@@ -85,7 +86,7 @@ def application():
             ))
             print('data inserted into table')
             conn.commit()
-        return jsonify({'message': 'Your application is saved successfully.','link':session['whatsappLink']})
+        return jsonify({'message': 'Your Application is saved Successfully.','link':session['whatsappLink']})
     # Main logic
     audit_data = get_audit_data()
     print("the audit data is ",audit_data)

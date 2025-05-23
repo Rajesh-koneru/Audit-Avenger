@@ -5,6 +5,7 @@ import os
 
 # Connect to the railway db
 def get_connection():
+    print('connecting to the external database')
     return mysql.connector.connect(
     host="interchange.proxy.rlwy.net",
     port=20639,
@@ -14,13 +15,12 @@ def get_connection():
     autocommit = True
    )
 
-""" #Connect to PlanetScale
-def get_connection():
+ #Connect to PlanetScale
+"""def get_connection():
     return mysql.connector.connect(
     host="127.0.0.1",
     user="raju",
     password="Bujji@192921",
     database="AuditTracker",
-
     autocommit = True  # Ensures automatic commit
 )"""

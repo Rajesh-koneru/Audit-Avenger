@@ -26,9 +26,7 @@ document.addEventListener("DOMContentLoaded", function (){
     async function completeData(){
           let response=await fetch("/admin/complete");    //api call
           let data= await response.json();
-
           complete.innerText=data;
-
     }
     completeData()
 

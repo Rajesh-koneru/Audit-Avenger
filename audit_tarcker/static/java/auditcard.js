@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = await response.json();
             cardbody.innerHTML = "";
             console.log(data);
-
             data.forEach((item) => {
                 let div1 = document.createElement("div");
                 let div2 = document.createElement("div");
@@ -47,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (contentType && contentType.includes('application/json')) {
                             const data = await response.json();
                             if (response.ok) {
-                                alert(data.message)
                                 console.log('Application Success:', data.message);
                                 window.location.href = '/apply/user_Details';
                             } else {

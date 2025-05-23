@@ -48,11 +48,11 @@ def manual_update():
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query, ( data['Audit Id'],data['Auditor type'] ,data['industry'],data['Date'],data['auditor require'],data['Day'],data['Qualification'],data['equipment'],data['location'],data['State'],data['Amount'],data['requirement'],data['client_id'] ,data['whatsapp']))
-        print('data inserted ')
+        print('new audit data is  inserted in the database through admin ')
         return jsonify('data inserted successfully...')
     except Exception as e:
         print(e)
-        return jsonify(e) ,400
+        return jsonify(str(e)) ,400
 
 # audit details card
 
