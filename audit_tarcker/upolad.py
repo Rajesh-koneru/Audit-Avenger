@@ -32,7 +32,7 @@ def upload_excel():
             print(row)
             planned_date = '2025-01-01'  # Default value
             Client_id = 1
-            contact_number = int(row.get("Contact Number", "Unknown"))  # Handle missing keys safely
+
 
             query = """insert into audit_details(
                            Audit_id,
@@ -53,9 +53,9 @@ def upload_excel():
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query, (
-                row['Audit Id'], row['Auditor type'], row['industry'], row['Date'], row['auditor require'],
-                row['Day'], row['Qualification'], row['equipment'], row['location'], row['State'], row['Amount'],
-                row['requirement'], row['client_id'], row['whatsapp']))
+                row['Audit_id'], row['Audit Type'], row['audit industry'], row['Date'], row['auditors require'],
+                row['days'], row['qualification'], row['equipment'], row['location'], row['state'], row['amount'],
+                row['requirements'], row['client Id'], row['whatsapp link']))
             # <- Optional 'track'
         print('data entered....')
         return jsonify({"message": "Data successfully saved to database!"})
