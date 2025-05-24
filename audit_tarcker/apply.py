@@ -100,12 +100,6 @@ def application():
                 'link': session.get('whatsappLink', '')
             }), 200
 
-        except IntegrityError as e:
-            print("Integrity error:", str(e))
-            return jsonify({'error': 'Database integrity error.', 'details': str(e)}), 400
-        except DatabaseError as e:
-            print("Database error:", str(e))
-            return jsonify({'error': 'Database operation failed.', 'details': str(e)}), 500
         except Exception as e:
             print("Unexpected error in insert_application:", str(e))
             return jsonify({'error': 'Unexpected server error.', 'details': str(e)}), 500

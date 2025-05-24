@@ -5,7 +5,6 @@ import os
 
 # Connect to the railway db
 def get_connection():
-    print('connecting to the external database')
     return mysql.connector.connect(
     host="interchange.proxy.rlwy.net",
     port=20639,

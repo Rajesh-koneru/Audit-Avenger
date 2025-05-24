@@ -59,7 +59,7 @@ def manual_update():
 @audit_log.route("/audit_details")
 def audit_details():
     try:
-        query="""select * from audit_details"""
+        query="""select * from audit_details """
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query)
@@ -69,4 +69,20 @@ def audit_details():
     except Exception as e:
         print(e)
         return jsonify(e),400
+
+@audit_log.route("/home_page/audits")
+def home_page_audit_details():
+    try:
+        query="""select * from audit_details limit 5 """
+        with get_connection() as conn:
+            pointer = conn.cursor(dictionary=True)
+            pointer.execute(query)
+            data=pointer.fetchall()
+            print(data)
+        return jsonify(data)
+    except Exception as e:
+        print(e)
+        return jsonify(e),400
+
+
 

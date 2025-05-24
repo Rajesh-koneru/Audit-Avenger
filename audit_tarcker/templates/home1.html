@@ -70,6 +70,12 @@
             font-size: 24px;
             cursor: pointer;
      }
+     #live{
+       font-size:30px;
+       margin-left:900px;
+       font-weight:bold;
+
+     }
 
      #sticky i{
        position: relative;  /* Change to absolute if needed */
@@ -149,6 +155,21 @@
          color:#FFEB3B;
          transform:scale(1.5);
      }
+   @keyframes colorChange {
+  0%   { color: #10b981; }
+  50%  { color: #6ee7b7; }
+  100% { color: #10b981; }
+}
+
+#live {
+  animation: colorChange 3s infinite;
+}
+#Live_audits{
+  animation: colorChange 2s infinite;
+}
+
+
+
 
 
 
@@ -173,7 +194,7 @@
     <li><a class="hover:text-yellow-500" href="#contact">
      Contact
     </a></li>
-     <li><a class="hover:text-yellow-500" href="/audit_card">
+     <li><a class="hover:text-yellow-500" href="/audit_card" id="Live_audits">
      Live Audits
     </a></li>
      <li> <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page" style="align-text:center;color:black " id="get" >Get Started</a></li>
@@ -181,14 +202,13 @@
    </nav>
    <div class="hamburger" onclick="toggleMenu()">☰</div>
   </header>
-  <section class="bg-black p-8 text-center">
-     <h1 class="text-4xl font-bold text-yellow-500">
-      Unmasking Financial Excellence
-     </h1>
-     <p class="mt-4">
-      We empower businesses to achieve their financial goals with confidence through expert auditing and financial analysis.
-     </p>
-   <div class="mt-6 space-x-4"><img alt="Audit Avengers logo with a shield and checkmark" class="mt-8 mx-auto" height="300" src="https://ik.imagekit.io/yaeed3jhi/Picsart_25-02-08_21-13-53-074.png?updatedAt=1741186239202" width="600"/></div>
+  <section>
+   <div><h1 id="live">LIVE AUDITS</h1></div>
+  </section>
+  <section>
+   <div class="grid grid-cols-3 md:grid-cols-3 gap-4 bg-gray-1000 " id="card">
+        </div>
+
   </section>
   <section id="about" class="bg-black p-8 text-center">
    <h2 class="text-3xl font-bold text-yellow-500">
@@ -231,7 +251,7 @@
      </div>
     </div>
    </div>
-   <div  id='sticky' class="fixed bottom-5 right-5 md:bottom-8 md:right-3 bg-green-500 text-white p-5 md:p-5 rounded-full shadow-lg hover:bg-green-600  transition duration-300 flex items-center gap-2">
+   <div  id='sticky' class="fixed bottom-5 right-2 md:bottom-8 md:right-0 bg-green-500 text-white p-5 md:p-3 rounded-tl-2xl rounded-bl-2xl   shadow-lg hover:bg-green-600  transition duration-300 flex items-center gap-2">
     <a class="text-yellow-500" href="https://chat.whatsapp.com/H7N9dgDI5inFTjMVwf0G43">
       <i class="fab fa-whatsapp" >
       </i>
@@ -302,14 +322,14 @@
       Contact us today to discuss your specific auditing and financial needs.
      </p>
      <button class="mt-4 bg-black text-yellow-500 px-4 py-2 rounded">
-     <a href="#contact"></a> 
+     <a href="#contacts"></a>
            Get in Touch
      </button>
     </div>
    </div>
   </section>
   <section id="founder" class="bg-black p-8 flex flex-col md:flex-row items-center">
-   <img alt="Founder of Audit Avengers, Nikhil Mailapuram" class="rounded-full w-48 h-48 md:w-64 md:h-64" height="400" src="https://media.licdn.com/dms/image/v2/D5603AQFuPikYzPa7kw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1704689235559?e=1746662400&v=beta&t=32dLdTqVJ3_y4CHNIFPCCyaUZ0ldYoskO9ir0TYL6hg" width="300"/>
+   <img alt="Founder of Audit Avengers, Nikhil Mailapuram" class="rounded-full w-48 h-48 md:w-64 md:h-64" height="400" src="{{ url_for('static', filename='2.png') }}" width="300"/>
    <div class="mt-8 md:mt-0 md:ml-8 text-center md:text-left">
     <h2 class="text-3xl font-bold text-yellow-500">
      Meet the Founder

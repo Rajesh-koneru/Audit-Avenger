@@ -70,6 +70,23 @@
           font:1px;
       }
 
+      .submitBtn{
+         background-color: #22c55e; /* bg-green-500 */
+         color: white;              /* text-white */
+         padding: 0.5rem 1rem;      /* py-2 px-4 */
+         border-radius: 0.5rem;     /* rounded-lg */
+         display: flex;             /* flex */
+         align-items: center;       /* items-center */
+         gap: 0.5rem;               /* gap-2 */
+         transition: background-color 0.3s ease; /* transition */
+      }
+
+      .submitBtn {
+         background-color: #166534; /* hover:bg-green-800 */
+      }
+
+      }
+
         @media screen and (max-width: 600px){
                  #scroll_div{
                      overflow-x:scroll;
@@ -168,6 +185,10 @@
                     <th class="py-2 px-4 text-left">Client Id</th>
                     <th class="py-2 px-4 text-left">Payment</th>
                     <th class="py-2 px-4 text-left">Status</th>
+                    <th><button class="submitBtn" >
+                       <i class="fas fa-arrow-right"></i> submit
+                       </button>
+                    </th>
 
                 </tr>
             </thead>
@@ -176,11 +197,6 @@
                 <!-- Add rows here -->
             </tbody>
         </table>
-    </div>
-    <div style="display:flex; justify-content:right;padding:10px;">
-    <button class="bg-green-500 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-green-800 transition" id="submitBtn" >
-    <i class="fas fa-arrow-right"></i> submit
-     </button>
     </div>
 </main>
 <footer class="bg-black text-white p-4 mt-8 border-t-2 border-yellow-500">

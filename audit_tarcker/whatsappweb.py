@@ -2,6 +2,7 @@ from flask import Flask ,Blueprint,redirect,jsonify,request
 from flask_login import login_required
 import threading
 import time
+import queue
 
 from audit_tarcker.config import get_connection
 from datetime import datetime
@@ -91,9 +92,15 @@ def report():
                 ))
 
             conn.commit()
+
+            # for deleting or updating audits
+            result_queue = queue.Queue()
+            threading.Thread(target=delete_audit_data, args=(data,result_queue)).start()
+            message = result_queue.get()
+
             # Step 2: Start background thread to delete after delay
             threading.Thread(target=delete_data, args=(data,)).start()
-        return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.','auditor_id':aud_id,'phone':row['phone'],'auditor_name':row['auditor_name']}), 200
+        return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.','auditor_id':aud_id,'phone':row['phone'],'auditor_name':row['auditor_name'] ,'audit_message':message}), 200
     except Exception as e:
         print(str(e))
         return None
@@ -127,12 +134,14 @@ def loca(value):
             pointer = conn.cursor(dictionary=True)
             pointer.execute(location_query,(value,))
             location_info=pointer.fetchone()
-
         return location_info
 
     except Exception as e:
         print(f"Date parsing error: {e}")
         return None
+
+
+
 def delete_data(data):
     try:
         time.sleep(10)
@@ -172,4 +181,43 @@ def auditor_id():
             new_id = f"AUD{next_numeric:03d}"
 
     return new_id
+
+
+def delete_audit_data(Audit_id,result_queue):
+    time.sleep(8)
+    query="""select Auditors_require from audit_details where Audit_id=%s"""
+    audit_id=Audit_id[0]['audit_id']
+    with get_connection() as conn:
+        pointer = conn.cursor(dictionary=True)
+        pointer.execute(query,(audit_id,))
+        data = pointer.fetchall()
+        print(data)
+        data1=data[0]
+        auditors=data1['Auditors_require']
+    if auditors==1:
+        # when the require auditor is one then the audit is deleted from db else
+
+        delete_query="""delete from audit_details where Audit_id=%s"""
+        with get_connection() as conn:
+            pointer = conn.cursor(dictionary=True)
+            pointer.execute(delete_query, (audit_id,))
+
+        result_queue.put("Audit is Delete Successful")
+
+    else:
+
+        #if the auditor require more then one then the requirement is updated accordingly..
+
+        update_query="""update audit_details set Auditors_require=%s where Audit_id=%s"""
+
+        new_auditors=int(auditors)-1
+        with get_connection() as conn:
+            pointer = conn.cursor(dictionary=True)
+            pointer.execute(update_query, (new_auditors,audit_id))
+        result_queue.put("Auditor requirement Update Successful")
+
+
+
+
+
 

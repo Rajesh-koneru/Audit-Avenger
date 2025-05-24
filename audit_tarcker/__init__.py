@@ -3,7 +3,8 @@ from secrets import token_hex
 import os
 from flask_login import login_required
 from flask_session import Session
-from grpclib.plugin.main import render
+from datetime import timedelta
+
 
 from audit_tarcker.mail_config import mail
 
@@ -51,6 +52,7 @@ def create_App():
     app.secret_key = token_hex(16)  # Secure session key
     app.config['SESSION_TYPE'] = 'filesystem'
     Session(app)
+    app.permanent_session_lifetime = timedelta(minutes=10)
 
     # Register Blueprints (Ensuring Unique Names)
     app.register_blueprint(auth)

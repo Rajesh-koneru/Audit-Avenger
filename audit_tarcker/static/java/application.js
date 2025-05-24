@@ -38,6 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
                           ${item.status === 'accepted' ? 'Accepted' : 'Rejected'}
                         </button>
                     </td>
+                    <td><button class="submitBtn" >
+                       <i class="fas fa-arrow-right"></i> submit
+                       </button>
+                    </td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -73,7 +77,7 @@ setTimeout(()=>{
           });
         });
         // submitting the aceptted data to the backend...
-        document.getElementById('submitBtn').addEventListener('click', async function sendAcceptedRowData() {
+        document.querySelectorAll('.submitBtn').forEach((button)=>{button.addEventListener('click', async function sendAcceptedRowData() {
                 const table = document.querySelector('.table_body'); // Only one element
                 const rows = table.getElementsByTagName("tr");
                 let sendData=[]
@@ -111,6 +115,9 @@ setTimeout(()=>{
                             const result = await response.json();
                             console.log("Response:", result);
                             alert(result['message']);
+
+
+
                             const phoneNumber = result['phone']; // Replace with receiver's WhatsApp number4
                             const name=result['auditor_name']
                             const password=result['auditor_id']
@@ -121,17 +128,23 @@ setTimeout(()=>{
 
                              // Create WhatsApp link
                             const whatsappURL = `https://wa.me/+91${phoneNumber}?text=${encodedMessage}`;
-
                               // Redirect to WhatsApp
                               window.open(whatsappURL, '_blank');
                             setTimeout(()=>{
                                 alert(result['delete_message']);
-                            },7000)
+                            },5000)
+                            setTimeout(()=>{
+                                alert(result['audit_message']);
+                            },5000)
                         } catch (error) {
                             console.error("Error submitting accepted row:", error);
                         }
+
+
             });
-        } ,2000);
+
+            });
 
 
 
+        } ,1000);
