@@ -18,7 +18,7 @@ cursor = conn.cursor(dictionary=True)
 folder = r"C:\Users\user\Music\OneDrive\Documents\dumps"
 print("Files in folder:", os.listdir(folder))
 
-with open(r"C:\Users\user\PycharmProjects\flaskApp\db backup\Dump20250522\audittracker_audit_report.sql", "r") as f:
+with open(r"C:\Users\user\PycharmProjects\flaskApp\Dump20250524\audittracker_audit_report.sql", "r") as f:
 
     sql = f.read()
     for statement in sql.split(';'):

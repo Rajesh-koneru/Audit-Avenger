@@ -25,11 +25,11 @@ def admin_report():
     pointer.execute(query)
 
     row=pointer.fetchall()
+    print('the db data',row)
     data=[]
-    print(row)
-    for i in range(len(row)):
 
-        data1={'Audit_id':row[i]['audit_id'],'Auditor_id':row[i]['Auditor_id'],'Auditor_name':row[i]["Auditor_name"],'audit_type':row[i]['audit_type'],'Date':row[i]['date'],'phone':row[i]['phone'],'email':row[i]['email'],'Client_id':row[i]['client_id']}
+    for i in range(len(row)):
+        data1={'Audit_id':row[i]['audit_id'],'Auditor_id':row[i]['Auditor_id'],'Auditor_name':row[i]["Auditor_name"],'audit_type':row[i]['audit_type'],'Date':row[i]['date'],'phone':row[i]['phone'],'email':row[i]['email'],'Client_id':row[i]['client_id'],'state':row[i]['state']}
         data.append(data1)
 
     return jsonify(data)
@@ -68,9 +68,12 @@ def report():
 
             for row in data:
                 row = {key.strip(): value for key, value in row.items()}  # Clean keys
+                print('the single data is',row)
+                print(row['Date'])
                 planned_date= clean_date(row['Date'])
-                print(planned_date)
+                print('the date is ',planned_date)
                 location=loca(row['audit_id'])
+
                 aud_id=auditor_id()
 
                 # Make sure all required keys are present
@@ -97,18 +100,18 @@ def report():
             result_queue = queue.Queue()
             threading.Thread(target=delete_audit_data, args=(data,result_queue)).start()
             message = result_queue.get()
-
             # Step 2: Start background thread to delete after delay
             threading.Thread(target=delete_data, args=(data,)).start()
         return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.','auditor_id':aud_id,'phone':row['phone'],'auditor_name':row['auditor_name'] ,'audit_message':message}), 200
     except Exception as e:
-        print(str(e))
+        print('the error was',str(e))
         return None
 
 def clean_date(date_str):
     try:
         # Parse the RFC1123 format
         parsed_date = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z')
+        print(parsed_date)
 
         # MySQL doesn't support years below 1000
         if parsed_date.year < 1000:
@@ -127,6 +130,7 @@ def clean_date(date_str):
 # location info
 def loca(value):
     try:
+        print(value)
         #query to search in the table
         location_query="""select loction from audit_details where Audit_id=%s"""
         # getting connection to the db
@@ -134,13 +138,12 @@ def loca(value):
             pointer = conn.cursor(dictionary=True)
             pointer.execute(location_query,(value,))
             location_info=pointer.fetchone()
+            print(location_info)
         return location_info
 
     except Exception as e:
         print(f"Date parsing error: {e}")
         return None
-
-
 
 def delete_data(data):
     try:
@@ -184,38 +187,47 @@ def auditor_id():
 
 
 def delete_audit_data(Audit_id,result_queue):
-    time.sleep(8)
-    query="""select Auditors_require from audit_details where Audit_id=%s"""
-    audit_id=Audit_id[0]['audit_id']
-    with get_connection() as conn:
-        pointer = conn.cursor(dictionary=True)
-        pointer.execute(query,(audit_id,))
-        data = pointer.fetchall()
-        print(data)
-        data1=data[0]
-        auditors=data1['Auditors_require']
-    if auditors==1:
-        # when the require auditor is one then the audit is deleted from db else
-
-        delete_query="""delete from audit_details where Audit_id=%s"""
+    try:
+        time.sleep(8)
+        query="""select Auditors_require from audit_details where Audit_id=%s"""
+        audit_id=Audit_id[0]['audit_id']
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
-            pointer.execute(delete_query, (audit_id,))
+            pointer.execute(query,(audit_id,))
+            data = pointer.fetchall()
+            print(data)
+            data1=data[0]
+            auditors=data1['Auditors_require']
+        if auditors==1:
+            # when the require auditor is one then the audit is deleted from db else
 
-        result_queue.put("Audit is Delete Successful")
+            delete_query="""delete from audit_details where Audit_id=%s"""
+            with get_connection() as conn:
+                pointer = conn.cursor(dictionary=True)
+                pointer.execute(delete_query, (audit_id,))
+                print('the audit data is deleted')
+            if audit_id:
+                delete_application="""delete from applications where Audit_id=%s"""
+                with get_connection() as conn:
+                    pointer = conn.cursor(dictionary=True)
+                    pointer.execute(delete_application, (audit_id,))
+                    print('the applications deleted data is deleted')
+            result_queue.put("Audit is Delete Successful")
 
-    else:
+        else:
 
-        #if the auditor require more then one then the requirement is updated accordingly..
+            #if the auditor require more then one then the requirement is updated accordingly..
 
-        update_query="""update audit_details set Auditors_require=%s where Audit_id=%s"""
+            update_query="""update audit_details set Auditors_require=%s where Audit_id=%s"""
 
-        new_auditors=int(auditors)-1
-        with get_connection() as conn:
-            pointer = conn.cursor(dictionary=True)
-            pointer.execute(update_query, (new_auditors,audit_id))
-        result_queue.put("Auditor requirement Update Successful")
-
+            new_auditors=int(auditors)-1
+            with get_connection() as conn:
+                pointer = conn.cursor(dictionary=True)
+                pointer.execute(update_query, (new_auditors,audit_id))
+            result_queue.put("Auditor requirement Update Successful")
+    except Exception as e:
+        print(str(e))
+        return jsonify(str(e))
 
 
 

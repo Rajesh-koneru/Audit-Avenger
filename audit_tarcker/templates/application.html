@@ -78,11 +78,14 @@
          display: flex;             /* flex */
          align-items: center;       /* items-center */
          gap: 0.5rem;               /* gap-2 */
-         transition: background-color 0.3s ease; /* transition */
+
       }
 
-      .submitBtn {
+      .submitBtn:hover{
          background-color: #166534; /* hover:bg-green-800 */
+      }
+      .submitBtn:active{
+      background-color: #14532d; /* hover:bg-green-900 *
       }
 
       }
@@ -181,6 +184,7 @@
                     <th class="py-2 px-4 text-left">Client Id</th>
                     <th class="py-2 px-4 text-left">Payment</th>
                     <th class="py-2 px-4 text-left">Status</th>
+                    <th class="py-2 px-4 text-left">Update Button</th>
                 </tr>
             </thead>
             <tbody class="table_body"  >

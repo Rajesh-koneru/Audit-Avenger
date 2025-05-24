@@ -12,7 +12,7 @@ def get_connection():
     password="nwPKmzXjMQOHkjlaGLndEYiCwXuOOBTa",
     database="railway",
     autocommit = True
-   )
+)
 
  #Connect to PlanetScale
 """def get_connection():

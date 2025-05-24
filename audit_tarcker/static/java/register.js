@@ -1,11 +1,18 @@
 // Function for registration
-async function register() {
-    let name = document.getElementById('name').value;
-    let mail = document.getElementById('email').value;
-    let phone = document.getElementById('phone').value;
+async function register(event) {
+    event.preventDefault();  // Prevent form reload if inside <form>
+
+    const name = document.getElementById('name').value;
+    const mail = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+
+    if (!name || !mail || !phone) {
+        alert("All fields are required.");
+        return;
+    }
 
     try {
-        let response = await fetch('/apply/audit_application', {
+        const response = await fetch('/apply/audit_application', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,9 +27,11 @@ async function register() {
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        let data = await response.json();
+
+        const data = await response.json();
         alert(data['message']);
-        window.location.href =data['link'];
+        window.location.href = data['link'];
+
     } catch (error) {
         console.error('Error during registration:', error);
         alert('Failed to register. Please try again.');

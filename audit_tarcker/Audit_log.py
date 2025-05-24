@@ -64,7 +64,7 @@ def audit_details():
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query)
             data=pointer.fetchall()
-            print(data)
+            print('the application data is',data)
         return jsonify(data)
     except Exception as e:
         print(e)

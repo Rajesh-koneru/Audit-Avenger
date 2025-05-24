@@ -32,13 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     </td>
                     <td class="bg-gray-800 text-white p-2 text-center">
                         <button
-                          class="toggle-btn ${item.status === 'accepted' ? 'bg-green-500' : 'bg-red-500'} text-white px-2 py-1 rounded"
+                          class="toggle-btn ${item.status === 'accepted' ? 'bg-green-500 ' : 'bg-red-500 '} hover:bg-red-700 text-white px-2 py-1 rounded"
                           data-auditor-id="${item.Auditor_id}"
                         >
                           ${item.status === 'accepted' ? 'Accepted' : 'Rejected'}
                         </button>
                     </td>
-                    <td><button class="submitBtn" >
+                    <td class="bg-gray-800 text-white p-2 text-center"><button class="submitBtn" >
                        <i class="fas fa-arrow-right"></i> submit
                        </button>
                     </td>
@@ -132,10 +132,10 @@ setTimeout(()=>{
                               window.open(whatsappURL, '_blank');
                             setTimeout(()=>{
                                 alert(result['delete_message']);
-                            },5000)
+                            },2000)
                             setTimeout(()=>{
                                 alert(result['audit_message']);
-                            },5000)
+                            },3000)
                         } catch (error) {
                             console.error("Error submitting accepted row:", error);
                         }
@@ -147,4 +147,4 @@ setTimeout(()=>{
 
 
 
-        } ,1000);
+        } ,5000);

@@ -29,7 +29,7 @@ def application():
         return jsonify({'error': 'Session expired or audit ID not set'}), 403
 
     json_data = request.get_json()
-    print(json_data)
+    print('the json data is',json_data)
     if not audit_id:
         return jsonify({'error': 'Missing audit_id'}), 400
 
@@ -69,6 +69,7 @@ def application():
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query, (Audit_id,))
                 result = pointer.fetchone()
+                print('the audit _data is ',result)
                 if not result:
                     raise ValueError(f"No audit found with Audit_id: {Audit_id}")
                 return result
