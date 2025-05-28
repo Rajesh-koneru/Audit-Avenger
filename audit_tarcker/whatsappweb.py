@@ -70,9 +70,11 @@ def report():
                 row = {key.strip(): value for key, value in row.items()}  # Clean keys
                 print('the single data is',row)
                 print(row['Date'])
-                planned_date= clean_date(row['Date'])
-                print('the date is ',planned_date)
+
+                planned_date=clean_date(row['Date'])
+                print(planned_date)
                 location=loca(row['audit_id'])
+                print( "the location details are ",location,location['loction'])
 
                 aud_id=auditor_id()
 
@@ -130,7 +132,7 @@ def clean_date(date_str):
 # location info
 def loca(value):
     try:
-        print(value)
+        print('the audit is is ',value)
         #query to search in the table
         location_query="""select loction from audit_details where Audit_id=%s"""
         # getting connection to the db
@@ -139,6 +141,7 @@ def loca(value):
             pointer.execute(location_query,(value,))
             location_info=pointer.fetchone()
             print(location_info)
+
         return location_info
 
     except Exception as e:
@@ -226,8 +229,10 @@ def delete_audit_data(Audit_id,result_queue):
                 pointer.execute(update_query, (new_auditors,audit_id))
             result_queue.put("Auditor requirement Update Successful")
     except Exception as e:
-        print(str(e))
+        print( 'the delete error is ',str(e))
         return jsonify(str(e))
+
+
 
 
 

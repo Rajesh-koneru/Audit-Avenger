@@ -16,7 +16,7 @@ def register_page():
         session['whatsappLink']=whatsapp_link
         session["Audit_id"] = audit_id
         return jsonify({'message': 'Audit ID stored in session'})
-    return render_template('registration.html')
+    return render_template('register.html')
 
 
 @audit_bp.route('/apply/audit_application', methods=['POST',"GET"])

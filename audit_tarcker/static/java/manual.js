@@ -1,6 +1,7 @@
 document.getElementById('submit').addEventListener("click", () => {
     // Select all elements with the class "input"
-    const elements = document.querySelectorAll('.input');
+    const elements = document.querySelectorAll('input');
+    console.log(elements)
 
 
     let data = {}; // Initialize an empty object

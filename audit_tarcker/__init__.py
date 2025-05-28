@@ -107,7 +107,7 @@ def create_App():
 
     @app.route('/admin/manual_data')
     def new_data():
-        return render_template('1.html')
+        return render_template('New Audit.html')
 
     @app.route('/application')
     def application():

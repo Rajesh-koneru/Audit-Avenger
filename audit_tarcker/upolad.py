@@ -32,6 +32,16 @@ def upload_excel():
             print(row)
             planned_date = '2025-01-01'  # Default value
             Client_id = 1
+            date_str = row["Date"]
+
+            # Detect the format and parse accordingly
+            if "-" in date_str:  # Example: 2025-03-20 (YYYY-MM-DD)
+                date = date_str  # Already correct, no conversion needed
+            else:  # Example: 03/20/25 (MM/DD/YY)
+                date = datetime.strptime(date_str, "%Y-%m-%d").strftime("%Y-%m-%d")
+
+            # Store the planned_date
+            row["Date"] = date
 
 
             query = """insert into audit_details(

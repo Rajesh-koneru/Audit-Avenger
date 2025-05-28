@@ -13,7 +13,6 @@ def manual_update():
     if json_data=='':
         print('no data received')
     data=json_data['data']
-    print(data)
     try:
         date_str = data["Date"]
 
@@ -41,13 +40,12 @@ def manual_update():
                 loction,
                 state,
                 Amount,
-                requirements,
                 Client_id,
                 WhatsappLink
-            ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
-            pointer.execute(query, ( data['Audit Id'],data['Auditor type'] ,data['industry'],data['Date'],data['auditor require'],data['Day'],data['Qualification'],data['equipment'],data['location'],data['State'],data['Amount'],data['requirement'],data['client_id'] ,data['whatsapp']))
+            pointer.execute(query, ( data['Audit Id'],data['Audit type'] ,data['industry'],data['Date'],data['auditor require'],data['Days'],data['Qualification'],data['equipment'],data['location'],data['State'],data['Amount'],data['client_id'] ,data['whatsapp']))
         print('new audit data is  inserted in the database through admin ')
         return jsonify('data inserted successfully...')
     except Exception as e:
@@ -64,7 +62,7 @@ def audit_details():
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query)
             data=pointer.fetchall()
-            print('the application data is',data)
+
         return jsonify(data)
     except Exception as e:
         print(e)
