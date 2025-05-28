@@ -47,17 +47,21 @@ async function homeCard(){
                 let div2 = document.createElement("div");
                 let div3 = document.createElement("div");
 
+                let Date=localDate(item.Date);
+                let status=openAudits(item.Date);
+                console.log('new date is :'+status);
+
                 div2.innerHTML = `
-                    <h2 class="text-xl font-bold mb-2"><span class="font-bold">Audit_Id:</span>${item.Audit_id}</h2>
-                    <p><i class="fas fa-industry"></i> <span class="font-bold">Industry:</span> ${item.industry}</p>
-                    <p><i class="fas fa-industry"></i> <span class="font-bold">Audit_type:</span> ${item.Audit_type}</p>
-                    <p><i class="fas fa-calendar-alt"></i> <span class="font-bold">Date:</span> ${item.Date}</p>
-                    <p><i class="fas fa-user"></i> <span class="font-bold">AuditAvenger per day:</span> ${item.Auditors_require}</p>
-                    <p><i class="fas fa-clock"></i> <span class="font-bold">Day(s):</span> ${item.Days}</p>
-                    <p><i class="fas fa-graduation-cap"></i> <span class="font-bold">Qualification:</span> ${item.Qualification}</p>
-                    <p><i class="fas fa-laptop"></i> <span class="font-bold">Laptop:</span> ${item.equipment}</p>
-                    <p><i class="fas fa-map-marker-alt"></i> <span class="font-bold text-red-500">Location:</span> ${item.loction}</p>
-                    <p><i class="fas fa-dollar-sign"></i> <span class="font-bold">Compensation:</span> ${item.Amount}</p>
+                    <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit_Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span> ${item.industry}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit_type:</span> <span>${item.Audit_type}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span> ${Date}</span></li>
+                    <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require} Auditor(s) require</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span> For ${item.Days} day</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span> ${item.Qualification}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Laptop:</span> <span>${item.equipment}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span> ${item.loction}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span> ${item.Amount}/- per Day</span></li>
                 `;
 
                 div3.innerHTML = `
@@ -97,8 +101,8 @@ async function homeCard(){
                 })
 
                // Tailwind CSS classes
-                div1.classList.add("flex", "flex-col", "justify-between", "bg-yellow-100", "rounded-lg", "shadow", "m-4", "overflow-hidden");
-                div2.classList.add("p-4" ,"bg-gray-800");
+                div1.classList.add("flex", "flex-col", "justify-between", "bg-yellow-100", "rounded-lg", "shadow", "m-4", "overflow-hidden","border-t-[10px]","border-t-yellow-500");
+                div2.classList.add("p-4" ,"bg-gray-800" ,"space-y-2");
                 div3.classList.add("bg-gray-800", "p-4", "rounded-b-lg");
 
                 // Nesting the elements properly
@@ -114,4 +118,30 @@ async function homeCard(){
 }
 homeCard();
 
-})
+});
+
+function openAudits(auditDateStr){
+
+    const auditDate = new Date(auditDateStr);
+    const today = new Date();
+
+    const diffTime = today - auditDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24); // milliseconds to days
+
+    const status =  Math.trunc(diffDays) <= 0 ? "Urgent" : "Open";
+
+    console.log(diffDays)
+
+    console.log("Status:", status);
+    return status
+}
+function localDate(rawDate) {
+  const date = new Date(rawDate);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime()) || date.getFullYear() <= 1) {
+    return "1/1/2023"; // fallback for bad or default .NET date
+  }
+
+  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+}

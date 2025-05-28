@@ -116,8 +116,6 @@ setTimeout(()=>{
                             console.log("Response:", result);
                             alert(result['message']);
 
-
-
                             const phoneNumber = result['phone']; // Replace with receiver's WhatsApp number4
                             const name=result['auditor_name']
                             const password=result['auditor_id']
@@ -129,13 +127,14 @@ setTimeout(()=>{
                              // Create WhatsApp link
                             const whatsappURL = `https://wa.me/+91${phoneNumber}?text=${encodedMessage}`;
                               // Redirect to WhatsApp
-                              window.open(whatsappURL, '_blank');
+                            window.open(whatsappURL, '_blank');
+
                             setTimeout(()=>{
                                 alert(result['delete_message']);
-                            },2000)
+                            },3000)
                             setTimeout(()=>{
                                 alert(result['audit_message']);
-                            },3000)
+                            },4000)
                         } catch (error) {
                             console.error("Error submitting accepted row:", error);
                         }
