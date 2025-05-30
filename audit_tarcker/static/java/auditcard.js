@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log('new date is :'+Date)
 
                 div2.innerHTML = `
-                    <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit_Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
+                    <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2 text-yellow-500">Audit Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span> ${item.industry}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit_type:</span> <span>${item.Audit_type}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit Type:</span> <span>${item.Audit_type}</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span> ${Date}</span></li>
                     <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require} Auditor(s) require</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span> For ${item.Days} day</span></li>

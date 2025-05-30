@@ -52,16 +52,16 @@ async function homeCard(){
                 console.log('new date is :'+status);
 
                 div2.innerHTML = `
-                    <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit_Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span> ${item.industry}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit_type:</span> <span>${item.Audit_type}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span> ${Date}</span></li>
-                    <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require} Auditor(s) require</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span> For ${item.Days} day</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span> ${item.Qualification}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Laptop:</span> <span>${item.equipment}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span> ${item.loction}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span> ${item.Amount}/- per Day</span></li>
+                    <h2 class="flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit_Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span class="text-xs md:text-base lg:text-lg"> ${item.industry}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit_type:</span> <span class="text-xs md:text-base lg:text-lg">${item.Audit_type}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span class="text-xs md:text-base lg:text-lg"> ${Date}</span></li>
+                    <li class="flex justify-between" ><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span class="text-xs md:text-base lg:text-lg"> <span>${item.Auditors_require} Auditor(s) require</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span class="text-xs md:text-base lg:text-lg"> For ${item.Days} day</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span class="text-xs md:text-base lg:text-lg"> ${item.Qualification}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Laptop:</span> <span class="text-xs md:text-base lg:text-lg">${item.equipment}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-xs md:text-base lg:text-lg"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span class="text-xs md:text-base lg:text-lg text-right"> ${item.loction}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span class="text-xs md:text-base lg:text-lg"> ${item.Amount}/- per Day</span></li>
                 `;
 
                 div3.innerHTML = `
