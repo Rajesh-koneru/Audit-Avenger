@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Audits - Shiny Red Button</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <style>
+    /* Shiny Red Button Styling */
+    .shiny-button {
+      position: relative;
+      background: linear-gradient(145deg, #ff1e1e, #cc0000);
+      color: white;
+      box-shadow:
+        0 0 15px rgba(255, 0, 0, 0.6),
+        0 0 30px rgba(255, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      transition: all 0.3s ease-in-out;
+      backdrop-filter: blur(6px);
+    }
+
+    .shiny-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.6) 0%,
+        rgba(255, 255, 255, 0) 60%
+      );
+      transform: rotate(25deg);
+      transition: transform 0.6s ease;
+      pointer-events: none;
+    }
+
+    .shiny-button:hover::before {
+      transform: rotate(25deg) translateX(100%);
+    }
+
+    .shiny-button:hover {
+      background: linear-gradient(145deg, #ff3b3b, #cc1a1a);
+      box-shadow:
+        0 0 25px rgba(255, 0, 0, 0.9),
+        0 0 35px rgba(255, 0, 0, 0.7);
+    }
+
+    /* Slide Fade Animation */
+    @keyframes fadeSlide {
+      0% {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .fade-slide {
+      animation: fadeSlide 0.8s ease-out forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-black min-h-screen flex items-center justify-center">
+  <div class="flex items-center space-x-4 p-6 rounded-lg shadow-xl bg-white/10 backdrop-blur-md">
+    <!-- Shiny Red Button -->
+    <i
+      class="fas fa-arrow-right shiny-button p-4 rounded-full cursor-pointer text-lg animate-pulse"
+      title="Go"
+    ></i>
+
+    <!-- Animated Title -->
+    <span class="text-4xl font-extrabold text-yellow-400 tracking-wide drop-shadow-lg fade-slide">
+      Live Audits
+    </span>
+  </div>
+</body>
+</html>
