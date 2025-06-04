@@ -119,7 +119,18 @@ setTimeout(()=>{
                             const phoneNumber = result['phone']; // Replace with receiver's WhatsApp number4
                             const name=result['auditor_name']
                             const password=result['auditor_id']
-                            const message = `Hello, ${name}! Thank you for applying. your application is selected Your username and password for login is :username:${name} ,password:${password}`;
+                           const message = `Dear ${name},
+
+                                Thank you for applying. We are pleased to inform you that your application has been selected.
+
+                                Here are your login credentials:
+                                Username: ${name}
+                                Password: ${password}
+
+                                Please keep this information confidential and do not share it with anyone.
+
+                                Best regards,
+                                Audit Avengers, Nikhil`;
 
                            // Encode message for URL
                             const encodedMessage = encodeURIComponent(message);

@@ -41,7 +41,6 @@ async function homeCard(){
             let response = await fetch("/audit_details");
             let data = await response.json();
             cardbody.innerHTML = "";
-            console.log(data);
             data.forEach((item) => {
                 let div1 = document.createElement("div");
                 let div2 = document.createElement("div");
@@ -49,19 +48,17 @@ async function homeCard(){
 
                 let Date=localDate(item.Date);
                 let status=openAudits(item.Date);
-                console.log('new date is :'+status);
-
                 div2.innerHTML = `
-                    <h2 class="flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit_Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
+                    <h2 class="flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2">Audit Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
                     <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span class="text-xs md:text-base lg:text-lg"> ${item.industry}</span></li>
-                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit_type:</span> <span class="text-xs md:text-base lg:text-lg">${item.Audit_type}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit Type:</span> <span class="text-xs md:text-base lg:text-lg">${item.Audit_type}</span></li>
                     <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span class="text-xs md:text-base lg:text-lg"> ${Date}</span></li>
-                    <li class="flex justify-between" ><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span class="text-xs md:text-base lg:text-lg"> <span>${item.Auditors_require} Auditor(s) require</span></li>
-                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span class="text-xs md:text-base lg:text-lg"> For ${item.Days} day</span></li>
+                    <li class="flex justify-between" ><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span class="text-xs md:text-base lg:text-lg"> <span>${item.Auditors_require}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span class="text-xs md:text-base lg:text-lg"> ${item.Days} Days</span></li>
                     <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span class="text-xs md:text-base lg:text-lg"> ${item.Qualification}</span></li>
-                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Laptop:</span> <span class="text-xs md:text-base lg:text-lg">${item.equipment}</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Equipment:</span> <span class="text-xs md:text-base lg:text-lg">${item.equipment}</span></li>
                     <li class="flex justify-between"><span class="font-bold text-xs md:text-base lg:text-lg"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span class="text-xs md:text-base lg:text-lg text-right"> ${item.loction}</span></li>
-                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span class="text-xs md:text-base lg:text-lg"> ${item.Amount}/- per Day</span></li>
+                    <li class="flex justify-between"><span class="font-bold text-sm md:text-base lg:text-lg"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span class="text-xs md:text-base lg:text-lg"> ₹ ${item.Amount} /- Day</span></li>
                 `;
 
                 div3.innerHTML = `
@@ -124,15 +121,11 @@ function openAudits(auditDateStr){
 
     const auditDate = new Date(auditDateStr);
     const today = new Date();
-
     const diffTime = today - auditDate;
     const diffDays = diffTime / (1000 * 60 * 60 * 24); // milliseconds to days
 
-    const status =  Math.trunc(diffDays) <= 0 ? "Urgent" : "Open";
+    const status =  Math.trunc(diffDays) >= 0 ? "Urgent" : "Open";
 
-    console.log(diffDays)
-
-    console.log("Status:", status);
     return status
 }
 function localDate(rawDate) {
@@ -143,5 +136,5 @@ function localDate(rawDate) {
     return "1/1/2023"; // fallback for bad or default .NET date
   }
 
-  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 }

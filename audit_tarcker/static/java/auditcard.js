@@ -7,26 +7,24 @@ document.addEventListener("DOMContentLoaded", function () {
             let response = await fetch("/audit_details");
             let data = await response.json();
             cardbody.innerHTML = "";
-            console.log(data);
             data.forEach((item) => {
                 let div1 = document.createElement("div");
                 let div2 = document.createElement("ul");
                 let div3 = document.createElement("div");
                 let Date=localDate(item.Date);
                 let status=openAudits(item.Date);
-                console.log('new date is :'+Date)
 
                 div2.innerHTML = `
                     <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2 text-yellow-500">Audit Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span> ${item.industry}</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit Type:</span> <span>${item.Audit_type}</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span> ${Date}</span></li>
-                    <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require} Auditor(s) require</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span> For ${item.Days} day</span></li>
+                    <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span>  ${item.Days} Days</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span> ${item.Qualification}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Laptop:</span> <span>${item.equipment}</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Equipment:</span> <span>${item.equipment}</span></li>
                     <li class="flex justify-between"><span class="font-bold"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span> ${item.loction}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span> ${item.Amount}/- per Day</span></li>
+                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span> ₹ ${item.Amount}/- Day</span></li>
                 `;
 
                 div3.innerHTML = `
@@ -98,7 +96,7 @@ function localDate(rawDate) {
     return "1/1/2023"; // fallback for bad or default .NET date
   }
 
-  return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 }
 
 //function for show urgent requirement status
@@ -111,11 +109,11 @@ function openAudits(auditDateStr){
     const diffTime = today - auditDate;
     const diffDays = diffTime / (1000 * 60 * 60 * 24); // milliseconds to days
 
-    const status =  Math.trunc(diffDays) <= 0 ? "Urgent" : "Open";
+    const status =  Math.trunc(diffDays) >= 0 ? "Urgent" : "Open";
 
-    console.log(diffDays)
 
-    console.log("Status:", status);
+
+
     return status
 
 
