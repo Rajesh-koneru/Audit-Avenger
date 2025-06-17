@@ -1,563 +1,739 @@
 <html lang="en">
  <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Audit Avengers
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-  <link rel="icon" type="image/png" href="/audit_tarcker/static/2.png" >
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Audit Avengers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='2.png') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+
   <style>
-   body {
-            font-family: 'Roboto', sans-serif;
-        }
-   .logo{
-       display:flex;
-       width:400px;
-       padding:10px
-
-   }
-   .logo h1{
-       width:400px;
-       font-size:30px;
-       font-weight:bold;
-       margin-left:20px;
-       color:#FFEB3B;
-       padding-top:5px;
-   }
-   .logo img{
-      padding:5px 5px 5px 5px ;
-
-   }
-   #name{
-       position:relative;
-       left:10px;
-   }
-   @media screen and (max-width: 480px){
-       #nav{
-         left:100px;
-       }
-   }
-     #nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            color: white;
-        }
-
-     .nav-links {
-            list-style: none;
-            display: flex;
-        }
-
-     .nav-links li {
-            margin: 0 15px;
-        }
-
-     .nav-links a {
-            text-decoration: none;
-            color: #FFEB3B;
-            font-size: 18px;
-        }
-
-        /* Hamburger Icon */
-     .hamburger {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-     }
-     #live{
-       font-size:30px;
-       margin-left:900px;
-       font-weight:bold;
-
-     }
-
-     #sticky i{
-       position: relative;  /* Change to absolute if needed */
-       top: 2px;  /* Move the icon down */
-       left: -1px; /* Move the icon right */
-
-
-       font-size:40px;
-
-     }
-   #sticky h1{
-      position:relative;
-      top:2px;
-      left:3px;
-      font-weight:bold;
-
-
-   }
-   /* Shine animation for button */
-    .shiny-button {
+    body {
+      font-family: "Inter", sans-serif;
       position: relative;
-      background: linear-gradient(145deg, #ff1e1e, #cc0000);
-      color: white;
-      box-shadow:
-        0 0 15px rgba(255, 0, 0, 0.6),
-        0 0 30px rgba(255, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      overflow: hidden;
-      transition: all 0.3s ease-in-out;
-      backdrop-filter: blur(6px);
+      z-index: 0;
+      overflow-x: hidden;
     }
-    .shiny-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 200%;
-      height: 100%;
-      background: linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0.6) 0%,
-        rgba(255, 255, 255, 0) 60%
-      );
-      transform: rotate(25deg);
-      transition: transform 0.7s ease;
-      pointer-events: none;
-    }
-
-    .shiny-button:hover::before {
-      transform: rotate(25deg) translateX(100%);
-    }
-
-    .shiny-button:hover {
-      background: linear-gradient(145deg, #ff3b3b, #cc1a1a);
-      box-shadow:
-        0 0 25px rgba(255, 0, 0, 0.9),
-        0 0 35px rgba(255, 0, 0, 0.7);
-    }
-
-    /* Text animation */
-    @keyframes fadeSlide {
-      0% {
-        opacity: 0;
-        transform: translateX(40px);
-      }
+    /* Red shining dot animation */
+    @keyframes shine {
+      0%,
       100% {
         opacity: 1;
-        transform: translateX(0);
+        box-shadow: 0 0 6px 2px rgba(255, 0, 0, 0.8);
+      }
+      50% {
+        opacity: 0.4;
+        box-shadow: 0 0 12px 6px rgba(255, 0, 0, 0.4);
       }
     }
-
-    .fade-slide {
-      animation: fadeSlide 0.8s ease-out forwards;
+    .red-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #ff0000;
+      border-radius: 9999px;
+      box-shadow: 0 0 6px 2px rgba(255, 0, 0, 0.8);
+      animation: shine 1.5s infinite ease-in-out;
+      display: inline-block;
+      margin-right: 6px;
+      vertical-align: middle;
     }
 
-
-        /* Responsive styles */
-        @media screen and (max-width: 480px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                background: #444;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                text-align: center;
-                padding: 15px 0;
-            }
-
-            .nav-links.show {
-                display: flex;
-                margin-top:50px;
-                background: linear-gradient(to right, #1f2937, #000000);
-               border-radius:0px 0px 10px 10px;
-            }
-
-            .nav-links li {
-                margin: 10px 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-            .logo{
-            width:300px;
-            }
-            .logo h1{
-            font-size:25px;
-            width:200px;
-            margin-left:5px;
-            }
-
-        }
-     #response div{
-         transition: transform 0.5s ease-in-out,background-color 0.5s ease-in-out;
-     }
-     #response div:hover{
-          background-color:grey;
-          transform:scale(1.02);
-     }
-     #about p{
-         transition: transform 0.5s ease-in-out,color 0.5s ease-in-out;
-     }
-     #about p:hover{
-         color:#FFEB3B;
-         transform:scale(1.02);
-     }
-     #icon i{
+    /* Honeycomb background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200vw;
+      height: 200vh;
+      background: repeating-conic-gradient(
+        from 30deg,
+        #fff9db 0deg 60deg,
+        #fff4b8 60deg 120deg
+      );
+      background-size: 60px 104px;
+      opacity: 0.05;
+      z-index: -1;
+      animation: honeycombMove 20s linear infinite;
+      pointer-events: none;
+    }
+    #icon i{
          transition: transform 0.5s ease-in-out,color 0.5s ease-in-out;
      }
      #icon i:hover{
          color:#FFEB3B;
          transform:scale(1.5);
      }
+     #response div{
+         transition: transform 0.5s ease-in-out,background-color 0.5s ease-in-out;
+     }
+     #response div:hover{
+          background-color:black;
+          transform:scale(1.02);
+     }
 
- @keyframes backgroundChange {
-   0%   { background-color: #ef4444; }   /* red-500 */
-  50%  { background-color: #F59E0B; }   /* blue-500 */
-  100% { background-color: #10b981; }   /* green-500 */
-}
+    @keyframes honeycombMove {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 120px 208px;
+      }
+    }
+   #image img{
+         transition: transform 0.5s ease-in-out,color 0.5s ease-in-out;
+     }
+     #icon i:hover{
 
-#sticky{
-  animation: backgroundChange 4s infinite;
-}
-
-
-
-
-
-
-      </style>
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='2.png') }}">
+         transform:scale(1.5);
+     }
+  </style>
  </head>
- <body class="bg-black text-white">
-  <header class="bg-black p-2  flex justify-between items-center  border-b-2 border-yellow-500  sticky top-0">
-   <div class="logo">
-   <img src="{{ url_for('static', filename='2.png') }}" width="55px" style="border-radius:35px;">
-    <h1  class="text-1xl font-bold">Audit Avengers</h1>
-   </div>
-   <nav class="space-x-4" id="nav">
-    <ul class="nav-links">
-    <li><a class="hover:text-yellow-500" href="#about">
-     About
-    </a></li>
-    <li><a class="hover:text-yellow-500" href="#services">
-     Services
-    </a></li>
-    <li><a class="hover:text-yellow-500" href="#contact">
-     Contact
-    </a></li>
-     <li><a class="hover:text-yellow-500" href="/audit_card" >
-     Open Audits
-    </a></li>
-     <li> <a class="bg-yellow-500 text-black px-4 py-2 rounded" href="/signup_page" style="align-text:center;color:black " id="get" >Get Started</a></li>
+ <body class="bg-[#0B0B0F] text-white m-0">
+  <header class="w-full border-b border-gray-800 relative z-10">
+   <nav class="max-w-9xl mx-auto flex items-center justify-between px-6 py-4">
+    <div class="flex items-center space-x-2">
+     <img
+       alt="Audit Avengers logo, yellow background with black text"
+       class="w-10 h-10 select-none rounded-full border-4 border-yellow-400"
+       height="40"
+       src="{{ url_for('static', filename='2.png') }}"
+       width="40"
+     />
+    </div>
+    <ul
+      class="hidden md:flex items-center space-x-8 text-gray-300 text-sm font-semibold ml-auto"
+    >
+     <li>
+      <a class="hover:text-yellow-400 transition" href="#">About</a>
+     </li>
+     <li>
+      <a class="hover:text-yellow-400 transition" href="#">Services</a>
+     </li>
+     <li>
+      <a class="hover:text-yellow-400 transition" href="#">Contact</a>
+     </li>
+     <li class="flex items-center">
+      <a
+        class="hover:text-yellow-400 transition flex items-center"
+        href="/audit_card"
+      >
+       <span
+         aria-label="Live audits active indicator"
+         class="red-dot"
+       ></span>
+       Live Audits
+      </a>
+     </li>
     </ul>
+    <div class="hidden md:flex space-x-4 ml-8" >
+     <a
+       class="text-yellow-400 font-semibold border border-yellow-400 rounded-md px-4 py-1 hover:bg-yellow-400 hover:text-black transition toggle"
+       href="/signup_page"
+       id="get"
+
+     >
+      Login
+     </a>
+    </div>
+    <button
+      class="md:hidden text-yellow-400 focus:outline-none"
+      id="mobile-menu-button"
+    >
+     <i class="fas fa-bars fa-lg"></i>
+    </button>
    </nav>
-   <div class="hamburger" onclick="toggleMenu()">☰</div>
+   <div
+     class="hidden md:hidden bg-[#0B0B0F] border-t border-gray-800"
+     id="mobile-menu"
+   >
+    <ul class="flex flex-col space-y-3 px-6 py-4 text-yellow-400 font-semibold text-base">
+     <li><a class="block" href="#">About</a></li>
+     <li><a class="block" href="#">Services</a></li>
+     <li><a class="block" href="#">Contact</a></li>
+     <li class="flex items-center">
+      <a class="flex items-center" href="/audit_card"
+        ><span
+          aria-label="Live audits active indicator"
+          class="red-dot"
+        ></span>
+        Live Audits</a
+      >
+     </li>
+     <li>
+      <a
+        class="w-full text-left border border-yellow-400 rounded-md px-4 py-2 hover:bg-yellow-400 hover:text-black transition font-semibold toggle"
+        href="/signup_page"
+
+      >
+       Login
+      </a>
+     </li>
+    </ul>
+   </div>
   </header>
-  <div class="flex justify-between items-right mr-10 "><div class="flex items-center space-x-3 ml-4">
-   <i class="fas fa-arrow-right shiny-button text-white p-4 rounded-full cursor-pointer text-lg animate-pulse mt-3"></i>
-  <span class="text-4xl font-extrabold text-yellow-300 tracking-wide drop-shadow-lg mt-3 fade-slide ">Live Audits</span>
-   </div>
-   <a href="/audit_card" class="mt-3 transition-transform duration-300 hover:translate-x-2 hover:text-xl" title="Go">
-    <i class="fas fa-arrow-right text-xl text-yellow-500"></i> </a></div>
-  <section>
-   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 bg-gray-1000 w-full" id="card">
-   </div>
-  </section>
-  <section id="about" class="bg-black p-8 text-center">
-   <h2 class="text-3xl font-bold text-yellow-500">
-    About Audit Avengers
-   </h2>
-   <p class="mt-4 max-w-2xl mx-auto">
-    Audit Avengers is a premier auditing firm dedicated to providing top-notch financial and audit services. Our team of expert auditors and financial analysts are committed to ensuring transparency, accuracy, and compliance in your financial operations. With a mission to unmask financial excellence, we empower businesses to achieve their financial goals with confidence.
-   </p>
-   <div class="mt-8 flex justify-center space-x-8">
-    <div class="text-center">
-     <div class="text-2xl font-bold text-yellow-500">
-      5+
-     </div>
+  <main class="max-w-9xl mx-auto px-10 py-4 space-y-16 relative z-8">
+   <!-- Hero Section -->
+   <section class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4` px-4">
+    <div class="lg:w-1/2 space-y-6">
      <div>
-      Years Experience
+      <span
+        class="inline-block bg-yellow-400 text-black text-xs font-semibold rounded-full px-3 py-1 mb-3 select-none"
+        >Go To Live Audits <a href="/audit_card"><i class="fas fa-arrow-right px-2 ml-1"></i></a></span
+      >
      </div>
-    </div>
-    <div class="text-center">
-     <div class="text-2xl font-bold text-yellow-500">
-      500+
-     </div>
-     <div>
-      Clients Served
-     </div>
-    </div>
-    <div class="text-center">
-     <div class="text-2xl font-bold text-yellow-500">
-      50+
-     </div>
-     <div>
-      Expert Auditors
-     </div>
-    </div>
-    <div class="text-center">
-     <div class="text-2xl font-bold text-yellow-500">
-      98%
-     </div>
-     <div>
-      Client Satisfaction
-     </div>
-    </div>
-   </div>
-  </section>
-  <section id="services" class="bg-black p-8">
-   <h2 class="text-3xl font-bold text-yellow-500 text-center">
-    Our Services
-   </h2>
-   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="Response" >
-    <div class="bg-gray-700 p-4 rounded">
-     <i class="fas fa-file-alt text-yellow-500 text-2xl">
-     </i>
-     <h3 class="mt-2 font-bold">
-      Financial Audits
-     </h3>
-     <p>
-      Comprehensive review of your financial statements to ensure accuracy and compliance.
+     <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight">
+      Expert <span class="text-yellow-400">Financial Audits</span> for Modern
+      <br />
+      Businesses
+     </h1>
+     <p class="text-gray-300 text-lg max-w-xl">
+      Audit Avengers is a team of expert auditors for your business and aid in
+      identifying risks and opportunities.
      </p>
+     <div class="flex flex-wrap gap-4">
+      <a
+        class="bg-yellow-400 text-black font-semibold rounded-md px-6 py-3 hover:bg-yellow-300 transition"
+        href="/audit_card"
+      >
+       See Our Audit
+      </a>
+      <button
+        class="border border-yellow-400 text-yellow-400 font-semibold rounded-md px-6 py-3 hover:bg-yellow-400 hover:text-black transition"
+      >
+       Learn More
+      </button>
+     </div>
+     <div
+       class="flex items-center space-x-6 text-gray-400 text-sm font-semibold select-none"
+     >
+      <div class="flex items-center space-x-2">
+       <i class="fas fa-check-circle text-yellow-400"></i>
+       <span>Trusted by 500+ clients</span>
+      </div>
+      <div class="flex items-center space-x-2">
+       <i class="fas fa-check-circle text-yellow-400"></i>
+       <span>98% client satisfaction</span>
+      </div>
+     </div>
     </div>
-    <div class="bg-gray-700 p-4 rounded">
-     <i class="fas fa-search text-yellow-500 text-2xl">
-     </i>
-     <h3 class="mt-2 font-bold">
-      Internal Audits
-     </h3>
-     <p>
-      Assessing internal controls and processes to identify areas for improvement.
-     </p>
+    <div
+      class="lg:w-1/2  rounded-xl p-8 max-w-md w-full " id="image"
+    >
+     <img
+       alt="Audit Avengers logo, yellow background with black text"
+       class="rounded-xl border-4"
+       height="500"
+       src="{{ url_for('static', filename='image.jpg') }}"
+       width="500"
+     />
+
     </div>
-    <div class="bg-gray-700 p-4 rounded">
-     <i class="fas fa-balance-scale text-yellow-500 text-2xl">
-     </i>
-     <h3 class="mt-2 font-bold">
-      Tax Audits
-     </h3>
-     <p>
-      Expert analysis of your tax filings to ensure compliance and optimize tax savings.
-     </p>
-    </div>
-    <div class="bg-gray-700 p-4 rounded">
-     <i class="fas fa-shield-alt text-yellow-500 text-2xl">
-     </i>
-     <h3 class="mt-2 font-bold">
-      Risk Management
-     </h3>
-     <p>
-      Identifying and mitigating financial risks to protect your business.
-     </p>
-    </div>
-    <div class="bg-gray-700 p-4 rounded">
-     <i class="fas fa-briefcase text-yellow-500 text-2xl">
-     </i>
-     <h3 class="mt-2 font-bold">
-      Consulting Services
-     </h3>
-     <p>
-      Tailored financial advice to help your business grow and thrive.
-     </p>
-    </div>
-    <div class="bg-yellow-500 p-4 rounded text-black">
-     <h3 class="font-bold">
-      Need a Custom Solution?
-     </h3>
-     <p>
-      Contact us today to discuss your specific auditing and financial needs.
-     </p>
-     <button class="mt-4 bg-black text-yellow-500 px-4 py-2 rounded">
-     <a href="#contacts"></a>
-           Get in Touch
-     </button>
-    </div>
-   </div>
-  </section>
-  <section id="founder" class="bg-black p-8 flex flex-col md:flex-row items-center">
-   <img alt="Founder of Audit Avengers, Nikhil Mailapuram" class="rounded-full w-48 h-48 md:w-64 md:h-64" height="400" src="{{ url_for('static', filename='2.png') }}" width="300"/>
-   <div class="mt-8 md:mt-0 md:ml-8 text-center md:text-left">
-    <h2 class="text-3xl font-bold text-yellow-500">
-     Meet the Founder
+   </section>
+   <!-- About Section -->
+   <section class="space-y-8 max-w-9xl mx-auto text-center">
+    <h2 class="text-yellow-400 font-semibold text-lg">
+     About <span class="text-white">Audit Avengers</span>
     </h2>
-    <p class="mt-4">
-      Nikhil Mailapuram, the visionary founder of Audit Avengers, brings over five years of experience in the
-      auditing industry. His unwavering commitment to integrity, excellence, and client-centric service has
-      positioned Audit Avengers as a trusted name in the field. Under his leadership, the firm continues to deliver
-      tailored, high-quality auditing solutions, setting a benchmark for professionalism and reliability. </p>
-    <div class="mt-4 space-x-4" id="icon">
-     <a class="text-yellow-500" href="https://chat.whatsapp.com/H7N9dgDI5inFTjMVwf0G43">
-      <i class="fab fa-whatsapp">
-      </i>
-     </a>
-     <a class="text-yellow-500" href="https://x.com/NikhilMailapuam?t=6L6yAKRF4JTVs8Gmbuxhiw&s=09">
-      <i class="fab fa-twitter" >
-      </i>
-     </a>
-     <a class="text-yellow-500" href="http://www.linkedin.com/in/mailapuram-nikhil-b4b92424b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">
-      <i class="fab fa-linkedin">
-      </i>
-     </a>
-     <a class="text-yellow-500" href="https://www.instagram.com/nikhil_mailapuram?igshid=ZDc4ODBmNjlmNQ%3D%3D">
-      <i class="fab fa-instagram">
-      </i>
-     </a>
-     
+    <p class="text-gray-300 max-w-3xl mx-auto text-xm sm:text-base">
+     Audit Avengers is a premier auditing firm dedicated to providing top-notch
+     financial and risk management services. Our team of experts leverages years
+     of experience to deliver comprehensive audits that help businesses identify
+     risks, improve compliance, and optimize financial performance.
+    </p>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto text-left"
+    >
+     <div class="bg-[#121217] rounded-lg p-6 space-y-3">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">5+</div>
+      <div class="text-gray-300 font-semibold text-sm">Years Experience</div>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-3">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">500+</div>
+      <div class="text-gray-300 font-semibold text-sm">Clients Served</div>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-3">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">50+</div>
+      <div class="text-gray-300 font-semibold text-sm">Expert Auditors</div>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-3">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">98%</div>
+      <div class="text-gray-300 font-semibold text-sm">Client Satisfaction</div>
+     </div>
     </div>
-   </div>
-  </section>
-  <section id="contact" class="bg-black p-8">
-   <h2 class="text-3xl font-bold text-yellow-500 text-center">
-    Contact Us
-   </h2>
-   <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-    <div class="bg-gray-700 p-4 rounded">
-     <h3 class="font-bold">
-      Get in Touch
-     </h3>
-     <form class="mt-4 space-y-4" >
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Full Name" type="text" id="name"/>
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Email Address" type="email" id="mail"/>
-      <input class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Subject" type="text" />
-      <textarea class="w-full p-2 rounded bg-gray-800 border border-gray-600" placeholder="Your message here..." id="msg"></textarea>
-      <button class="bg-yellow-500 text-black px-4 py-2 rounded" id="mailBtn">
+    <div
+      class="bg-gradient-to-r from-yellow-900/80 to-yellow-700/80 rounded-lg p-6 max-w-5xl mx-auto text-center text-yellow-400 font-semibold text-sm"
+    >
+     Our Mission: To deliver exceptional auditing services that enhance
+     performance and compliance for our clients while fostering growth and
+     professional development within our team.
+    </div>
+   </section>
+   <!-- Services Section -->
+   <section class="max-w-9xl space-y-10" >
+    <h2 class="text-yellow-400 font-semibold text-lg text-center">
+     Our <span class="text-white">Services</span>
+    </h2>
+    <p class="text-gray-300 text-center max-w-3xl mx-auto text-sm sm:text-base">
+     Comprehensive auditing solutions tailored to meet the unique needs of your
+     business.
+    </p>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 max-w-9xl " id="response"
+    >
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4">
+      <div class="flex items-center gap-3 text-indigo-700 font-semibold ">
+            <i class="fas fa-file-invoice-dollar text-indigo-500 text-2xl "></i>
+      </div>
+      <h3 class="text-yellow-400 font-semibold text-lg">Business Audits</h3>
+      <p class="text-gray-300 text-sm">
+       We provide thorough business audits to help you understand your
+       financial health and compliance status.
+      </p>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Financial statement audits</li>
+       <li>Compliance audits</li>
+       <li>Operational audits</li>
+       <li>Risk assessments</li>
+      </ul>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4">
+      <div class="flex items-center gap-3 text-blue-700 font-semibold">
+         <i class="fas fa-lightbulb text-yellow-500 text-2xl"></i>
+      </div>
+      <h3 class="text-yellow-400 font-semibold text-lg">Consulting Services</h3>
+      <p class="text-gray-300 text-sm">
+       Expert advice to improve your business processes and financial
+       strategies.
+      </p>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Financial planning</li>
+       <li>Risk management</li>
+       <li>Internal controls</li>
+       <li>Compliance consulting</li>
+      </ul>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full  text-white text-xl shadow-md">
+        <i class="fas fa-clipboard-check text-blue-500 text-2xl"></i>
+     </div>
+      <h3 class="text-yellow-400 font-semibold text-lg">Tax Audits</h3>
+      <p class="text-gray-300 text-sm">
+       Comprehensive tax audit services to ensure compliance and optimize tax
+       liabilities.
+      </p>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Tax compliance reviews</li>
+       <li>Tax risk assessments</li>
+       <li>Audit representation</li>
+       <li>Tax planning</li>
+      </ul>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4">
+      <div class="w-12 h-12 flex items-center justify-center rounded-full  text-white text-xl shadow-md">
+    <i class="fas fa-shield-halved text-white-500 "></i>
+  </div>
+      <h3 class="text-yellow-400 font-semibold text-lg">Risk Management</h3>
+      <p class="text-gray-300 text-sm">
+       Identifying and mitigating risks to protect your business assets and
+       reputation.
+      </p>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Risk assessments</li>
+       <li>Internal audits</li>
+       <li>Compliance monitoring</li>
+       <li>Fraud detection</li>
+      </ul>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4">
+      <div class="flex items-center justify-center w-10 h-10 rounded  select-none">
+       <i class="fas fa-scale-balanced text-yellow-500 text-xl"></i>
+      </div>
+
+      <h3 class="text-yellow-400 font-semibold text-lg">Disputing Services</h3>
+      <p class="text-gray-300 text-sm">
+       Assistance with audit disputes and resolving financial disagreements.
+      </p>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Audit appeals</li>
+       <li>Dispute resolution</li>
+       <li>Negotiations</li>
+       <li>Compliance reviews</li>
+      </ul>
+     </div>
+    </div>
+    <div
+      class="bg-gradient-to-r from-yellow-900/80 to-yellow-700/80 rounded-lg p-6 max-w-3xl mx-auto text-center text-yellow-400 font-semibold text-sm"
+    >
+     Need a Custom Solution?
+     <br />
+     Contact us today to discuss your unique auditing needs and get a tailored
+     plan.
+     <div class="mt-4">
+      <button
+        class="bg-yellow-400 text-black font-semibold rounded-md px-6 py-2 hover:bg-yellow-300 transition"
+      >
+       Contact Us
+      </button>
+     </div>
+    </div>
+   </section>
+   <!-- Testimonials Section -->
+   <section class="max-w-9xl  space-y-10 text-center">
+    <h2 class="text-yellow-400 font-semibold text-lg">
+     What Our <span class="text-white">Clients Say</span>
+    </h2>
+    <p class="text-gray-300 max-w-3xl mx-auto text-sm sm:text-base">
+     Hear from our satisfied clients who have experienced our expert auditing
+     services.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-9xl ">
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4 text-left">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">“</div>
+      <p class="text-gray-300 text-sm">
+       Audit Avengers helped us improve our financial processes and compliance.
+       Their team is professional and thorough.
+      </p>
+      <div class="flex items-center space-x-3">
+       <div class="text-yellow-400 text-sm font-semibold">★★★★★</div>
+       <div class="text-yellow-400 font-semibold text-xs">John Doe, CEO</div>
+      </div>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4 text-left">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">“</div>
+      <p class="text-gray-300 text-sm">
+       The team identified risks we never knew existed and helped us mitigate
+       them effectively.
+      </p>
+      <div class="flex items-center space-x-3">
+       <div class="text-yellow-400 text-sm font-semibold">★★★★★</div>
+       <div class="text-yellow-400 font-semibold text-xs">Jane Smith, CFO</div>
+      </div>
+     </div>
+     <div class="bg-[#121217] rounded-lg p-6 space-y-4 text-left">
+      <div class="text-yellow-400 text-3xl font-extrabold select-none">“</div>
+      <p class="text-gray-300 text-sm">
+       Audit Avengers provided excellent service and helped us achieve 98%
+       client satisfaction.
+      </p>
+      <div class="flex items-center space-x-3">
+       <div class="text-yellow-400 text-sm font-semibold">★★★★★</div>
+       <div class="text-yellow-400 font-semibold text-xs">Michael Lee, COO</div>
+      </div>
+     </div>
+    </div>
+
+   </section>
+   <!-- Founder Section -->
+   <section
+     class="max-w-9xl  flex flex-col lg:flex-row items-center gap-10 px-6"
+   >
+    <div class="flex flex-col items-center space-y-6 lg:w-1/3">
+     <img
+       alt="Audit Avengers logo, yellow background with black text"
+       class="w-48 h-48 select-none rounded-full border-4 border-yellow-400"
+       height="192"
+       src="{{ url_for('static', filename='2.png') }}"
+       width="192"
+     />
+     <div class="text-yellow-400 font-semibold text-lg select-none">Audit Avengers</div>
+    </div>
+    <div class="lg:w-2/3 space-y-6 text-left max-w-4xl">
+     <h2 class="text-yellow-400 font-semibold text-lg">Meet the Founder</h2>
+     <h3 class="text-white font-extrabold text-2xl">Nikhil Mailapuram</h3>
+     <p class="text-gray-300 text-sm sm:text-base">
+      Nikhil Mailapuram is the visionary founder of Audit Avengers, bringing
+      over a decade of experience in financial auditing and risk management.
+      His leadership and expertise have helped countless businesses achieve
+      financial clarity and compliance.
+     </p>
+     <p class="text-gray-300 text-sm sm:text-base">
+      Passionate about innovation and excellence, Nikhil leads a team dedicated
+      to delivering top-tier auditing services tailored to each client’s unique
+      needs.
+     </p>
+     <div>
+      <h4 class="text-yellow-400 font-semibold mb-2">Professional Qualifications</h4>
+      <ul class="list-disc list-inside text-gray-400 text-xs space-y-1">
+       <li>Certified Public Accountant (CPA)</li>
+       <li>Certified Internal Auditor (CIA)</li>
+       <li>Chartered Financial Analyst (CFA)</li>
+      </ul>
+     </div>
+     <div class="flex space-x-6 text-yellow-400 text-xl" id="icon">
+      <a aria-label="LinkedIn" class="hover:text-yellow-300 transition" href="#">
+       <i class="fab fa-linkedin"></i>
+      </a>
+      <a aria-label="Twitter" class="hover:text-yellow-300 transition" href="#">
+       <i class="fab fa-twitter"></i>
+      </a>
+      <a aria-label="GitHub" class="hover:text-yellow-300 transition" href="#">
+       <i class="fab fa-github"></i>
+      </a>
+     </div>
+    </div>
+   </section>
+   <!-- FAQ Section -->
+   <section class="max-w-9xl px-6 space-y-10">
+    <h2 class="text-yellow-400 font-semibold text-lg text-center">
+     Frequently Asked <span class="text-white">Questions</span>
+    </h2>
+    <p class="text-gray-300 max-w-3xl mx-auto text-sm sm:text-base text-center">
+     Find answers to common questions about our auditing services and processes.
+    </p>
+    <div class="max-w-5xl mx-auto space-y-4">
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       What types of audits do you perform?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       We perform financial statement audits, compliance audits, operational
+       audits, and risk assessments tailored to your business needs.
+      </p>
+     </details>
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       How can I get started?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       Contact us through our website or call our office to schedule a
+       consultation and discuss your auditing requirements.
+      </p>
+     </details>
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       What are your fees?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       Our fees vary depending on the scope and complexity of the audit. We
+       provide transparent pricing after an initial assessment.
+      </p>
+     </details>
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       How long does an audit typically take?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       Audit duration depends on the size and complexity of your business but
+       typically ranges from a few weeks to a couple of months.
+      </p>
+     </details>
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       Do you provide customized solutions?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       Yes, we tailor our auditing services to meet the specific needs and goals
+       of each client.
+      </p>
+     </details>
+     <details class="bg-[#121217] rounded-lg p-4 cursor-pointer">
+      <summary class="text-yellow-400 font-semibold text-sm select-none">
+       What industries do you specialize in?
+      </summary>
+      <p class="mt-2 text-gray-300 text-xs sm:text-sm">
+       We serve a wide range of industries including finance, healthcare,
+       manufacturing, and technology.
+      </p>
+     </details>
+    </div>
+    <div
+      class="bg-gradient-to-r from-yellow-900/80 to-yellow-700/80 rounded-lg p-6 max-w-5xl mx-auto text-center text-yellow-400 font-semibold text-sm"
+    >
+     Still Have Questions?
+     <br />
+     Reach out to our team for personalized assistance and answers.
+     <div class="mt-4">
+      <button
+        class="bg-yellow-400 text-black font-semibold rounded-md px-6 py-2 hover:bg-yellow-300 transition"
+      >
+       Contact a Team
+      </button>
+     </div>
+    </div>
+   </section>
+   <!-- Contact Section -->
+   <section class="max-w-9xl  px-6 space-y-10">
+    <h2 class="text-yellow-400 font-semibold text-lg text-center">
+     Contact <span class="text-white">Us</span>
+    </h2>
+    <p class="text-gray-300 max-w-3xl mx-auto text-sm sm:text-base text-center">
+     Have questions or need assistance? Reach out to us and we’ll get back to
+     you as soon as possible.
+    </p>
+    <div class="max-w-8xl  grid grid-cols-1 md:grid-cols-3 gap-8">
+     <form
+       class="md:col-span-2 bg-[#121217] rounded-lg p-6 space-y-6"
+       onsubmit="event.preventDefault()"
+     >
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+       <input
+         class="bg-[#0B0B0F] border border-gray-700 rounded-md px-4 py-3 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+         placeholder="Name"
+         required=""
+         type="text"
+       />
+       <input
+         class="bg-[#0B0B0F] border border-gray-700 rounded-md px-4 py-3 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+         placeholder="Email"
+         required=""
+         type="email"
+       />
+      </div>
+      <input
+        class="w-full bg-[#0B0B0F] border border-gray-700 rounded-md px-4 py-3 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+        placeholder="Subject"
+        required=""
+        type="text"
+      />
+      <textarea
+        class="w-full bg-[#0B0B0F] border border-gray-700 rounded-md px-4 py-3 text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 resize-none"
+        placeholder="Message"
+        required=""
+        rows="4"
+      ></textarea>
+      <button
+        class="bg-yellow-400 text-black font-semibold rounded-md px-6 py-3 hover:bg-yellow-300 transition w-full sm:w-auto"
+        type="submit"
+      >
        Send Message
       </button>
      </form>
-    </div>
-    <div class="bg-gray-700 p-4 rounded">
-     <h3 class="font-bold">
-      Contact Information
-     </h3>
-     <p class="mt-4">
-      <i class="fas fa-map-marker-alt text-yellow-500">
-      </i>
-      Miyapur, Hyderabad, Telangana, India
-     </p>
-     <p class="mt-2">
-      <i class="fas fa-phone text-yellow-500">
-      </i>
-      +91 9121313106
-     </p>
-     <p class="mt-2">
-      <i class="fas fa-envelope text-yellow-500">
-      </i>
-      infoauditavengers@gmail.com
-     </p>
-     <p class="mt-2">
-      <i class="fas fa-clock text-yellow-500">
-      </i>
-      Monday - Friday: 9AM - 6PM IST
-     </p>
-     <div class="mt-4 bg-yellow-500 p-4 rounded text-black">
-      <h3 class="font-bold">
-       Ready to get started?
-      </h3>
-      <p>
-       Contact us today for a free consultation and discover how Audit Avengers can help your business achieve financial excellence.
-      </p>
-      <button class="mt-4 bg-black text-yellow-500 px-4 py-2 rounded">
-       Schedule a Call
-      </button>
+     <div
+       class="bg-[#121217] rounded-lg p-6 space-y-6 flex flex-col justify-between"
+     >
+      <div class="space-y-6">
+       <div>
+        <h3 class="text-yellow-400 font-semibold text-lg mb-2">
+         Contact Information
+        </h3>
+        <ul class="text-gray-300 text-sm space-y-3">
+         <li class="flex items-center space-x-3">
+          <i class="fas fa-map-marker-alt text-yellow-400 w-5"></i>
+          <span>123 Audit St, Finance City, USA</span>
+         </li>
+         <li class="flex items-center space-x-3">
+          <i class="fas fa-phone-alt text-yellow-400 w-5"></i>
+          <span>+1 (555) 123-4567</span>
+         </li>
+         <li class="flex items-center space-x-3">
+          <i class="fas fa-envelope text-yellow-400 w-5"></i>
+          <span>contact@auditavengers.com</span>
+         </li>
+        </ul>
+       </div>
+       <div>
+        <h3 class="text-yellow-400 font-semibold text-lg mb-2">
+         Ready to get started?
+        </h3>
+        <p class="text-gray-300 text-sm mb-4">
+         Contact us today to schedule a consultation and learn how we can help
+         your business.
+        </p>
+        <button
+          class="bg-yellow-400 text-black font-semibold rounded-md px-6 py-3 hover:bg-yellow-300 transition w-full"
+        >
+         Get Consultation
+        </button>
+       </div>
+      </div>
      </div>
     </div>
-   </div>
-  </section>
-  <a aria-label="Join with us" class="hide-on-scroll pulse-soft fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#25D366] shadow-lg flex items-center justify-center text-white text-3xl cursor-pointer select-none transition transform hover:-translate-y-1 hover:brightness-110 hover:shadow-[0_0_15px_#25D366] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366]" href="https://chat.whatsapp.com/H7N9dgDI5inFTjMVwf0G43" role="button" tabindex="0" title="Join with us">
-   <i aria-hidden="true" class="fab fa-whatsapp" style="line-height:1"></i>
-  </a>
-  <footer class="bg-black p-4 text-center text-sm border-t-2 border-yellow-500">
-   <div class="flex flex-col md:flex-row justify-between items-center">
-    <div class="mb-4 md:mb-0">
-     <p>
-      © 2024 Audit Avengers. All rights reserved.
-      
-     </p>
-     <p>
-      Unmasking financial excellence through expert auditing and financial analysis since 2024.
-     </p>
-     <div class="flex justify-center space-x-4 mt-4">
-      <a href="https://chat.whatsapp.com/H7N9dgDI5inFTjMVwf0G43" class="hover:text-yellow-500"><i class="fab fa-whatsapp"></i></a>
-      <a href="https://x.com/NikhilMailapuam?t=NNM3zbluKsroWC9y5S2mRA&s=09" class="hover:text-yellow-500"><i class="fab fa-twitter"></i></a>
-      <a href="https://www.instagram.com/nikhil_mailapuram?igshid=ZDc4ODBmNjlmNQ%3D%3D" class="hover:text-yellow-500"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/mailapuram-nikhil-b4b92424b" class="hover:text-yellow-500"><i class="fab fa-linkedin-in"></i></a>
+   </section>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-[#121217] text-gray-400 text-sm mt-20 relative z-10">
+   <div
+     class="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 sm:grid-cols-4 gap-8"
+   >
+    <div class="space-y-4">
+     <div class="flex items-center space-x-2">
+      <img
+        alt="Audit Avengers logo, yellow background with black text"
+        class="w-10 h-10 select-none"
+        height="40"
+        src="https://storage.googleapis.com/a1aa/image/3f3bd85a-89d0-45a7-cfff-802e47230dfd.jpg"
+        width="40"
+      />
+      <span
+        class="text-yellow-400 font-semibold text-lg select-none cursor-default"
+        >Audit Avengers</span
+      >
+     </div>
+     <p class="max-w-xs text-xs">© 2024 Audit Avengers. All rights reserved.</p>
+     <div class="flex space-x-4 text-yellow-400 text-lg">
+      <a
+        aria-label="Facebook"
+        class="hover:text-yellow-300 transition"
+        href="#"
+        ><i class="fab fa-facebook-f"></i
+      ></a>
+      <a
+        aria-label="Twitter"
+        class="hover:text-yellow-300 transition"
+        href="#"
+        ><i class="fab fa-twitter"></i
+      ></a>
+      <a
+        aria-label="LinkedIn"
+        class="hover:text-yellow-300 transition"
+        href="#"
+        ><i class="fab fa-linkedin-in"></i
+      ></a>
      </div>
     </div>
-    <div class="mb-4 md:mb-0">
-     <h3 class="font-bold">
-      Quick Links
-     </h3>
+    <div>
+     <h4 class="text-yellow-400 font-semibold mb-4">Quick Links</h4>
      <ul class="space-y-2">
-      <li>
-       <a class="hover:text-yellow-500" href="#about">
-        About
-       </a>
-      </li>
-      <li>
-       <a class="hover:text-yellow-500" href="#services">
-        Services
-       </a>
-      </li>
-      <li>
-       <a class="hover:text-yellow-500" href="#contact">
-        Contact
-       </a>
-      </li>
-     </ul>
-    </div>
-    <div class="mb-4 md:mb-0">
-     <h3 class="font-bold">
-      Services
-     </h3>
-     <ul class="space-y-2">
-      <li>
-       <a class="hover:text-yellow-500" href="#">
-        Financial Audits
-       </a>
-      </li>
-      <li>
-       <a class="hover:text-yellow-500" href="#">
-        Internal Audits
-       </a>
-      </li>
-      <li>
-       <a class="hover:text-yellow-500" href="#">
-        Tax Audits
-       </a>
-      </li>
-      <li>
-       <a class="hover:text-yellow-500" href="#">
-        Risk Management
-       </a>
-      </li>
+      <li><a class="hover:text-yellow-300 transition" href="#">About</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Services</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Contact</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Live Audits</a></li>
      </ul>
     </div>
     <div>
-     <h3 class="font-bold">
-      Subscribe
-     </h3>
-     <p>
-      Subscribe to our newsletter for the latest updates.
-     </p>
-     <form class="mt-2 flex">
-      <input class="p-2 rounded-l bg-gray-800 border border-gray-600" placeholder="Your email" type="email"/>
-      <button class="bg-yellow-500 text-black px-4 py-2 rounded-r">
-       Subscribe
-      </button>
-     </form>
+     <h4 class="text-yellow-400 font-semibold mb-4">Services</h4>
+     <ul class="space-y-2">
+      <li><a class="hover:text-yellow-300 transition" href="#">Business Audits</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Consulting</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Tax Audits</a></li>
+      <li><a class="hover:text-yellow-300 transition" href="#">Risk Management</a></li>
+     </ul>
+    </div>
+    <div>
+     <h4 class="text-yellow-400 font-semibold mb-4">Contact Info</h4>
+     <ul class="space-y-2 text-xs">
+      <li>123 Audit St, Finance City, USA</li>
+      <li>+1 (555) 123-4567</li>
+      <li>contact@auditavengers.com</li>
+     </ul>
     </div>
    </div>
-   
   </footer>
- <script>
+  <script>
+    const mobileMenuButton = document.getElementById("mobile-menu-button");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    mobileMenuButton.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
     function toggleMenu() {
             document.querySelector(".nav-links").classList.toggle("show");
-        }
- </script>
- <script src="/static/java/mail.js"></script>
-  <script src="/static/java/home.js"></script>
-
+   }
+  </script>
+ <script src="/static/java/home.js"></script>
  </body>
 </html>

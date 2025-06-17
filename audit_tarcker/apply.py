@@ -79,27 +79,39 @@ def application():
 
     def insert_application(json_data, audit_data):
         try:
-            print("Inserting audit data...")
-            aud_id = auditor_id()
-            insert_query = """
-                INSERT INTO applications 
-                (Auditor_id, auditor_name, phone, email, audit_id, audit_type, date, client_id, state) 
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
+            # checking duplicate applications for the single audit
+            query="""select * from applications where audit_id=%s and email=%s"""
+            email=json_data['email']
+            Audit=audit_data['Audit_id']
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
-                pointer.execute(insert_query, (
-                    aud_id,
-                    json_data['name'], json_data['phone'], json_data['email'],
-                    audit_data['Audit_id'], audit_data['Audit_type'], audit_data['Date'],
-                    audit_data['Client_id'], audit_data['state']
-                ))
-                conn.commit()
-                print("Data inserted successfully.")
-            return jsonify({
-                'message': 'Your Application is saved Successfully.',
-                'link': session.get('whatsappLink', '')
-            }), 200
+                pointer.execute(query, (Audit,email))
+                result = pointer.fetchone()
+                print('the audit _data is ',result)
+            if result:
+                return jsonify({"message":"you are not allowed to apply multiple time"})
+            else:
+                print("Inserting audit data...")
+                aud_id = auditor_id()
+                insert_query ="""
+                    INSERT INTO applications 
+                    (Auditor_id, auditor_name, phone, email, audit_id, audit_type, date, client_id, state) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                with get_connection() as conn:
+                    pointer = conn.cursor(dictionary=True)
+                    pointer.execute(insert_query, (
+                        aud_id,
+                        json_data['name'], json_data['phone'], json_data['email'],
+                        audit_data['Audit_id'], audit_data['Audit_type'], audit_data['Date'],
+                        audit_data['Client_id'], audit_data['state']
+                    ))
+                    conn.commit()
+                    print("Data inserted successfully.")
+                return jsonify({
+                    'message': 'Your Application is saved Successfully.',
+                    'link': session.get('whatsappLink', '')
+                }), 200
 
         except Exception as e:
             print("Unexpected error in insert_application:", str(e))

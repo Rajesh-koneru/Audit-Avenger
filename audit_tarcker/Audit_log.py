@@ -62,6 +62,7 @@ def audit_details():
             pointer = conn.cursor(dictionary=True)
             pointer.execute(query)
             data=pointer.fetchall()
+            print(data)
 
         return jsonify(data)
     except Exception as e:
@@ -81,6 +82,29 @@ def home_page_audit_details():
     except Exception as e:
         print(e)
         return jsonify(e),400
+
+@audit_log.route('/admin/delete_out_dated_audit',methods=["POST","GET"])
+def out_dated_audits():
+    try:
+        data = request.get_json()
+        print(data)
+        delete_date=data['date']
+        incoming_date = datetime.strptime(delete_date, "%a, %d %b %Y %H:%M:%S %Z").date()
+        print(incoming_date)
+
+        query="""delete from audit_details where Date=%s"""
+        with get_connection() as conn:
+            pointer = conn.cursor(dictionary=True)
+            pointer.execute(query,(incoming_date,))
+
+            print('audit data deleted...')
+
+        return jsonify({'message':'Out Dated Audits are deleted'})
+    except Exception as e:
+        print(str(e))
+
+
+
 
 
 

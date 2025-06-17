@@ -3,18 +3,9 @@ from flask_login import login_required
 import threading
 import time
 import queue
-
 from audit_tarcker.config import get_connection
 from datetime import datetime
-
 application=Blueprint('application',__name__)
-
-import sqlite3
-import os
-import sqlite3
-import os
-
-
 @application.route('/admin/application')
 def admin_report():
     query = """ select * from applications"""
@@ -61,53 +52,80 @@ def report():
         print("Received data:", data)
 
         if isinstance(data, dict):
-             data = [data]  # Convert single object to list for unified handling
+            data = [data]  # Convert single object to list
 
         with get_connection() as conn:
             pointer = conn.cursor(dictionary=True)
 
             for row in data:
-                row = {key.strip(): value for key, value in row.items()}  # Clean keys
-                print('the single data is',row)
-                print(row['Date'])
+                state = row.get('status')
 
-                planned_date=clean_date(row['Date'])
-                print(planned_date)
-                location=loca(row['audit_id'])
-                print( "the location details are ",location,location['loction'])
+                if state == 'Accepted':
+                    # Clean keys
+                    row = {key.strip(): value for key, value in row.items()}
+                    print('The single data is:', row)
 
-                aud_id=auditor_id()
+                    if 'Date' not in row:
+                        return jsonify({"error": "Missing 'Date' field."}), 400
 
-                # Make sure all required keys are present
-                required_keys = ['audit_id', 'auditor_name', 'Date', 'state', 'audit_type',
-                                 'auditor_id', 'client_id', 'phone', 'email', 'payment']
-                if not all(k in row for k in required_keys):
-                    return jsonify({"error": f"Missing required fields in: {row}"}), 400
+                    planned_date = clean_date(row['Date'])
+                    print('Planned Date:', planned_date)
 
-                pointer.execute("""
-                    INSERT INTO audit_report (
-                        Audit_id, auditor_id, planned_date,
-                        State, Client_id, Contact, Audit_status, 
-                        payment_amount, payment_status, auditor_name,audit_type,location,email
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)
-                """, (
-                    row["audit_id"],aud_id ,planned_date, row['state'],
-                    row['client_id'], row['phone'], 'pending', row['payment'],  # <- Audit_status
-                    'pending', row['auditor_name'],row['audit_type'],location['loction'],row['email']  # <- Optional 'track'
-                ))
+                    location = loca(row['audit_id'])
+                    print("Location details:", location)
 
-            conn.commit()
+                    aud_id = auditor_id()
 
-            # for deleting or updating audits
-            result_queue = queue.Queue()
-            threading.Thread(target=delete_audit_data, args=(data,result_queue)).start()
-            message = result_queue.get()
-            # Step 2: Start background thread to delete after delay
-            threading.Thread(target=delete_data, args=(data,)).start()
-        return jsonify({"message": "Data inserted into the audit report",'delete_message':'application deleted successfully.','auditor_id':aud_id,'phone':row['phone'],'auditor_name':row['auditor_name'] ,'audit_message':message}), 200
+                    # Check for required keys
+                    required_keys = [
+                        'audit_id', 'auditor_name', 'Date', 'state', 'audit_type',
+                        'auditor_id', 'client_id', 'phone', 'email', 'payment'
+                    ]
+                    if not all(k in row for k in required_keys):
+                        return jsonify({"error": f"Missing required fields in: {row}"}), 400
+
+                    # Insert into audit_report
+                    pointer.execute("""
+                        INSERT INTO audit_report (
+                            Audit_id, auditor_id, planned_date,
+                            State, Client_id, Contact, Audit_status, 
+                            payment_amount, payment_status, auditor_name, audit_type, location, email
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        row["audit_id"], aud_id, planned_date, row['state'],
+                        row['client_id'], row['phone'], 'pending',
+                        row['payment'], 'pending', row['auditor_name'],
+                        row['audit_type'], location.get('loction'), row['email']
+                    ))
+                    conn.commit()
+
+                    # Start background threads
+                    result_queue = queue.Queue()
+                    threading.Thread(target=delete_audit_data, args=(data, result_queue)).start()
+                    message = result_queue.get()
+
+                    threading.Thread(target=delete_data, args=(data,)).start()
+
+                    return jsonify({
+                        "message": "Data inserted into the audit report",
+                        "delete_message": "Application deleted successfully.",
+                        "auditor_id": aud_id,
+                        "phone": row['phone'],
+                        "auditor_name": row['auditor_name'],
+                        "audit_message": message,
+                    }), 200
+
+                else:
+                    # For rejected applications
+                    query = "DELETE FROM applications WHERE status = %s"
+                    pointer.execute(query, (state,))
+                    conn.commit()
+                    print('Application with status %s deleted successfully' % state)
+                    return jsonify({"message": "Application rejected."}), 200
+
     except Exception as e:
-        print('the error was',str(e))
-        return None
+        print("The error was:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 def clean_date(date_str):
     try:
@@ -159,6 +177,7 @@ def delete_data(data):
             status.append(details)
         print(status)
         value=status[0]
+
         # search query for db
         query="""delete from applications where status=%s"""
         with get_connection() as conn:
@@ -231,6 +250,64 @@ def delete_audit_data(Audit_id,result_queue):
     except Exception as e:
         print( 'the delete error is ',str(e))
         return jsonify(str(e))
+
+
+@application.route('/admin/application/filter' ,methods=['POST','GET'])
+def fliter_Application():
+    try:
+        data=request.get_json()
+        print(data)
+        input=data['searchInput']
+        status=data['selection']
+
+
+        if status=="name":
+            name=f'%{input}%'
+            print(name)
+            query="""select * from applications where auditor_name like %s"""
+            with get_connection() as conn:
+                pointer = conn.cursor(dictionary=True)
+                pointer.execute(query ,(name,))
+                data=pointer.fetchall()
+                print('the filterd',data)
+            return jsonify(data)
+        elif status=="audit_type":
+            query = """select * from applications where Audit_id=%s"""
+            with get_connection() as conn:
+                pointer = conn.cursor(dictionary=True)
+                pointer.execute(query ,(input,))
+                audit_data=pointer.fetchall()
+                print('the filterd',audit_data)
+            return jsonify(audit_data)
+        elif status=="email":
+            email=input
+            query = """select * from applications where email=%s"""
+            with get_connection() as conn:
+                pointer = conn.cursor(dictionary=True)
+                pointer.execute(query ,(email,))
+                email_filter=pointer.fetchall()
+                print('the filterd',email_filter)
+            return jsonify(email_filter)
+        else:
+            print('select the filter')
+            return jsonify('select the correct fileld')
+
+    except Exception as e:
+        return jsonify(e), 500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

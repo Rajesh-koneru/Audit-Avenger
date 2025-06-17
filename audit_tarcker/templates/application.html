@@ -168,7 +168,36 @@
 </header>
 <main class="p-6">
     <div><small id="successMsg"></small></div>
+    <div class="p-4 bg-black rounded-2xl shadow-md flex flex-col md:flex-row items-center gap-4 w-full max-w-2xl mx-auto mt-6 mb-4 ml-0 ">
 
+          <!-- Search Bar -->
+          <input
+            type="text"
+            placeholder="Search..."
+            class="form-control  bg-black w-full p-2 border border-gray-300 rounded-md text-white"
+            id="searchInput"
+          />
+
+          <!-- Selection Dropdown -->
+          <select
+            id="searchCriteria"
+            class="px-4 py-2 bg-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Select Criteria</option>
+            <option value="name">Name</option>
+            <option value="audit_type">Audit Id</option>
+            <option value="email">Email</option>
+          </select>
+
+          <!-- Submit Button -->
+          <button
+            id="submitSearch"
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+          >
+            Search
+          </button>
+
+    </div>
     <div class="overflow-x-auto" id="scroll_div">
         <table class="min-w-full bg-gradient-to-r from-gray-800 to-black shadow-md rounded overflow-hidden w-full text-white border border-yellow-500">
             <thead class="bg-gray-700 text-white ">

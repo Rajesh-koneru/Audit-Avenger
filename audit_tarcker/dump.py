@@ -14,11 +14,7 @@ print("Database connected...")
 
 cursor = conn.cursor(dictionary=True)
 
-
-folder = r"C:\Users\user\Music\OneDrive\Documents\dumps"
-print("Files in folder:", os.listdir(folder))
-
-with open(r"C:\Users\user\PycharmProjects\flaskApp\Dump20250527\audittracker_audit_details.sql", "r") as f:
+with open(r"C:\Users\user\PycharmProjects\flaskApp\dumpfile17\audittracker_auditreport.sql", "r") as f:
 
     sql = f.read()
     for statement in sql.split(';'):

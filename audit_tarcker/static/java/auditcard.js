@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 let div3 = document.createElement("div");
                 let Date=localDate(item.Date);
                 let status=openAudits(item.Date);
+                DeleteOutDated(item.Date);
+
 
                 div2.innerHTML = `
                     <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2 text-yellow-500">Audit Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
@@ -28,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
                 div3.innerHTML = `
-                    <button class="bg-yellow-500 text-black font-bold py-2 px-4 rounded w-full" >Apply Now</button>
+                    <button class="bg-yellow-500 text-black font-bold py-2 px-4 rounded " >Apply Now</button>
+                    <a href="#"><li class="fas fa-share mt-2 py-3 px-3 text-yellow-500"></li></a>
                 `;
                 div3.addEventListener("click", async function () {
                     const data = {
@@ -67,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Tailwind CSS classes
                 div1.classList.add("flex", "flex-col", "justify-between", "bg-yellow-100", "rounded-lg", "shadow", "m-4", "overflow-hidden","border-t-[10px]","border-t-yellow-500");
                 div2.classList.add("p-4" ,"bg-gray-800","space-y-2");
-                div3.classList.add("bg-gray-800", "p-4", "rounded-b-lg");
+                div3.classList.add("bg-gray-800", "p-4", "rounded-b-lg" ,"flex", "justify-between");
 
                 // Nesting the elements properly
                 div1.appendChild(div2);
@@ -110,11 +113,47 @@ function openAudits(auditDateStr){
     const diffDays = diffTime / (1000 * 60 * 60 * 24); // milliseconds to days
 
     const status =  Math.trunc(diffDays) >= 0 ? "Urgent" : "Open";
-
-
-
-
     return status
-
-
 }
+
+async function DeleteOutDated(rawDate) {
+    const auditDate = new Date(rawDate);
+
+    // Validate the date
+    if (isNaN(auditDate.getTime()) || auditDate.getFullYear() <= 1) {
+        console.warn("Invalid or default date encountered:", rawDate);
+        return;
+    }
+
+    const today = new Date();
+
+    // Set time to 00:00:00 for accurate date-only comparison
+    today.setHours(0, 0, 0, 0);
+    auditDate.setHours(0, 0, 0, 0);
+
+    if (auditDate < today) {
+        try {
+            const response = await fetch('/admin/delete_out_dated_audit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ date: rawDate }) // Send original date string
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Deleted outdated audit:', result);
+                return result;
+            } else {
+                console.error('Failed to delete outdated audit.');
+            }
+        } catch (error) {
+            console.error('Error while deleting outdated audit:', error);
+        }
+    } else {
+        console.log('Audit date is today or in the future — not deleting:', rawDate);
+    }
+}
+
+

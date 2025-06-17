@@ -59,7 +59,8 @@ setTimeout(()=>{
           console.log(button)
           button.addEventListener('click', async function () {
             const auditId = this.dataset.auditorId;
-            const newStatus = this.textContent === 'Accepted' ? 'rejected' : 'accepted';
+            const newStatus = this.textContent === 'Accepted' ? 'Rejected' : 'accepted';
+            console.log('the new status is '+ newStatus);
 
             const response = await fetch(`/applications/status`, {
               method: 'PUT',
@@ -157,4 +158,69 @@ setTimeout(()=>{
 
 
 
-        } ,1000);
+},1000);
+
+async function filterApplication(){
+       const tableBody = document.querySelector(".table_body");
+       const searchInput=document.getElementById("searchInput").value;
+       const selection=document.getElementById("searchCriteria").value;
+       const searchBtn=document.getElementById("submitSearch");
+
+       const response= await fetch("/admin/application/filter",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ "searchInput":searchInput,"selection":selection})
+
+        });
+        const data= await response.json();
+        console.log("Data received:", data);
+        tableBody.innerHTML = "";
+        data.forEach((item) => {
+                let row = document.createElement("tr");
+                row.setAttribute('class', 'rowData');
+                 row.setAttribute('class','rowData');
+                 row.style.borderBottomWidth = '1px';
+                 row.style.borderColor = '#eab308';
+                 row.innerHTML = `
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.audit_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.Auditor_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.Auditor_name}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center ">${item.audit_type}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.date}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.phone}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.email}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.state}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">${item.client_id}</td>
+                    <td class="bg-gray-800 text-white p-2 text-center">
+                      <input
+                        type="text"
+                        placeholder="Enter payment"
+                        class="bg-gray-700 text-white px-3 py-1 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </td>
+                    <td class="bg-gray-800 text-white p-2 text-center">
+                        <button
+                          class="toggle-btn ${item.status === 'accepted' ? 'bg-green-500 ' : 'bg-red-500 '} hover:bg-red-700 text-white px-2 py-1 rounded"
+                          data-auditor-id="${item.Auditor_id}"
+                        >
+                          ${item.status === 'accepted' ? 'Accepted' : 'Rejected'}
+                        </button>
+                    </td>
+                    <td class="bg-gray-800 text-white p-2 text-center"><button class="submitBtn" >
+                       <i class="fas fa-arrow-right"></i> submit
+                       </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+        });
+}
+//running the fliter script
+document.getElementById("submitSearch").addEventListener('click',filterApplication);
+
+
+
+
+
+

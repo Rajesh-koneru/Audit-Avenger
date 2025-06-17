@@ -150,8 +150,6 @@ def filter_data():
                 data2 = pointer.fetchall()
                 print(data2)
                 return jsonify(data2)
-
-
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500
