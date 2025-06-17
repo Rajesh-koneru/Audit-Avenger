@@ -23,7 +23,7 @@ def create_App():
     from audit_tarcker.Audit_log import audit_log
     from audit_tarcker.register import register
     from audit_tarcker.apply import audit_bp
-    from audit_tarcker.whatsappweb import application
+    from audit_tarcker.Application import application
 
     app = Flask(__name__)
     # ✅ Connect to MongoDB
