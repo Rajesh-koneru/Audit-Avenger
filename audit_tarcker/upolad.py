@@ -56,16 +56,15 @@ def upload_excel():
                            loction,
                            state,
                            Amount,
-                           requirements,
                            Client_id,
-                           WhatsappLink
-                       ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+                           whatsappLink
+                       ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
             with get_connection() as conn:
                 pointer = conn.cursor(dictionary=True)
                 pointer.execute(query, (
                 row['Audit_id'], row['Audit Type'], row['audit industry'], row['Date'], row['auditors require'],
                 row['days'], row['qualification'], row['equipment'], row['location'], row['state'], row['amount'],
-                row['requirements'], row['client Id'], row['whatsapp link']))
+                row['client Id'], row['whatsapp link']))
             # <- Optional 'track'
         print('data entered....')
         return jsonify({"message": "Data successfully saved to database!"})

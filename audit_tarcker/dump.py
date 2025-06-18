@@ -14,7 +14,7 @@ print("Database connected...")
 
 cursor = conn.cursor(dictionary=True)
 
-with open(r"C:\Users\user\PycharmProjects\flaskApp\dumpfile17\audittracker_auditreport.sql", "r") as f:
+with open(r"C:\Users\user\PycharmProjects\flaskApp\Dump20250618\audittracker_audit_details.sql", "r") as f:
 
     sql = f.read()
     for statement in sql.split(';'):
