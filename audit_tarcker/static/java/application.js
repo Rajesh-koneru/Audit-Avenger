@@ -121,9 +121,7 @@ setTimeout(()=>{
                             const name=result['auditor_name']
                             const password=result['auditor_id']
                            const message = `Dear ${name},
-
                                 Thank you for applying. We are pleased to inform you that your application has been selected.
-
                                 Here are your login credentials:
                                 Username: ${name}
                                 Password: ${password}

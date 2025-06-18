@@ -8,84 +8,87 @@ document.addEventListener("DOMContentLoaded", function () {
             let data = await response.json();
             cardbody.innerHTML = "";
             data.forEach((item) => {
-                let div1 = document.createElement("div");
-                let div2 = document.createElement("ul");
-                let div3 = document.createElement("div");
-                let Date=localDate(item.Date);
-                let status=openAudits(item.Date);
-                DeleteOutDated(item.Date);
+            let div1 = document.createElement("div");
+            let div2 = document.createElement("ul");
+            let div3 = document.createElement("div");
 
+            let Date = localDate(item.Date);
+            let status = openAudits(item.Date);
+            DeleteOutDated(item.Date);
 
-                div2.innerHTML = `
-                    <h2 class=" flex justify-between text-xl font-bold mb-2 "><span class="font-bold mr-2 text-yellow-500">Audit Id: ${item.Audit_id} </span><span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text  ${status === 'Urgent' ? 'bg-red-600 ' : 'bg-green-500 '}">${status}</span></h2>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Industry:</span> <span> ${item.industry}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-industry text-yellow-500 mr-2"></i>Audit Type:</span> <span>${item.Audit_type}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-calendar-alt mr-2 text-yellow-500"></i> Date:</span><span> ${Date}</span></li>
-                    <li class="flex justify-between" ><span class="font-bold"><i class="fas fa-user mr-2 text-yellow-500"></i>AuditAvenger per day:</span> <span>${item.Auditors_require}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-clock mr-2 text-yellow-500"></i>Day(s):</span><span>  ${item.Days} Days</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-graduation-cap mr-2 text-yellow-500"></i>Qualification:</span><span> ${item.Qualification}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-laptop mr-2 text-yellow-500"></i>Equipment:</span> <span>${item.equipment}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-map-marker-alt mr-2 text-yellow-500"></i> Location:</span><span> ${item.loction}</span></li>
-                    <li class="flex justify-between"><span class="font-bold"><i class="fas fa-dollar-sign mr-2 text-yellow-500"></i>Compensation:</span><span> ₹ ${item.Amount}/- Day</span></li>
-                `;
+            div2.innerHTML = `
+                <h2 class="flex justify-between text-xl font-bold mb-2">
+                    <span class="font-bold mr-2 text-yellow-500">Audit Id: ${item.Audit_id}</span>
+                    <span class="bg-green-700 text-white text-[10px] font-semibold px-2 py-[2px] rounded select-text ${status === 'Urgent' ? 'bg-red-600' : 'bg-green-500'}">${status}</span>
+                </h2>
+                <li class="flex justify-between"><span class="font-bold">🏭 Industry:</span> <span>${item.industry}</span></li>
+                <li class="flex justify-between"><span class="font-bold">📋 Audit Type:</span> <span>${item.Audit_type}</span></li>
+                <li class="flex justify-between"><span class="font-bold">📅 Date:</span><span>${Date}</span></li>
+                <li class="flex justify-between"><span class="font-bold">🧍 AuditAvenger/day:</span><span>${item.Auditors_require}</span></li>
+                <li class="flex justify-between"><span class="font-bold">⏱ Day(s):</span><span>${item.Days} Days</span></li>
+                <li class="flex justify-between"><span class="font-bold">🎓 Qualification:</span><span>${item.Qualification}</span></li>
+                <li class="flex justify-between"><span class="font-bold">💻 Equipment:</span><span>${item.equipment}</span></li>
+                <li class="flex justify-between"><span class="font-bold">📍 Location:</span><span>${item.loction}</span></li>
+                <li class="flex justify-between"><span class="font-bold">💰 Compensation:</span><span>₹ ${item.Amount}/- Day</span></li>
+            `;
 
-                div3.innerHTML = `
-                    <button class="bg-yellow-500 text-black font-bold py-2 px-4 rounded " >Apply Now</button>
-                    <a href="#"><li class="fas fa-share mt-2 py-3 px-3 text-yellow-500"></li></a>
-                `;
-                div3.addEventListener("click", async function () {
-                    const data = {
-                          audit_id: item.Audit_id,
-                          whatsappLink: item.whatsappLink
-                        };
-                    try {
-                        let response = await fetch('/apply/user_Details', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({data})
-                        });
-                        const contentType = response.headers.get('content-type');
-                        if (contentType && contentType.includes('application/json')) {
-                            const data = await response.json();
-                            if (response.ok) {
-                                console.log('Application Success:', data.message);
-                                window.location.href = '/apply/user_Details';
-                            } else {
-                                console.error('Application Error:', data.error || data);
-                                // You can redirect to login/register if needed here
-                            }
+            div3.innerHTML = `
+                <button class="apply bg-yellow-500 text-black font-bold py-2 px-4 rounded">Apply Now</button>
+                <button class="share ml-2 text-yellow-500 font-semibold"><i class="fas fa-share"></i> Share</button>
+            `;
+
+            // Style classes
+            div1.classList.add("flex", "flex-col", "justify-between", "bg-yellow-100", "rounded-lg", "shadow", "m-4", "overflow-hidden", "border-t-[10px]", "border-t-yellow-500");
+            div2.classList.add("p-4", "bg-gray-800", "space-y-2", "text-white");
+            div3.classList.add("bg-gray-800", "p-4", "rounded-b-lg", "flex", "justify-between");
+
+            // Append to DOM
+            div1.appendChild(div2);
+            div1.appendChild(div3);
+            cardbody.appendChild(div1);
+
+            // Scoped selectors to avoid conflicts
+            const applyButton = div3.querySelector('.apply');
+            const shareButton = div3.querySelector('.share');
+
+            applyButton.addEventListener("click", async function () {
+                const payload = {
+                    audit_id: item.Audit_id,
+                    whatsappLink: item.whatsappLink
+                };
+                try {
+                    let response = await fetch('/apply/user_Details', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ data: payload })
+                    });
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const result = await response.json();
+                        if (response.ok) {
+                            console.log('Application Success:', result.message);
+                            window.location.href = '/apply/user_Details';
                         } else {
-                            const text = await response.text();
-                            console.error('Unexpected response:', text);
+                            console.error('Application Error:', result.error || result);
                         }
-
-                    } catch (err) {
-                        console.error('Fetch failed:', err);
+                    } else {
+                        const text = await response.text();
+                        console.error('Unexpected response:', text);
                     }
-                })
-
-
-                // Tailwind CSS classes
-                div1.classList.add("flex", "flex-col", "justify-between", "bg-yellow-100", "rounded-lg", "shadow", "m-4", "overflow-hidden","border-t-[10px]","border-t-yellow-500");
-                div2.classList.add("p-4" ,"bg-gray-800","space-y-2");
-                div3.classList.add("bg-gray-800", "p-4", "rounded-b-lg" ,"flex", "justify-between");
-
-                // Nesting the elements properly
-                div1.appendChild(div2);
-                div1.appendChild(div3);
-                cardbody.appendChild(div1);
-
-
+                } catch (err) {
+                    console.error('Fetch failed:', err);
+                }
             });
+
+            shareButton.addEventListener('click', () => share(item));
+        });
+
         } catch (error) {
             console.error("Error loading table data:", error);
         }
     }
-
-
-
     loadTableData();
 });
 
@@ -155,5 +158,12 @@ async function DeleteOutDated(rawDate) {
         console.log('Audit date is today or in the future — not deleting:', rawDate);
     }
 }
+function share(data){
 
+    const message = `📋 *Audit Opportunity Alert!*\n\n🆔 *Audit ID:* ${data.Audit_id}\n📅 *Date:* ${data.Date}\n📍 *Location:*\n${data.loction}\n\n🏢 *Industry:* ${data.industry}\n🧾 *Audit Type:* ${data.Audit_type}\n🕒 *Duration:* ${data.Days}\n👤 *Avengers Required/Day:* ${data.Auditors_require}\n\n🎓 *Qualification Required:*\n${data.Qualification}\n\n💻 *Equipment:* ${data.equipment}\n💰 *Compensation:* ${data.compensation}\n\n🔗 *Link To Apply: * https://auditavengers-production.up.railway.app/audit_card`;
+
+    Whatsapp=`https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(Whatsapp, '_blank');
+
+}
 
