@@ -3,10 +3,10 @@ import os
 
 # Use keyword arguments instead of full URL
 conn = mysql.connector.connect(
-    host="interchange.proxy.rlwy.net",
-    port=20639,
+    host="yamanote.proxy.rlwy.net",
+    port=31145,
     user="root",
-    password="nwPKmzXjMQOHkjlaGLndEYiCwXuOOBTa",
+    password="ZuKHpINqyWjNuXtAUTeXgAJGdQfaFmme",
     database="railway"
 )
 
@@ -14,8 +14,7 @@ print("Database connected...")
 
 cursor = conn.cursor(dictionary=True)
 
-with open(r"C:\Users\user\PycharmProjects\flaskApp\Dump20250618\audittracker_audit_details.sql", "r") as f:
-
+with open(r"C:\Users\user\PycharmProjects\flaskApp\Dump20250618\audittracker_auditreport.sql", "r") as f:
     sql = f.read()
     for statement in sql.split(';'):
         if statement.strip():

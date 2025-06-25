@@ -187,7 +187,6 @@ def delete_data(data):
     except Exception as e:
         print(str(e))
 
-
 # for generating auditor_id
 def auditor_id():
     with get_connection() as conn:

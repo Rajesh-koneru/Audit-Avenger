@@ -34,7 +34,7 @@ CREATE TABLE `audit_report` (
   `payment_status` varchar(20) DEFAULT NULL,
   `auditor_name` varchar(100) DEFAULT NULL,
   `audit_type` varchar(50) DEFAULT NULL,
-  `location` varchar(100) DEFAULT NULL,
+  `location` varchar(300) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-18 16:52:52
+-- Dump completed on 2025-06-18 21:43:12
