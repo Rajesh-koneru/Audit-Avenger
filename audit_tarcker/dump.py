@@ -3,10 +3,10 @@ import os
 
 # Use keyword arguments instead of full URL
 conn = mysql.connector.connect(
-    host="yamanote.proxy.rlwy.net",
-    port=31145,
+    host="crossover.proxy.rlwy.net",
+    port=48804,
     user="root",
-    password="ZuKHpINqyWjNuXtAUTeXgAJGdQfaFmme",
+    password="dBHRfqBdPxdCVKoqsIirPjnOiOkCytBK",
     database="railway"
 )
 

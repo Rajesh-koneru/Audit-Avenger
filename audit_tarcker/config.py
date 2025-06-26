@@ -6,10 +6,10 @@ import os
 # Connect to the railway db
 def get_connection():
     return mysql.connector.connect(
-    host="interchange.proxy.rlwy.net",
-    port=20639,
+    host="crossover.proxy.rlwy.net",
+    port=48804,
     user="root",
-    password="nwPKmzXjMQOHkjlaGLndEYiCwXuOOBTa",
+    password="dBHRfqBdPxdCVKoqsIirPjnOiOkCytBK",
     database="railway",
     autocommit = True
 )
